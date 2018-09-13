@@ -4,7 +4,7 @@ MEOPAR MIDOSS Analysis
 
 :License: Apache License, Version 2.0
 
-This is a collection of analyses created by Racheal Mueller for the MEOPAR MIDOSS
+This is a collection of analyses created by Rachael Mueller for the MEOPAR MIDOSS
 (Model of Impact of Dilbit and Oil Spills in the Salish Sea)
 project.
 Most of the files are Jupyter Notebooks.
