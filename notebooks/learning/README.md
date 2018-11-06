@@ -5,13 +5,19 @@ The links below are to static renderings of the notebooks via
 Descriptions under the links below are from the first cell of the notebooks
 (if that cell contains Markdown or raw text).
 
+* ##[Wind_forcing.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/learning/Wind_forcing.ipynb)  
+    
+    **Plot up wind speed in NEMO forcing file**  
+
+* ##[Wind_forcing_2.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/learning/Wind_forcing_2.ipynb)  
+    
 * ##[Plotting_Salinity.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/learning/Plotting_Salinity.ipynb)  
     
     **Plotting up salinity results from SalishSeaCast using xarray**  
 
-* ##[Wind_forcing.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/learning/Wind_forcing.ipynb)  
+* ##[array_indexing.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/learning/array_indexing.ipynb)  
     
-    **Plot up wind speed in NEMO forcing file**  
+    **This script is to help me learn array indexing in python**  
 
 
 ##License
