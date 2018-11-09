@@ -5,11 +5,19 @@ The links below are to static renderings of the notebooks via
 Descriptions under the links below are from the first cell of the notebooks
 (if that cell contains Markdown or raw text).
 
+* ##[Salish_Winds_2015_num_ind.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/learning/Salish_Winds_2015_num_ind.ipynb)  
+    
+    **A repeat of the Salish_winds_2015 using numeric values for months in order to extract analysis window. Plotting winds >7 m/s for each month in atmospheric forcing files**  
+
 * ##[Wind_forcing_2.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/learning/Wind_forcing_2.ipynb)  
     
 * ##[Plotting_Salinity.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/learning/Plotting_Salinity.ipynb)  
     
     **Plotting up salinity results from SalishSeaCast using xarray**  
+
+* ##[Salish_Winds_2015_numerical_index.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/learning/Salish_Winds_2015_numerical_index.ipynb)  
+    
+    **Plotting winds >7 m/s for each month in atmospheric forcing files**  
 
 * ##[Salish_Winds_JFM.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/learning/Salish_Winds_JFM.ipynb)  
     
