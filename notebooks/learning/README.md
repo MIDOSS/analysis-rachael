@@ -15,6 +15,10 @@ Descriptions under the links below are from the first cell of the notebooks
     
     **Plotting up salinity results from SalishSeaCast using xarray**  
 
+* ##[Untitled.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/learning/Untitled.ipynb)  
+    
+* ##[ww3_vs_emperical_winds.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/learning/ww3_vs_emperical_winds.ipynb)  
+    
 * ##[Salish_Winds_2015_numerical_index.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/learning/Salish_Winds_2015_numerical_index.ipynb)  
     
     **Plotting winds >7 m/s for each month in atmospheric forcing files**  
