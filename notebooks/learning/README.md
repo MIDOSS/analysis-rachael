@@ -19,6 +19,8 @@ Descriptions under the links below are from the first cell of the notebooks
     
 * ##[ww3_vs_emperical_winds.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/learning/ww3_vs_emperical_winds.ipynb)  
     
+    **Plot Wave Watch 3 (WW3) wave height and period vs. wind speed and compare these graphics with the equations used in MOHID. The WW3 values used are from past 7 days prior to present.   **  
+
 * ##[Salish_Winds_2015_numerical_index.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/learning/Salish_Winds_2015_numerical_index.ipynb)  
     
     **Plotting winds >7 m/s for each month in atmospheric forcing files**  
