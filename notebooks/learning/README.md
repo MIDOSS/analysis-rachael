@@ -21,6 +21,10 @@ Descriptions under the links below are from the first cell of the notebooks
     
     **Plot Wave Watch 3 (WW3) wave height and period vs. wind speed and compare these graphics with the equations used in MOHID. The WW3 values used are from past 7 days prior to present.   **  
 
+* ##[SOG_JDF_winds_timeseries.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/learning/SOG_JDF_winds_timeseries.ipynb)  
+    
+    **Plot a timeseries of winds in SOG and JdF. Calculate the percent winds above thresholds based on timeseries vectors.  **  
+
 * ##[Salish_Winds_2015_numerical_index.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/learning/Salish_Winds_2015_numerical_index.ipynb)  
     
     **Plotting winds >7 m/s for each month in atmospheric forcing files**  
