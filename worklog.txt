@@ -1,0 +1,6 @@
+2/27/19
+
+9a-11:30: Working with Ashu on running MOHID on Cedar.  He rebuilt yesterday and the code now runs. Current challenge:  HDF5 to NETCDF conversion isn't working and errors differ on Cedar, Hake, and Salish.  Short-term work around: Access HDF5 output directly.  Look at oil_concentration_3D and beaching time. Work with Shihan's HDF5 reading scripts. 
+
+Look up HDF5viewer and Panoply for looking at HDF5 files.
+
