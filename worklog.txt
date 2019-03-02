@@ -1,6 +1,140 @@
 2/27/19
 
-9a-11:30: Working with Ashu on running MOHID on Cedar.  He rebuilt yesterday and the code now runs. Current challenge:  HDF5 to NETCDF conversion isn't working and errors differ on Cedar, Hake, and Salish.  Short-term work around: Access HDF5 output directly.  Look at oil_concentration_3D and beaching time. Work with Shihan's HDF5 reading scripts. 
+Work with Ashu on running MOHID on Cedar.  He rebuilt yesterday and the code now runs. Current challenge:  HDF5 to NETCDF conversion isn't working and errors differ on Cedar, Hake, and Salish.  Short-term work around: Access HDF5 output directly.  Look at oil_concentration_3D and beaching time. Work with Shihan's HDF5 reading scripts. 
 
 Look up HDF5viewer and Panoply for looking at HDF5 files.
 
+2/28/19
+
+Updating MIDOSS on Cedar:
+> cd /home/rmueller/project/rmueller/MIDOSS/MOHID-Cmd
+> hg update
+> cd..
+> pip3 install --user --editable MOHID-Cmd
+
+Looking in links: /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/avx2, /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic
+Obtaining file:///project/6001313/rmueller/MIDOSS/MOHID-Cmd
+Requirement already satisfied: arrow in /home/rmueller/.local/lib/python3.7/site-packages (from MOHID-Cmd==19.1.dev0) (0.13.0)
+Requirement already satisfied: attrs in /home/rmueller/.local/lib/python3.7/site-packages (from MOHID-Cmd==19.1.dev0) (18.2.0)
+Requirement already satisfied: cliff!=2.9.0 in /home/rmueller/.local/lib/python3.7/site-packages (from MOHID-Cmd==19.1.dev0) (2.14.0)
+Requirement already satisfied: python-hglib in /home/rmueller/.local/lib/python3.7/site-packages (from MOHID-Cmd==19.1.dev0) (2.6.1)
+Requirement already satisfied: PyYAML in /home/rmueller/.local/lib/python3.7/site-packages (from MOHID-Cmd==19.1.dev0) (3.13)
+Requirement already satisfied: python-dateutil in /home/rmueller/.local/lib/python3.7/site-packages (from arrow->MOHID-Cmd==19.1.dev0) (2.7.5)
+Requirement already satisfied: pbr!=2.1.0,>=2.0.0 in /home/rmueller/.local/lib/python3.7/site-packages (from cliff!=2.9.0->MOHID-Cmd==19.1.dev0) (5.1.1)
+Requirement already satisfied: stevedore>=1.20.0 in /home/rmueller/.local/lib/python3.7/site-packages (from cliff!=2.9.0->MOHID-Cmd==19.1.dev0) (1.30.0)
+Requirement already satisfied: six>=1.10.0 in /home/rmueller/.local/lib/python3.7/site-packages (from cliff!=2.9.0->MOHID-Cmd==19.1.dev0) (1.12.0)
+Requirement already satisfied: pyparsing>=2.1.0 in /home/rmueller/.local/lib/python3.7/site-packages (from cliff!=2.9.0->MOHID-Cmd==19.1.dev0) (2.3.1)
+Requirement already satisfied: cmd2!=0.8.3; python_version >= "3.0" in /home/rmueller/.local/lib/python3.7/site-packages (from cliff!=2.9.0->MOHID-Cmd==19.1.dev0) (0.9.7)
+Requirement already satisfied: PrettyTable<0.8,>=0.7.2 in /home/rmueller/.local/lib/python3.7/site-packages (from cliff!=2.9.0->MOHID-Cmd==19.1.dev0) (0.7.2)
+Requirement already satisfied: pyperclip>=1.5.27 in /home/rmueller/.local/lib/python3.7/site-packages (from cmd2!=0.8.3; python_version >= "3.0"->cliff!=2.9.0->MOHID-Cmd==19.1.dev0) (1.7.0)
+Requirement already satisfied: colorama in /home/rmueller/.local/lib/python3.7/site-packages (from cmd2!=0.8.3; python_version >= "3.0"->cliff!=2.9.0->MOHID-Cmd==19.1.dev0) (0.4.1)
+Requirement already satisfied: wcwidth>=0.1.7 in /home/rmueller/.local/lib/python3.7/site-packages (from cmd2!=0.8.3; python_version >= "3.0"->cliff!=2.9.0->MOHID-Cmd==19.1.dev0) (0.1.7)
+Installing collected packages: MOHID-Cmd
+  Found existing installation: MOHID-Cmd 19.1.dev0
+    Uninstalling MOHID-Cmd-19.1.dev0:
+      Successfully uninstalled MOHID-Cmd-19.1.dev0
+  Running setup.py develop for MOHID-Cmd
+Successfully installed MOHID-Cmd
+
+>salloc --time=0:10:0 --cpus-per-task=1 --mem-per-cpu=1024m --account=def-allen
+
+THIS TOOK FOREVER!!!! (10-20 minutes)
+Finally...
+> cd $PROJECT/$USER/MIDOSS/MIDOSS-MOHID/Solutions/linux
+> ./compile_mohid.sh -mb1 -mb2 -mw
+
+
+#### Mohid Base 1 ####
+ compile mohidbase1 OK                                                                             
+
+
+#### Mohid Base 2 ####
+ compile mohidbase2 OK                                                                       
+
+
+#### Mohid Water ####
+ compile MohidWater OK                                                                           
+
+==========================================================================
+build started:    Thu Feb 28 11:11:12 PST 2019
+build completed:  Thu Feb 28 11:17:26 PST 2019
+
+--->                  Executables ready                               <---
+
+total 0
+lrwxrwxrwx 1 rmueller def-allen 36 Feb 28 11:17 MohidWater.exe -> ../src/MohidWater/bin/MohidWater.exe
+
+==========================================================================
+
+
+
+!*******************
+Added files to analysis-rachael rep from Macbook Pro using
+> hg add
+> hg commit
+> hg pull --rebase
+> hg push
+
+I then went to my Cedar account to update using:
+> hg pull
+[rmueller@cedar5 analysis-rachael]$ hg pull 
+pulling from ssh://hg@bitbucket.org/midoss/analysis-rachael
+searching for changes
+adding changesets
+adding manifests
+adding file changes
+added 2 changesets with 2 changes to 2 files
+(run 'hg update' to get a working copy)
+!*********************************
+
+> hg update
+> mohid run MarathassaConstTS.yaml $PROJECT/$USER/MIDOSS/results/MarathassaConstTS
+
+nemo_cmd.prepare ERROR: /scratch/rmueller/MIDOSS/runs path from "paths: runs directory" key not found - please check your run description YAML file
+
+created /scratch/rmueller/MIDOSS/runs
+
+> mohid run MarathassaConstTS.yaml $PROJECT/$USER/MIDOSS/results/MarathassaConstTS
+
+-bash: cd: /home/rmueller/project/rmueller/MIDOSS/results/MarathassaConstTS: No such file or directory
+
+created home/rmueller/project/rmueller/MIDOSS/results/MarathassaConstTS
+
+> mohid run MarathassaConstTS.yaml $PROJECT/$USER/MIDOSS/results/MarathassaConstTS
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MarathassaConstTS_2019-02-28T151911.989819-0800
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MarathassaConstTS_2019-02-28T151911.989819-0800/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 17537913
+
+discovered that "hg update" didn't pull the most recent version of MOHID-Cmd
+hg pull --rebase
+pulling from ssh://hg@bitbucket.org/midoss/mohid-cmd
+searching for changes
+adding changesets
+adding manifests
+adding file changes
+added 8 changesets with 21 changes to 11 files
+nothing to rebase - updating instead
+11 files updated, 0 files merged, 0 files removed, 0 files unresolved
+[rmueller@cedar5 MOHID-Cmd]$ hg tip
+changeset:   37:79d074ecee6f
+tag:         tip
+user:        Doug Latornell <dlatornell@eoas.ubc.ca>
+date:        Thu Jan 31 17:25:05 2019 -0800
+summary:     Improve semantic markup in docs.
+
+
+!****************
+Working with Ashu:  He is re-running MOHID after having re-installed MOHID-Cmd to see if the HDF5toNetCDF conversion now works
+
+We are writing Shihan to ask why his output looks different.  After doing "diffs" on files, we confirmed that the only changes are file names.  All values in Lagrangian.dat are the same.  It doesn't make sense that Shihan's oil releases in a line and Ashu's at a point.
+
+
+!*****  Accessing Ashu's files on Cedar ****
+
+cd /scratch/abhudia/MIDOSS/runs/ashu_testing/
+
+cd ~/project/abhudia
+
+>cd  /scratch/abhudia/MIDOSS/runs/ashu_testing/nextcloud_replicate_2019-02-26T153311.865648-0800/res/
+> salloc --time=00:10:0 --cpus-per-task=1 --mem-per-cpu=20000m --account=def-allen
+> hdf5-to-netcdf4 Lagrangian.hdf5 $PROJECT/$USER/MIDOSS/tmp/Lagrangian.nc
