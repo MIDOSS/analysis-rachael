@@ -1,8 +1,74 @@
-2/27/19
 
-Work with Ashu on running MOHID on Cedar.  He rebuilt yesterday and the code now runs. Current challenge:  HDF5 to NETCDF conversion isn't working and errors differ on Cedar, Hake, and Salish.  Short-term work around: Access HDF5 output directly.  Look at oil_concentration_3D and beaching time. Work with Shihan's HDF5 reading scripts. 
+3/13/19
+Troubleshoot error in run on Cedar: 
+$PROJECT/rmueller/MIDOSS/MIDOSS-MOHID-config/SOG12117
+when converting from HDF5 to netcdf, error:
+TypeError: Timestamp subtraction must have the same timezones or no timezones
 
-Look up HDF5viewer and Panoply for looking at HDF5 files.
+FIX: 
+MOHID-Cmd> hg pull --rebase
+MOHID-Cmd> pip3 install --user -e .
+moad-tools> pip3 install --user -e
+
+Resubmitted SOG121117 test case using updated model, from 
+/home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/SOG12117
+>mohid run SOGa_01dec17_MF0_1000m3_7days_hi_test.yaml $PROJECT/rmueller/MIDOSS/results/MF0_SOG12117/
+
+NOTE: $PROJECT/rmueller/MIDOSS/results = /project/6001313/rmueller/MIDOSS/results
+
+Made list of Code development:
+1) [need] VVL
+	Shihan, Rachael with Susan
+2) [nice] Upgrading MOHID -> read in (and output?) staggered velocities.
+3) [eventually] Can we use FVCOM & NEMO?  Shihan knows how to do this : please teach Ashu and Rachael Jan 16, 2019 or later
+4) [coming] Xiaomei’s plans for dilbit
+	Xiaomei with Rachael: what will you need? 
+5) [eventually]Vertical diffusivities in MOHID: for Lagrangian
+- Shihan/Rachael: are the diffusivities used as discussed in the docs? What is standard dev?
+Ben, Rachael, Susan, Elise: get the needed variables out of NEMO
+6) [nice] wind drift angle and wind drag coefficient
+7) [eventually] Stokes drift from WW3 already in the files 
+8) [all heads] dispersion by particle, what’s really going on, also look at vertical diffusion
+9) [need] Hindcast of WW3 Susan
+10) [eventually] Hindcast of FVCOM
+11) [coming] Sedimentation
+12) [need] Code evaluation  MODID (dispersion against OSCAR) ideal case
+13) [need] Run and test the model: disappearing oil
+14) [need] Real bathymetry file (as in the bathymetry that corresponds to e3t)
+
+
+
+Shihan: FVCOM & NEMO, VVL, Vertical diffusivities in MOHID for Lagrangian, dispersion by particles (8), stokes drift from WW3, read in staggered velocities
+
+Ashu: FVCOM & NEMO, Real bathymetry file, disappearing oil (run and test model)
+
+Xiaomei: Plans for dilbit, sedimentation
+
+Rachael: FVCOM & NEMO, Xiaomei's plans for dilbit, VVL, dispersion by particles, Vertical diffusivities (how are they in MOHID?), Run and test model (disppearing oil). 
+ 
+
+3/12/19
+How does MOHID treat oil particles? Is part of a particle dispersed or is a fraction of the oil dispersed as a number of particles into the water col.? Look in "ModuleLagrangianOil.F90, subroutine OilInternalProcesses
+
+Next: 
+- diff Shihan's .dat files with Ashu's to make sure they are the same
+- plot up number of particles in the surface, number of particles at depth, and total number of particles over time
+- VVL: Do we need SZZ? Or DWZ, DUZ, etc. :
+ 
+3/11/19
+Ashu: Make 3 panel movie of surface concentration, integrated concentration over all but surface layer, and integrated concentrations by depth. Make 3-panel movie of oil thickness, surface concentration and zoomed in window of both, all with surface current vectors and 1 wind vector in upper right hand corner
+
+Shihan's talk take-aways from Susan:
+- Investigate wind drift and drag
+- Random walk for dispersion
+- Update code to get stoke's drift from WW3
+
+Follow-up with Shihan
+- How to choose number of particles? 
+
+Wind drift publications:
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3907538/
+
 
 2/28/19
 
@@ -138,3 +204,11 @@ cd ~/project/abhudia
 >cd  /scratch/abhudia/MIDOSS/runs/ashu_testing/nextcloud_replicate_2019-02-26T153311.865648-0800/res/
 > salloc --time=00:10:0 --cpus-per-task=1 --mem-per-cpu=20000m --account=def-allen
 > hdf5-to-netcdf4 Lagrangian.hdf5 $PROJECT/$USER/MIDOSS/tmp/Lagrangian.nc
+
+
+2/27/19
+
+Work with Ashu on running MOHID on Cedar.  He rebuilt yesterday and the code now runs. Current challenge:  HDF5 to NETCDF conversion isn't working and errors differ on Cedar, Hake, and Salish.  Short-term work around: Access HDF5 output directly.  Look at oil_concentration_3D and beaching time. Work with Shihan's HDF5 reading scripts. 
+
+Look up HDF5viewer and Panoply for looking at HDF5 files.
+
