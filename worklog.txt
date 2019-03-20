@@ -1,3 +1,15 @@
+3/14/19
+Printing to file the SZZ values calculated in MOHIDBase2/ModuleGeometry.F90,
+line ~3916
+[j,i] = [510, 200]
+
+compiled and submitted job to run on cedar
+Discussed FVCOM and NEMO in MOHID with Shihan
+Next:
+-Susan to create NEMO bathymetry
+-Ashu and I to run model with new bathymetry and SZZ output to compare with e3t
+-Particles (nparticles on surface vs. depth)
+-
 
 3/13/19
 Troubleshoot error in run on Cedar: 
