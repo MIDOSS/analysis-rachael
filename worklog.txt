@@ -1,3 +1,48 @@
+3/22/19
+Spent time on grid indexing and creating documentation for team on Google Drive:
+MIDOSS_2/Notes_and_Docs/Mohid_NEMO_grid_setup/
+
+Created MOHID_nc2dat_bathymetry.m, an updated version of Shihan's .m script 
+that creates bathymetry values from AfterNEMOBathy201702.nc
+
+Created: AfterNEMOBathy201702_rdm.dat
+
+3/21/19
+Run MOHID for 2-days with higher frequency output
+$PROJECT/rmueller/MIDOSS/results/MF0/SOG12117
+
+a) Learn how to adjust output time step in setting files:
+$PROJECT/rmueller/MIDOSS/MIDOSS-MOHID-config/SOG12117
+In Lagrangian.dat, changed 
+OUTPUT_TIME   : 0 3600
+to 
+OUTPUT_TIME   : 0 1200
+to match
+DT_PARTIC     : 1200
+
+WINDDRIFTANGLE  : 0.
+
+Sent email to Shihan to confirm time stepping
+
+
+VVL
+- In smelt (/home/rmueller/Data/SalishSeaCast/grid) 
+> hg pull --rebase 
+to get Susan's update of bathymetry after NEMO has processed it: AfterNEMOBathy201702.nc
+
+Susan saved "x" "y" to the .nc in place of latitude longitude, which MOHID needs.  To fix, I did the following
+> cp bathymetry_201702.nc AfterNEMOBathy201702_rdm.nc
+ 
+- Created /home/rmueller/Projects/MIDOSS/analysis-rachael/toolbox/matlab/Fix_AfterNEMOBathy201702.m to read in bathymetry from AfterNEMOBathy201702.nc and save it to AfterNEMOBathy201702_rdm.nc
+
+
+ 
+3/20/19
+transit-family emergency day (Ehren in hospital)
+
+3/18-19/19
+State Of Pacific Ocean Meeting
+
 3/14/19
 Printing to file the SZZ values calculated in MOHIDBase2/ModuleGeometry.F90,
 line ~3916
