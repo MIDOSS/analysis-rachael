@@ -1,3 +1,93 @@
+3/28/19
+
+* copied Ashu's .yaml file to my MIDOSS directory. 
+cp $PROJECT/abhudia/MIDOSS/MIDOSS-MOHID-config/MF0/SOG12117/* ./
+
+* changed .yaml to use MIDOSS-MOHID and to use readable paths
+vi SOGa_01dec17_MF0_1000m3_7days_const_w_unrotated_smalldt.yaml
+$PROJECT/$USER/MIDOSS/MIDOSS-MOHID/
+:%s/\/home\/abhudia\/project/$PROJECT/g
+
+* Checked MOHID-Cmd version
+
+MOHID-Cmd]$ hg tip
+changeset:   39:c73ba8e9771c
+tag:         tip
+user:        Doug Latornell <dlatornell@eoas.ubc.ca>
+date:        Tue Mar 12 09:45:57 2019 -0700
+summary:     Preserve Lagrangian*.hdf5 results file.
+
+* Check that local repo is up to date and compiled the model just to make sure all is current
+
+[rmueller@cedar5 MIDOSS-MOHID-config]$ cd $PROJECT/$USER/MIDOSS/MIDOSS-MOHID/Solutions/linux
+[rmueller@cedar5 linux]$ hg tip
+changeset:   4:98f7ebc52505
+tag:         tip
+user:        Doug Latornell <dlatornell@eoas.ubc.ca.ca>
+date:        Mon Mar 11 14:11:11 2019 -0700
+summary:     Change compilation to debug mode so that segfaults give tracebacks.
+
+[rmueller@cedar5 linux]$ salloc --time=0:10:0 --cpus-per-task=1 --mem-per-cpu=1024m --account=def-allen
+salloc: Pending job allocation 18868419
+salloc: job 18868419 queued and waiting for resources
+salloc: job 18868419 has been allocated resources
+salloc: Granted job allocation 18868419
+salloc: Waiting for resource configuration
+salloc: Nodes cdr768 are ready for job
+[rmueller@cdr768 linux]$ ./compile_mohid.sh -mb1 -mb2 -mw
+
+==========================================================================
+build started:    Thu Mar 28 16:38:23 PDT 2019
+build completed:  Thu Mar 28 16:45:11 PDT 2019
+
+--->                  Executables ready                               <---
+
+total 0
+lrwxrwxrwx 1 rmueller def-allen 36 Mar 28 16:45 MohidWater.exe -> ../src/MohidWater/bin/MohidWater.exe
+
+==========================================================================
+
+* mohid run SOGa_01dec17_MF0_1000m3_7days_const_w_unrotated_smalldt.yaml $PROJECT/$USER/MIDOSS/results/MF0/SOG12117a
+
+* mohid run SOGa_01dec17_MF0_1000m3_7days_unrotated_smalldt.yaml $PROJECT/$USER/MIDOSS/results/MF0/SOG12117b
+
+* checked Ashu's MIDOSS-MOHID-CODE version
+hg tip
+not trusting file /project/6001313/abhudia/MIDOSS/MIDOSS-MOHID-CODE/.hg/hgrc from untrusted user abhudia, group def-allen
+not trusting file /project/6001313/abhudia/MIDOSS/MIDOSS-MOHID-CODE/.hg/hgrc from untrusted user abhudia, group def-allen
+changeset:   17:a1133c04f5c1
+tag:         tip
+user:        Your Name <your_email_address>
+date:        Wed Mar 27 14:02:04 2019 -0700
+summary:     modified shell script to account for interdependancy between Geometry and FillMatrix Modules
+
+* reverted my "new" MIDOSS-MOHID-CODE to the one first installed and not edited for VVL
+cd $PROJECT/rmueller/MIDOSS/MIDOSS-MOHID-CODE
+hg revert --all --rev 991a511
+reverting Software/MOHIDBase1/ModuleGlobalData.F90
+reverting Software/MOHIDBase2/ModuleField4D.F90
+reverting Software/MOHIDBase2/ModuleGeometry.F90
+reverting Software/MOHIDBase2/ModuleInterpolation.F90
+reverting Software/MOHIDWater/ModuleModel.F90
+reverting Solutions/VisualStudio2010_IntelFortran12/MOHIDNumerics/MOHIDNumerics.suo
+[rmueller@cedar5 MIDOSS-MOHID-CODE]$ hg tip
+changeset:   9:5b34da4eac75
+tag:         tip
+user:        Shihan
+date:        Thu Mar 14 19:54:55 2019 -0300
+summary:     same as add vvl to MOHID. unfinished
+
+hg update -r 991a511
+6 files updated, 0 files merged, 0 files removed, 0 files unresolved
+[rmueller@cedar5 MIDOSS-MOHID-CODE]$ hg tip
+changeset:   9:5b34da4eac75
+tag:         tip
+user:        Shihan
+date:        Thu Mar 14 19:54:55 2019 -0300
+summary:     same as add vvl to MOHID. unfinished
+
+
+I'm obviously don't know how to check-out 991a511 as "hg tip" shows that I didn't do it correctly....
 3/22/19
 Spent time on grid indexing and creating documentation for team on Google Drive:
 MIDOSS_2/Notes_and_Docs/Mohid_NEMO_grid_setup/
