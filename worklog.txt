@@ -1,3 +1,52 @@
+4/3/2019
+Time stepping: 
+
+
+* Ashu motified .py script for creating e3t input so that masking is from "tmask" variable in 3D mesh mask
+
+* Ashu did a run with DT_OIL = 60s and all other DT = 3600s.  NO_INTERPOLATION = 1. Using the new bathymetry file with land values = -99.  Oil moved in the run but then crashed after ~2 days. 
+
+
+* Shihan has never used DT_OIL = 1200s.  He uses DT_OIL = 60s.  
+
+* Model setup and test cases:
+
+OUTPUT_TIME = DT_PARTIC = 1200s
+DT_OIL = 60s
+
+Test whether DT_PARTIC = 60s changes dynamics/oil advection. 
+
+* LAYERTHICKNESS in Geometry.dat is used to initialize geometry and to set MOHID land/water points. 
+
+* The level thicknesses in LAYERTHICKNESS are not the same as in NEMO b/c of a line length limit in MOHID .dat setting files that has prevented Shihan from putting in the exact values.  He has modified the values to work with the line length limitation.
+
+*After model initialization, e3t is used to define level thickness as well as water/land points
+
+* [Because LAYERTHICKNESS is used to create the initial model geometry, and because there is a line length limit that prevents us from using the actual NEMO levels, there may be a differece between the MOHID land  mask and NEMO land mask (where the sum of level thickness in MOHID doesn't match that in NEMO).  I’m still not sure if/how this may cause problems in the code if e3t is used to define land/water points after initialization, but I think it’s important to mention here.]
+
+* e3t output is different from other output (e.g. salinity) in that other output (e.g. salinity) has values in land masked regions set to zero whereas e3t output has land values set to a default e3t value.  (I haven’t yet plotted this up yet but from the e3t on ERDAPP I’m seeing that the surface value is 1 everywhere, on land and ocean and that the standard land value changes with depth.) As such, output e3t has non-zero values where MOHID expected land (based on initialized geometry) and in places where other NEMO output (e.g. salinity) is set to zero.  Using e3t for land/water boundary after initialization was causing a problem b/c it doesn’t delineate between land and water in the same way as, e.g., salinity.
+
+* The fix has been to multiply the output e3t by the land mask used by salinity so that there are now zeros everywhere that salinity output has zeros.  
+
+* Can SalishSeaCast be modified so that e3t values are output with zero where there is land in order to eliminate this extra step? 
+
+* Shihan’s has a running version of the code with the modified e3t that does not include temperature and salinity inputs.  
+
+* Ashu created this modified e3t.hdf5 file and tried running the newest version of the code with all forcing files (including temperature and salinity), but it failed due to a overly light (less dense) water causing sinking oil. 
+
+Ashu's run has fatal error after first time step:
+-------------------------- MOHID -------------------------
+ 
+ Running MOHID, please wait...
+ 
+ 
+FATAL; INTERNAL; Function  F_FayArea - ModuleOil_0D. ERR02.
+
+
+* Shihan is currently testing the new version on his end using temperature and salinity inputs. 
+
+* Shihan is also testing the new version with Ashu’s e3t.hdf5 file, setup and forcings
+
 4/2/2019
 Understanding VVL code development.  Here is where we are at:
 1) Ashu has compiled and run the model.  It's not moving oil.

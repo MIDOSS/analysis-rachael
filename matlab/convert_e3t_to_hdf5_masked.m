@@ -3,7 +3,8 @@
 % from /results2/SalishSea/nowcast-green.201806/
 %
 % This version corrects a problem created by differences in land mask between NEMO and
-% MOHID by....
+% MOHID by incorporating land mask from Salinity file (can use temperature
+% or NEMO mask as well)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clear all; close all;
@@ -11,15 +12,14 @@ clear all; close all;
 time=168;
 
 aa=398;bb=898;cc=40;  %%%% NEMO grid dimension
-
 aaa=num2str(aa-2,'%03d');
 bbb=num2str(bb-2,'%03d');
 ccc=num2str(cc,'%03d');
 
 %%%%%%%%%%%%%create hdf5 current files
-dataname=('I:\MOHID test data\hdf\e3t_3.hdf5');
-datao=('I:\UBC file\e3t.hdf5');
-datat=('I:\UBC file\\t.hdf5');
+dataname=('I:\MOHID test data\hdf\e3t_3.hdf5'); % output HDF5
+datao=('I:\UBC file\e3t.hdf5'); % input HDF5
+datat=('I:\UBC file\\t.hdf5');  % salinity, temperature and SSH at t-points
 fid = H5F.create(dataname);
 plist = 'H5P_DEFAULT';
 
@@ -44,24 +44,11 @@ h5writeatt(fid,'/Results/e3t','Maximum',200);
 h5writeatt(fid,'/Time','Minimum',-0.000000);
 h5writeatt(fid,'/Time','Maximum',2016.000000);
 disp('group created')
-
-
-file='I:\Vancouver 2016\vancouver Harbour MOHID\nemo data\bathymetry.nc'; %%%Bathymetry file
-file1='I:\Vancouver 2016\vancouver Harbour MOHID\nemo data\u_07.nc'; %%%Current U
-file2='I:\Vancouver 2016\vancouver Harbour MOHID\nemo data\v_07.nc'; %%%Current V
-file3='I:\Vancouver 2016\vancouver Harbour MOHID\nemo data\grid.nc';
-file11='C:\work\data sample\SoG Currents\WC3_CU60_20020101_20020110_grid_U.nc';
-lon1=double(ncread(file,'longitude'));%%% grid center lon lat
-lat1=double(ncread(file,'latitude'));
  
-
 % %%%% MOHID and NEMO have different directions for data
 chunk_size_2D=[bb-2,aa-2];
 chunk_size_3D=[bb-2,aa-2,cc];
-% start_lon=num2str(grid_lon(1,1),'%8f');
-% start_lat=num2str(grid_lat(1,1),'%8f');
 %%
-
 
 for t=1:time;
   disp(t);
@@ -79,12 +66,13 @@ for t=1:time;
 
     diru=['/Results/e3t/e3t_',time_counter];
     dirs=['/Results/salinity/salinity_',time_counter];
-    sal=h5read(datat,dirs);
+    
+    sal=h5read(datat,dirs); % datat: file location, dirs: Structure in file to locate salinity
     ipx=find(sal~=0);
     sal(ipx)=1;
-    mask3d=sal;
-    e3t1=h5read(datao,diru);
-    e3t=e3t1.*mask3d;
+    mask3d=sal;              % mask with ocean=1 and land=0
+    e3t1=h5read(datao,diru); % read the e3t from HDF5 file
+    e3t=e3t1.*mask3d;        % mask out land as zero
 
 %%%%%%%%%%%%%%%%% apply u v at cell center
 
