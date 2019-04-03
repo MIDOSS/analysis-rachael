@@ -1,3 +1,91 @@
+4/2/2019
+Understanding VVL code development.  Here is where we are at:
+1) Ashu has compiled and run the model.  It's not moving oil.
+2) Shihan has compiled and run the model.  When he runs the current version, oil does move even though the current version is likely not stable. He warns that it may crash.
+3) Shihan compared DWZ using his new "Imposed VVL" method and found that the 
+NEMO e3t has ocean values where MOHID has land. 
+4) DWZ and e3t not comparable in pre-"Imposed VVL" versions.  
+5) MOHID considers land where NEMO considers water…or visa versa?  I can see a problem arising if MOHID is calculating for what it sees as water points where NEMO has land (and no information), but I have a hard time understanding how the reverse is a problem.  
+
+SHIHAN: Yes, there're a some points, that the 2 models define differently (water or land, especially for deep levels). For example, cell A is water in NEMO, has a e3t with 26m. MOHID defined A as land point (computed from bathymetry.dat and geometry.dat); then the output DWZ of A is the FillValue -9.9*10^(-15); When I did the comparison, I made all fillvalues as 0. As a result, e3t-DWZ=26m, and you will see places with non-zero value in my comparison. Reversely, if the NEMO defined it as land, while MOHID defined as water, I turned the water points to land points, and there won't be a problem. 
+
+6) You have noticed that e3t has a different value-extent (distinguishing land and water) than the NEMO grid…did I get that right?  (If so then it may be a problem on our end that needs to be sorted out, and I will do some plots to investigate further. )
+
+SHIHAN: Considering the 3 question, the DWZ from MOHID, if the point is not zero or fillvalue, it should have the same value with e3t; The non-zero value in my comparison figures is caused by 0 value for DWZ, and non-zero value for e3t.
+
+My (emailed) questions for Shihan:
+Here is what I find puzzling (which you don’t have to respond to today; we can discuss tomorrow): 
+
+(1) MOHID shouldn’t care about NEMO points where MOHID sees land so why is it a problem for NEMO to have ocean points where MOHID has land points?  
+(2) Land points based on NEMO bathymetry file ought to be the same as land points in e3t.  I am curious about why these are different. 
+
+Can you please verify (this too can wait until tomorrow) which NEMO grid your bathymetry.dat and geometry.dat files are based on? 
+
+
+Geometry.dat settings:
+
+MINIMUMDEPTH              : 0.1
+FACESOPTION               : 2
+INITIALIZATION_METHOD     : CARTESIAN
+
+
+!Cartesian Domain
+<begindomain>
+ID                        : 1
+INITIALIZATION_METHOD     : CARTESIAN
+TYPE                      : CARTESIAN
+LAYERS                    : 40
+LAYERTHICKNESS            : 27 27 27 27 27 27 27 27 27 26 26 24 23 22 18 14 10 6 4 3 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+DOMAINDEPTH               : 428
+!MININITIALLAYERTHICKNESS  : 0.5
+!LAGRANGIAN                : 1
+ImposedVVL                : 1
+
+!MINEVOLVELAYERTHICKNESS   : 0.5
+FILENAME                  : I:\UBC file\e3t3.hdf5
+<enddomain>
+
+
+* worked with Doug to understand why hdf5-to-netcdf4 isn't working.  We changed one word on line 252 of the code and it works fine
+datetime -> naive
+
+252    time_step = getattr(hdf5_file.root.Time, f"Time_{index:05d}")
+253    time_coord = xarray.DataArray(
+254        name="time",
+255        data=[arrow.get(*time_step.read().astype(int)).naive],
+
+252 Takes the Time_00000 (05d numeric value) attribute and stores into time_step 
+such that,e.g., time_step = array(["2017","12","01","00","30"])
+
+255 time_step.read().astype(int): converts from string array to integer array or array([2017, 12, ...])
+    "naive" says that it doesn't need to know the date format, which is okay because we are all UTC
+    * converts from array to function input format such that ([2017,12,...]) -> (2017,12,...)
+    arrow is a library that for manipulating and formating date and time information. 
+
+
+4/1/2019
+- Created spreadsheet to compare runs
+- Emailed Ashu for update
+- Tried running hdf5-to-netcdf4 but am still getting errors.
+
+3/30/19
+Trying to debug problem with converting HDF5 -> netcdf
+        $ rm -rf .local
+        $ cd $PROJECT/$USER/MIDOSS/
+        $ pip3 install --user -e moad_tools
+
+Ran into a problem with netcdf4 install that appears to have resolved....
+
+Failed to build netCDF4
+Installing collected packages: six, python-dateutil, arrow, Click, pyparsing, cycler, kiwisolver, numpy, matplotlib, cftime, netCDF4, pytz, pandas, scipy, numexpr, tables, xarray, moad-tools
+  Running setup.py install for netCDF4 ... done
+  Running setup.py develop for moad-tools
+Successfully installed Click-7.0 arrow-0.13.1 cftime-1.0.3.4 cycler-0.10.0 kiwisolver-1.0.1 matplotlib-3.0.2 moad-tools netCDF4-1.5.0 numexpr-2.6.9 numpy-1.16.2 pandas-0.24.1 pyparsing-2.3.1 python-dateutil-2.8.0 pytz-2018.9 scipy-1.2.1 six-1.12.0 tables-3.4.4 xarray-0.12.0
+
+        $ hdf5-to-netcdf4 --help
+        $ pip install --user -e NEMO-Cmd/
+        $ pip install --user -e MOHID-Cmd/
+
 3/28/19
 
 * copied Ashu's .yaml file to my MIDOSS directory. 
