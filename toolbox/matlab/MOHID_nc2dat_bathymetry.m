@@ -63,9 +63,9 @@ depth=ncread(bathy_file,'Bathymetry',[2,2],[396,896]);
 [sgy,sgx] = size(depth);
 display(['depth dimensions: [' num2str(sgy) ',' num2str(sgx) ']']);
 
-%idz=find(depth==0);
+idz=find(depth==0);
 idq=find(isnan(depth));
-%depth(idz)=-99;
+depth(idz)=-99;
 depth(idq)=-99;
 %%%% set up open boundaries (particles can go out of the domain through 
 %%%% boundaries when you set the boundary to 0)
@@ -79,6 +79,8 @@ idd=find(depth(aa-2,:)~=-99);
 depth(aa-2,idd)=0;
 depth(394,:)=-99;
 fprintf(fid,'%s\n','<BeginGridData2D>');
+
+dbstop;
 
 for y=1:bb-2;
     for x=1:aa-2;
