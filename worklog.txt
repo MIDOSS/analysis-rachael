@@ -1,3 +1,11 @@
+4/5/19
+
+Submitted 
+/home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/MF0/SOG12117/submit_run.yaml
+
+4/4/19
+ 'particle bigger than domain' error
+
 4/3/2019
 Time stepping: 
 

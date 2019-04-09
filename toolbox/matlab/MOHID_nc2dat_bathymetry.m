@@ -77,7 +77,7 @@ idu=find(depth(1,:)~=-99);
 depth(1,idu)=0;
 idd=find(depth(aa-2,:)~=-99);
 depth(aa-2,idd)=0;
-depth(394,:)=-99;
+%depth(394,:)=-99;
 fprintf(fid,'%s\n','<BeginGridData2D>');
 
 dbstop;
