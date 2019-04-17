@@ -3,6 +3,7 @@ clear all; close all;
 %%%%%%%set the time steps need to be converted %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 coords_file = '/home/rmueller/Data/SalishSeaCast/grid/bathymetry_201702.nc'; %% lat & lon values
 bathy_file  = '/home/rmueller/Data/SalishSeaCast/grid/AfterNEMOBathy201702.nc'; %% bathymetry
+orig_bathy_file = '/home/rmueller/Data/SalishSeaCast/grid/bathymetry_201702.nc';%% original bathymetry
 out_file    = '/home/rmueller/Data/SalishSeaCast/grid/AfterNEMOBathy201702_rdm.dat'; %% output file
 
 lon1=double(ncread(coords_file,'nav_lon'));%%% grid center lon lat

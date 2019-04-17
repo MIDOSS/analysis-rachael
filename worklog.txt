@@ -1,3 +1,76 @@
+4/17/19
+Correct bathymetry.  
+MOHID sets boundaries to zero, so is it a problem that NEMO-adjusted grid has zeros along the boundary? 
+
+
+Meeting with Shihan, Ashu and Xiaomei.  
+Discuss:
+- Test case(s)
+- Validation with Oscar
+
+Shihan: 50 runs over the past few days.  One run crashed.  Still a problem in 
+converting z to k (depth issue). Shihan is using lots of particles (1500).  
+A particle may have gone to a place not covered by domain. Checking algorithms for oil concentration.  Did some modifications during biodegredation work.  
+May have made a change that needs to be corrected.  The pattern would be the 
+same but a differnt magnitude.  Checked unmodified code and is trying to figure out the way the original mohid fixes concentration.  Max. conc. with current version is > 100 kg/m3.  When Shihan changed to original version the outcome was 9 kg/m3. Trying to figure out the correct one. 
+Hopes to update/firm up by next week. 
+fmevaporate, fmdisperse, fmbiodegredated is for entire mass of oil, not single 
+particle.  
+Shihan will have access to Oscar next month to check what Oscar concentrations
+are and to determine oil groups (for biodegredation) from Oscar database  
+
+Oscar doesn't allow for WW3 input or VVL
+
+Comparison runs: MOHID with VVL, MOHID without VVL, Oscar (without VVL) -- need hydrodynamic input rotate to lat/lon directions and use constant temperature and salinity, flat SSH (?). 
+Oscar results are only visible in the software.  
+The only exported result is oil mass balance.  
+Oscar model also plots profiles of concentration within the software (doesn't export).  
+
+Single precision or double precision version.  Single is much quicker.  How can we use single precision in MOHID on Cedar? 
+
+Still using the original bathymetry, not the NEMO-adjusted bathymetry. 
+Delvinge algorithm needs correction.  It's still using the empirical algorithm for calculating wave height and period from the winds rather than from WW3.   
+
+
+Ashu: 3D dissolution is zero everywhere. Shihan uses .sro file to plot net dissolution vs. time. Shihan's results have dissolution values, albeit small. 
+
+Xiaomei: 
+- Discussed OPA aggregates with Haibo.  Need to first understand the whole 
+process of sedimentation, including OPA formation and sinking.  Haibo thinks 
+we should first use a simple formula to demonstrate this process and then
+work toward including the complexity of OPA break-down.  She has been gathering
+information 
+
+- Plans to develop equations to calculate distribution of OPA diameter.  If we 
+have oil droplet size and concentration and particle size and distribution then can determine OPA size, which can be used to calculate sinking rate. 
+
+To do: 
+- Get Shihan the NEMO-adjusted bathymetry. 
+- Start a conversation with Shihan and Ashu regarding model validation
+
+
+4/16/19
+
+Graham setup (from Doug's 09-Apr-2019 MEOPAR group meeting):
+project/ and nearline/ have both def-allen/ and rrg-allen/ trees which are separate; use $HOME/projects/def-allen/ and $HOME/nearline/def-allen/
+Forcing tree is in $HOME/projects/def-allen/SalishSea/forcing/ or $PROJECT/SalishSea/forcing/ Please put export PROJECT=$HOME/projects/def-allen in your .bash_profile to ensure that $PROJECT is defined correctly. It is automatically updated daily by the nowcast system. It has the same directory structure as on cedar, so YAML file forcing sections shouldn't need to change.
+
+
+4/15/19
+Plotted up differences between NEMO-adjusted grid and original 201702 grid
+/Users/rmueller/Projects/MIDOSS/analysis-rachael/matlab/grid/NEMOadjusted_grid_comparison.png
+
+4/14/19
+Reviewed Ashu's presentation and sent him an email with suggestions.
+
+4/8/19
+Next: 
+1) Compare bathymetry between NEMO-adjusted and original
+2) Update model download & run
+3) Finish "clean" version(s) of initial .dat files
+4) Write methodology from initial .dat files
+5) Oil in WA 
+
 4/5/19
 
 Submitted 
