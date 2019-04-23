@@ -1,3 +1,42 @@
+4/20/19
+
+Finished draft of MEOPAR abstract
+Sent Krista an email with meeting overview. 
+
+4/19/2019
+
+Updated ship classification with oil volume estimates
+https://docs.google.com/spreadsheets/d/1G2DYXY7prpQACmWRYPmc_ZVfn9HzVZY23ATr8poGtIA/edit#gid=872104409
+
+Started MEOPAR abstract
+
+4/18/19
+
+Meet with Krista:
+
+Ship classification
+https://docs.google.com/spreadsheets/d/1G2DYXY7prpQACmWRYPmc_ZVfn9HzVZY23ATr8poGtIA/edit#gid=872104409
+
+Vessel Track Density Methodology
+https://docs.google.com/document/d/1-5q66g5urRAUnOXRYj-TcJnkWyPnZUjDjzZlPHD0bo8/edit
+
+Merge with Haibo's classifications
+https://docs.google.com/drawings/d/198nZehBWuXNvcAd_dev3alJB6Mp-DsGjsEWQTDOWhT0/edit
+
+Original questions: 
+1) Where oil is transported?
+2) What volume to spill?
+
+Krista has oil volume by AIS shiptype and vessel length.  Use AIS data to create a histogram of number of AIS tracks binned by spill volume potential (by linking AIS shiptype and ship length with spill volume)
+
+Do this histogram by oil type. 
+-Create map of oil transport by oil type
+-Run map and information by Shell oil contact to see if it's consistent with his understanding of oil transport.
+
+Request: 
+1) Points in SOG, TP and SB that intersect with ship tracks. Give lat/lon of current locations
+2) Average length of Tankers, ATBs, Bulk Carriers and Container Ships (to get estimate of increase, by gallons, of oil moving over Salish Sea if all expansion projects go through.
+
 4/17/19
 Correct bathymetry.  
 MOHID sets boundaries to zero, so is it a problem that NEMO-adjusted grid has zeros along the boundary? 
