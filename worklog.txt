@@ -1,3 +1,28 @@
+5/2/19
+vvl bathymetry update run output to:
+/home/rmueller/project/rmueller/MIDOSS/results/MF0/test
+
+
+~ Today (in 2064)~
+11-12: Document WW3 interpolation methodology (we can do this together)
+1p-2:30/3: Review climatology and refine selection.  Run through the creation of HDF5 input files
+(break)
+3-5: setup and run cases for VVL with NEMO bathymetry, as well as some new climatology test cases. 
+
+~ Friday (in 2064 and 3064) ~
+9 or 10-12 (2064): Create a storyline for VVL test case
+12-1p: Lunch
+1-2p (3064): Whatever is most needed
+
+5/1/19
+Shihan: 
+- compare Johansen et al. (2015), Delvigne and Sweeney (1988) and OSCAR model to see how the different dispersion methods measure up to industry standards.
+- Per email communication: The motivation to switch to Johansen et al (2015) is because it includes more testing and validation than the 1988 parameterization.  
+
+4/25/19
+Location for cleaned up Lagrangian.dat file 
+/home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/Shihan/clean
+
 4/20/19
 
 Finished draft of MEOPAR abstract
