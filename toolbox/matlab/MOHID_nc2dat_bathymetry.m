@@ -80,8 +80,6 @@ idd=find(depth(aa-2,:)~=-99);
 depth(aa-2,idd)=0;
 fprintf(fid,'%s\n','<BeginGridData2D>');
 
-dbstop;
-
 for y=1:bb-2;
     for x=1:aa-2;
         fprintf(fid,'%f\n',depth(x,y));
