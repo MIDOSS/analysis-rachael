@@ -1,3 +1,35 @@
+5/6/19
+
+Priorities:
+1) Python tutorials 
+2)  Create lagrangian.dat files for oil types
+3)  VVL diagnostics: plot bathymetry.dat files (after converting to netcdf) to 
+  see what the MOHID adjustments are.  
+
+1) Worked through more of Udemy online course.  Ashu sent link to a book he likdes: http://greenteapress.com/wp/think-python-2e/.  Bookmarked to review
+
+2) Noticing big differences in the Lagrangian.dat files that Ashu was running vs. the ones that Shihan has used.  Ashu's files are missing biodegredation coefficients.  I noticed this looking into the output file on flags used.  
+The model worked because biodegredation was turned off. 
+
+-Creating a new run directory with more explicit oil type (MediumFloater) and date tag (SOG_11dec2017).  
+   /home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/MediumFloater/SOG_11dec2017
+- This new directory will be used for testing a cleaned up lagrangian.dat file by replicating the working run that I copied from Ashu's run directory
+- Files are copied from 
+  /home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/MF0/SOG12117
+- The only file that I change is Lagrangian .dat and submit_run.yaml
+
+submit_run.yaml:
+- run_id: SOG_01dec17_MediumFloater_1000m3_7days
+- PARTIC_DATA: $PROJECT/rmueller/MIDOSS/MIDOSS-MOHID-config/MediumFloater/SOG_01dec2017/Lagrangian.dat
+- runs directory: $SCRATCH/MIDOSS/runs/MediumFloater/
+
+Lagrangian.dat:
+- copied and modified from /home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/Shihan/clean to create:
+/home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/MediumFloater/SOG_11dec2017/Lagrangian.dat
+
+Submitted run using this Lagrangian file. JobID: 20653204
+
+
 5/2/19
 vvl bathymetry update run output to:
 /home/rmueller/project/rmueller/MIDOSS/results/MF0/test
