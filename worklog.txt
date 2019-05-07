@@ -30,7 +30,142 @@ Lagrangian.dat:
 Submitted run using this Lagrangian file. JobID: 20653204
 
 
+5/3/19
+*** updating runs ***
+use, e.g., 
+> hg log Atmosphere.dat
+to see commits for this .dat file and to select version for run
+HRDPS winds (24:ae8f61605212)
+WaterProperties.dat: SalishSeaCast temperature and Salinity (56:8a1b20344ecf)
+Hydrodynamic: SSH (54:d94ca2dc478c)
+
+
+*** MIDOSS-MOHID-grid ***
+Added the MOHID grid files to the repo "MIDOSS-MOHID-grid"
+Ashu added the weighting files for interpolating ww3 and hrdps output
+
+*** ssh agent on cedar ***
+Kept being prompted for passphrase when pushing or pulling to bitbucket
+Resolved by: 
+eval $(ssh-agent)
+ssh-add
+Look in 1-password under computecanada for passphrase if/when needed again
+
+*** analysis-ashutosh****
+Make HDF5 files:
+The files are created using make-hdf5.yaml. 
+Ashu added to repo: 
+  wind_weights: ./MOHID_winds_weights.nc
+  wave_weights: ./ww3_weighting_matrix_hake.nc
+May want to move these to grid repo...created a MIDOSS-MOHID-grid repository
+cd analysis-ashutosh/scripts
+vi make-hdf5.yaml (enter date range)
+python make_hdf5.py
+
+ModuleNotFoundError: No module named 'salishsea_tools'
+needed to update Smelt configuration with:
+ cd /ocean/$USER/MEOPAR
+hg clone ssh://hg@bitbucket.org/salishsea/tools
+pip install --user --editable tools/SalishSeaTools
+
+ModuleNotFoundError: No module named 'progressbar'
+pip install progressbar2
+
+Visualizing output:
+mohid_diagnostic_tools/visualise_mohid_output.ipynb
+
+
+
+****
+Running MOHID with a new bathymetry.  
+
+bathymetry: /home/rmueller/Data/SalishSeaCast/grid/AfterNEMOBathy201702_rdm.dat
+
+MOHID changes the bathymetry upon initialization and creates a modified bathymetry that then needs to be copied and/or referenced with MOHID run(s). 
+
+First run a 10-20 minute initialization run to just get the bathymetry correct: 
+hg revert -r 59 submit_run.yaml
+mohid run submit_run.yaml $PROJECT/rmueller/MIDOSS/results/MF0/vvl/nemo
+submitted batch 20413321
+
+from $PROJECT/rmueller/MIDOSS/results/MF0/vvl/nemo/stdout file: 
+A new Bathymetry has been created, which consists with the geometry
+ Modify the file Nomfich.dat and Re-run the model
+ New Bathymetry file : 
+ /home/rmueller/Data/SalishSeaCast/grid/AfterNEMOBathy201702_rdm_v01.dat
+
+copied all files in $PROJECT/rmueller/MIDOSS/results/MF0/vvl/nemo
+to 
+$PROJECT/rmueller/MIDOSS/results/MF0/vvl/nemo/init_run
+
+submitted a new job (20428852) using wall time of 1:30hrs and the MOHID-adjusted bathymetry:
+
+bathymetry: /home/rmueller/Data/SalishSeaCast/grid/AfterNEMOBathy201702_rdm_v01.dat
+
+Result: A new Bathymetry has been created, with isolated cells removed
+ Modify the file Nomfich.dat and Re-run the model
+ New Bathymetry file : 
+ /home/rmueller/Data/SalishSeaCast/grid/AfterNEMOBathy201702_rdm_v02.dat
+
+resubmited run to start with this 2x revised bathymetry: 20430107
+
+Ashu says it's sometimes faster to run interactively and sometimes faster detatched.  Check. 
+
+While initializing bathymetry, use run_time of 0:10:00 until the run moves beyond initialization.  This iterative process can take 1 time or many times. Unknown.
+**I was having trouble with my RSA key, so I deleted files in ~/.ssh on Cedar and started over **
+After deleting files on CEDAR, I ran the following command on SMELT
+ssh-copy-id -i $HOME/.ssh/id_rsa cedar
+
+when prompted, I entered my ComputeCanada password and tested with some hg commands that added more information to public key but then I got this error:
+
+
+ hg commit submit_run.yaml -m "Updated submit_run.yaml to use 2x MOHID modified bathymetry, AfterNEMOBathy201702_rdm_v02.dat"
+[rmueller@cedar5 test_vvl]$ hg pull --rebase
+pulling from ssh://hg@bitbucket.org/midoss/midoss-mohid-config
+remote: Permission denied (publickey).
+abort: no suitable response from remote hg!
+
+
+running interactively:
+> mohid run submit_run.yaml $PROJECT/rmueller/MIDOSS/results/MF0/vvl/nemo --no-submit
+cd to temporary run directory, e.g.:
+> cd /scratch/rmueller/MIDOSS/runs/MF0/vvl_sshneg2_2019-05-03T093359.354600-0700
+> salloc --time=0:10:0 --cpus-per-task=1 --mem-per-cpu=4096m --account=def-allen
+> ./MohidWater.exe
+When completed, exit from interactive node:
+> exit
+
+MOHID.sh is the shell script to modify for changing if/when files are deleted/converted/etc. 
+to run from MOHID.sh, the command is something like:
+> sbatch MOHID.sh ?
+
+_v04 bathymetry yields the following error:
+ -------------------------- MOHID -------------------------
+ 
+ Constructing Mohid Water
+ Please Wait...
+ -------------------------- MODEL -------------------------
+ 
+ Constructing      : 
+ ID                :            1
+ 
+ OPENMP: Max number of threads available is            1
+ OPENMP: Number of threads requested is           12
+ <Compilation Options Warning>
+ OPENMP: Number of threads implemented is            1
+Killed
+
+Repeated with same results
+AfterNEMOBathy201702.nc needs to be changed to have land values = -99 then re-create AfterNEMOBathy201702.dat and re-try
+
+
 5/2/19
+
+Updated MIDOSS-MOHID-CODE and ran a clean build
+./compile_mohid.sh -c 
+followed by a build
+./compile_mohid.sh -mb1 -mb2 -mw
+
 vvl bathymetry update run output to:
 /home/rmueller/project/rmueller/MIDOSS/results/MF0/test
 
