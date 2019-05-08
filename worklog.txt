@@ -1,3 +1,29 @@
+5/8/19
+
+test2: Changed Lagrangian.dat to reflect the parameters within <<BeginOil>> section of /home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/MediumFloater/SOG_01dec2017/Lagrangian_AKNS_crude_shihan.dat
+
+/home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/MediumFloater/SOG_01dec2017/test2
+
+submitted run (20745795) to ensure I didn't break anything.  SUCCESS! :-)
+
+test3: Turn on biodegredation.  Submitted run (20748108)
+I think it ran successfully.  stdout looked good.  Stderr gave this message
+slurmstepd: error: *** JOB 20698561 ON cdr813 CANCELLED AT 2019-05-07T16:47:08 ***
+
+test4: Added more comments and changed order a little more. Submitted run to make sure I didn't break anything (20750016)
+
+5/7/19
+
+Started series of runs to test setup files 
+/home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/MediumFloater/SOG_01dec2017
+20698561 : Uses Ashu's Lagrangian.dat file [succesfully ran]
+/home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/MediumFloater/SOG_01dec2017/test1
+20700743 : Moved weathering flags to top of <<BeginOil>> section. 12 hour run. 
+
+/home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/MediumFloater/SOG_01dec2017/test2
+  : Added comments from Lagrangian_AKNS_crude_shihan.dat
+
+
 5/6/19
 
 Priorities:
