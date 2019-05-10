@@ -1,4 +1,56 @@
+
+
+5/9/19
+
+Priorities:
+1)  Work with Shihan in creating lagrangian.dat files for oil types and "fine combing" 
+    parameter choices
+2)  VVL diagnostics: plot bathymetry.dat files (after converting to netcdf) to
+  see what the MOHID adjustments are.
+3)  Start JGR review that is due Monday (!!!)
+
+Test5 (submitted jobID 20768514 - Successully terminated): Changed Dispersion method to "NewDispersion" and added comments about the dispersion methods.  Sent email to Shihan to make sure my comments were/are accurate. 
+
+Test6 (submitted job 20789924 - Successfully terminated): Changed ACCIDENT_METHOD from 1 to "Fay" per Shihan's correction
+Commented out the following, as Shihan says they aren't needed for EvaporationExposure method of evaporation
+   !ASPHALTENECONTENT         : 1.27
+   !WAXCONTENT                : 2.9
+   !RESINCONTENT              : 6.1
+   !SATURATECONTENT           : 75.0
+
+
+Questions: 
+1) Do we want Stoke's drift on? 
+2) What value for winddriftangle?  I suggest 0.0
+3) What value for WindCoef?  From Li et al. (2014): From empirical data, 
+the wind drift coefficient, i.e., the magnitude of wind-driven current induced 
+by wind stress is approximately 0.03 of the wind speed at 10 m height and its 
+direction can be assumed as nearly parallel to the wind direction [15], [16], [17]. 
+Abascal et al. [18] used a set of drifting buoys during the 2002 Prestige 
+oil spill in the Bay of Biscay, Spain to calibrate and validate the 
+oil transport model together with meteorological data, indicating that the 
+wind drag coefficient was linearly proportional to the wind speed under strong 
+tidal currents, ranging from approximately 0.02 to 0.04 with the 
+mean value of 0.027
+
+I propose using a value of 0.027.
+
+4) What value of WINDDRIFTANGLE?  I propose 3 based on Susan's email. 
+
+
 5/8/19
+
+MOHID insights:
+
+[Shihan, email on 5/7/19]
+For most of oil types we can choose Mackay's method right now, as long as the maximum water content is available. In theory, the Fingas's method should be more advanced, but I found there's some problems with this algorithm in the code, which I promised that I will try to fix it. At this moment, I think we can use Mackay's method
+
+I added properties for jet fuel and gas oil in that one, also changed the dispersion method to "NewDispersion"
+
+[Susan, email 5/8/19]
+Consensus at this meeting (OceanPredict) seems to be 3% of the wind for oil.*  The angle actually seems to depend on the ocean model!  This is from Graig Sutherland in particular.
+
+* most of this is Stokes drift, if we include this separately from the wave model, we will need to decrease that 3%
 
 test2: Changed Lagrangian.dat to reflect the parameters within <<BeginOil>> section of /home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/MediumFloater/SOG_01dec2017/Lagrangian_AKNS_crude_shihan.dat
 
