@@ -1,4 +1,78 @@
+5/14/19
 
+The runs I submitted yesterday didn't work, but I'm not sure why.  Re-trying the AKNScrude example over 1-day 
+
+> mohid run submit_run_AKNScrude.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/SOG_01dec2017/test7
+def_allen was slow, so I'm trying rrg_allen....21018386
+committed .yaml file: changeset:   80:389d8b00c432
+
+Result (error): 
+
+[rmueller@cedar5 test7]$ more stderr
+ModuleEnterData - ConstructEnterData - ERR05
+cp: cannot stat '/scratch/rmueller/MIDOSS/runs/MediumFloater/AKNS/SOG_01dec17_MediumFloater_1000
+m3_7days_2019-05-14T104909.843731-0700/res/Lagrangian_SOG_01dec17_MediumFloater_1000m3_7days.hdf
+5': No such file or directory
+Usage: hdf5-to-netcdf4 [OPTIONS] HDF5_FILE NETCDF4_FILE
+Try "hdf5-to-netcdf4 --help" for help.
+
+Error: Invalid value for "HDF5_FILE": Path "/localscratch/rmueller.21018386.0/Lagrangian_SOG_01d
+ec17_MediumFloater_1000m3_7days.hdf5" does not exist.
+cp: cannot stat '/localscratch/rmueller.21018386.0/Lagrangian_SOG_01dec17_MediumFloater_1000m3_7
+days.nc': No such file or directory
+[rmueller@cedar5 test7]$ 
+
+On line 150 of prepare.py
+
+    results_dir = tmp_run_dir / "res"
+    results_dir.mkdir()
+
+Re-tracing steps to see where I went wrong.  I'm noticing that test5 used test1 Lagrangian.dat file (!), so 
+I am re-doing test1 and stepping up from there...again.
+
+TEST1: AKNS crude
+> mohid run submit_run.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/test1
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T113649.899990-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T113649.899990-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21019441
+
+
+
+5/13/19
+
+Priorities:
+1) Finish Lagrangian.dat files
+2) Submit test runs for Light Evaporators (Gasoline, Diesel, Jet fuel), Medium Evaporator (South Louisianna Sweet), diluted Bitumen (Cold Lake Blend), Medium Floater (AK N. Slope Crude) and Heavy Floater (Bunker C).  
+3) Finish JGR Review
+4) Apply for Ocean Hack Week 
+
+(1) Merged conflicts with Shihan's update to Lagrangian files.  Reviewed/corrected Lagrangian files. 
+    	Created directories for LightEvaporators (and Lagrangian files for diesel, jet fuel, gas), 
+	Medium Evaporators (and Lagrangian file for S. Louisiana Sweet crude) and MediumFloaters (AKNS crude)
+(2) Testing 7-day run with AKNS Lagrangian file and all other settings/files equal to Ashu's setup
+   	/home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/MediumFloater/SOG_01dec2017
+	Submitted run 20985003: mohid run submit_run.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/SOG_01dec2017/  
+
+	Diesel: Job submission 20985421
+	Jet Fuel: 20985419
+        Gasoline: 20985417.  
+MOHID-Cmd is calling hdf5-to-netcdf even though no hdf5 file exists.  No model error to indicate why there was this mistake. 
+
+From Stderr:
+ConstructHDFPredictDTMethod1 - ModuleFillMatrix - ERR50
+cp: cannot stat '/scratch/rmueller/MIDOSS/runs/LightEvaporators/SOG_01dec17_LightEvapora
+torGas_1000m3_7days_2019-05-13T122449.114951-0700/res/Lagrangian_SOG_01dec17_LightEvapor
+atorGas_1000m3_7days.hdf5': No such file or directory
+Usage: hdf5-to-netcdf4 [OPTIONS] HDF5_FILE NETCDF4_FILE
+Try "hdf5-to-netcdf4 --help" for help.
+
+Error: Invalid value for "HDF5_FILE": Path "/localscratch/rmueller.20985417.0/Lagrangian
+_SOG_01dec17_LightEvaporatorGas_1000m3_7days.hdf5" does not exist.
+cp: cannot stat '/localscratch/rmueller.20985417.0/Lagrangian_SOG_01dec17_LightEvaporato
+rGas_1000m3_7days.nc': No such file or directory
+
+(3) Submitted JGR review
+(4) Applied for Oceanhack week    
 
 5/9/19
 
