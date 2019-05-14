@@ -24,7 +24,7 @@ import re
 
 NBVIEWER = 'https://nbviewer.jupyter.org/urls'
 REPO = 'bitbucket.org/midoss/analysis-rachael/raw/default'
-REPO_DIR = 'notebooks'
+REPO_DIR = 'notebooks/grid'
 TITLE_PATTERN = re.compile('#{1,6} ?')
 
 
