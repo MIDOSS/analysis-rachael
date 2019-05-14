@@ -37,6 +37,37 @@ mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/Medium
 mohid_cmd.run INFO: Submitted batch job 21019441
 
 
+results look good.  The run was stepping through and was terminated due to wall time limit
+
+TEST2: Changed submit_run.yaml to point to Lagrangian.dat file in test2 directory instead of test1
+
+[rmueller@cedar1 test2]$ mohid run submit_run.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/test2
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T140329.371725-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T140329.371725-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21025458
+
+TEST3: Changed submit_run.yaml to point to Lagrangian.dat file in test3 directory instead of test1
+
+[rmueller@cedar5 test3]$ mohid run submit_run.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/test3
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T140607.986285-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T140607.986285-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21025563
+
+TEST4: Changed submit_run.yaml to point to Lagrangian.dat file in test4 directory instead of test1
+
+mohid run submit_run.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/test4
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T140651.567810-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T140651.567810-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21025567
+
+TEST5: Changed submit_run.yaml to point to Lagrangian.dat file in test5 directory instead of test1
+
+[rmueller@cedar5 test5]$ mohid run submit_run.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/test5
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T140806.007211-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T140806.007211-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21025583
+
+
 
 5/13/19
 
