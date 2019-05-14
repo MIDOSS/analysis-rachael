@@ -5,7 +5,7 @@ The links below are to static renderings of the notebooks via
 Descriptions under the links below are from the first cell of the notebooks
 (if that cell contains Markdown or raw text).
 
-* ##[Transform_bathy_dat_to_nc.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/Transform_bathy_dat_to_nc.ipynb)  
+* ##[Transform_bathy_dat_to_nc.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/grid/Transform_bathy_dat_to_nc.ipynb)  
     
     **Transform Bathymetry.dat to netcdf**  
 
