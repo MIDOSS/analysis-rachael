@@ -1,3 +1,246 @@
+5/16/19
+
+NEXT
+1) Write up errors from yesterday and the solutions that helped fix them
+2) finish debugging Lagrangian.dat file 
+/home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/MediumFloater/SOG_01dec2017/test3/Lagrangian1.dat
+3) Python tutorial
+4) Use surface currents to practice plotting up output in python
+5) Read Dept. of Ecology Report
+
+
+5/15/19
+
+Priorities: 
+1) Figure out why Lagrangian.dat file isn't working
+2) Python tutorial
+3) Use surface currents to practice plotting up output in python
+4) Read Dept. of Ecology Report
+
+(1) I did two test runs yesterday
+ - test2 and test3.  test3 seems to work and test2 not.  When I went to verify
+ files on scratch, I couldn't find the folders.  Re-doing runs to make sure that MOHID is running with the files that I think it's running with. 
+
+Deleted all folders/files on scratch
+
+Re-submitted test3 -> test3_2
+[rmueller@cedar5 test3]$ mohid run submit_run.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/test3_2
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T100401.964998-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T100401.964998-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21067603
+
+The submit_run.yaml file on scratch shows that the correct Lagrangian file is being used:
+PARTIC_DATA: $PROJECT/rmueller/MIDOSS/MIDOSS-MOHID-config/MediumFloater/SOG_01dec2017/test3/Lagran
+gian1.dat
+
+
+Re-submit test2 -> test2_2
+
+[rmueller@cedar5 test2]$ mohid run submit_run.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/test2_2
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T101056.799342-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T101056.799342-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21068257
+
+test3_2 worked.  test2_2 did not. 
+Resubmitting test2_2 -> test 2_3 
+
+Changes: 
+(1) removed "!!" at the beginning of file to just one "!"
+(2) removed "!***********************" at the beginning of file
+ 
+[rmueller@cedar5 test2]$ mohid run submit_run.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/test2_3
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T110228.719454-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T110228.719454-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21071907
+
+test2_3 still not working. -> test2_4
+Removed all comments (except the header line) from this intro section
+
+test2_5: remove spaces in first few lines
+
+[rmueller@cedar5 test2]$ mohid run submit_run.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/test2_5
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T113215.423230-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T113215.423230-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21072577
+
+test2_6: Removed comment after output_time
+
+[rmueller@cedar5 test2]$ mohid run submit_run.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/test2_6
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T113653.115856-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T113653.115856-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21072633
+
+IT WORKED!!!!  Okay...so MOHID does NOT like comments after variables in the 
+header section.  
+
+test2_7: Putting all other header information back but leaving out the comment after 
+OUTPUT_TIME
+
+I'll be damned.  It works!
+
+Testing the Lagrangian_AKNS_crude.dat file, modified to remove comment after OUTPUT_TIME 
+
+[rmueller@cedar5 SOG_01dec2017]$ vi submit_run_AKNScrude.yaml 
+[rmueller@cedar5 SOG_01dec2017]$ vi Lagrangian_AKNS_crude.dat
+[rmueller@cedar5 SOG_01dec2017]$ mohid run submit_run_AKNScrude.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/
+nemo_cmd.prepare ERROR: /scratch/rmueller/MIDOSS/runs/MediumFloater/AKNS path from "paths: runs directory" key not found - please check your run description YAML file
+[rmueller@cedar5 SOG_01dec2017]$ mkdir /scratch/rmueller/MIDOSS/runs/MediumFloater/AKNS
+[rmueller@cedar5 SOG_01dec2017]$ mohid run submit_run_AKNScrude.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/AKNS/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T114641.739326-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/AKNS/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T114641.739326-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21072772
+
+NEW ERROR! WOOT! :-)
+ Maximum of          256  characters is supported.
+ String: EMULSIFICATIONMETHOD      : Mackay        ! Shihan: Do you have the ref
+ erence for this?  Can you send it to me?  Either Mackay reference or Fingas 199
+ 5...I think? I don't have the original paper, but some relevant information can
+  be found in the MOHID description
+ File  : /home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/settings/Med
+ iumFloaters/Lagrangian_AKNS_crude.dat
+ Line  :          127
+Ended run at Wed May 15 11:47:46 PDT 2019
+Results hdf5 to netCDF4 conversion started at Wed May 15 11:47:46 PDT 2019
+
+Removing long comment and resubmitting run 
+[rmueller@cedar5 SOG_01dec2017]$ mohid run submit_run_AKNScrude.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/
+nemo_cmd.prepare WARNING: There are uncommitted changes in /project/6001313/rmueller/MIDOSS/MIDOSS-MOHID-config
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/AKNS/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T132525.811503-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/AKNS/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T132525.811503-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21078049
+
+ANOTHER NEW ERROR!  WOOT!
+
+ Found : at the end of line.
+ Line: ! Comments are added after parameter in this format:
+Ended run at Wed May 15 13:26:27 PDT 2019
+
+edited /home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/settings/MediumFloaters/Lagrangian_AKNS_crude.dat to remove ':" at end of this line and re-submitted. 
+5/14/19
+[rmueller@cedar5 SOG_01dec2017]$ mohid run submit_run_AKNScrude.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/
+nemo_cmd.prepare WARNING: There are uncommitted changes in /project/6001313/rmueller/MIDOSS/MIDOSS-MOHID-config
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/AKNS/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T133355.079018-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/AKNS/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T133355.079018-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21078135
+
+Found another : at end of comment line and needed to fix/re-run
+
+[rmueller@cedar5 SOG_01dec2017]$ mohid run submit_run_AKNScrude.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/
+nemo_cmd.prepare WARNING: There are uncommitted changes in /project/6001313/rmueller/MIDOSS/MIDOSS-MOHID-config
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/AKNS/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T133723.122490-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/AKNS/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T133723.122490-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21078278
+
+This run crashed with no warning:
+
+STDOUT:
+
+ ---Assimilation     :            0
+ 
+Ended run at Wed May 15 13:38:27 PDT 2019
+Results hdf5 to netCDF4 conversion started at Wed May 15 13:38:27 PDT 2019
+
+STDERR
+
+CheckOriginInLandCell - ModuleLagrangianGlobal - ERR30
+
+I noticed a ":" at the end of a comment in the <<BeginOil>> <<EndOil>> Section
+Removed this ":" and am re-submitting code. 
+
+UGH!  Can't figure this out.  Going back to test3 and moving forward from the working Lagrangian1.dat file. 
+
+test3_3: Turned on BIODEGREDATION :1
+
+[rmueller@cedar1 test3]$ mohid run submit_run.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/test3_3
+nemo_cmd.prepare WARNING: There are uncommitted changes in /project/6001313/rmueller/MIDOSS/MIDOSS-MOHID-config
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T144852.964972-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-15T144852.964972-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21079273
+
+SUCCESS!
+
+test3_4: Changed dispersion method to NewDispersion
+
+SUCCESS!
+
+test3_5: Add BIODEGREDATION coefficients
+ANALYTEPERCENTAGE         : 13.6 2.61 82.67 1.13 0.01
+MOLEWEIGHT                : 9.29E01 1.057011494E02 3.687520866E02 1.761327434E02 1.3E02
+VAPORPRESSURE             : 4.79E00 2.48E-02 1.01E-04 2.87E-05 6.93E-04
+SOLUBILITY                : 2.307208456E01 3.465517241E02 5.3424E-06 8.259566372 5.1000E04
+BIOCOE                    : 1.0E-01 1.0E-01 1.0487601E-02 2.9389381E-02 5.0E-03  
+
+SUCCESS!
+
+test3_6: Updated the oil properties to match Shihan's google doc. 
+OILTYPE                   : Crude       ! [] Options: Crude or Refined
+API                       : 29.9
+POURPOINT                 : -54         ! Pour point [-] (ºC)
+TEMPVISCREF               : 15.           ! Temperature of reference viscosity [-] (ºC)
+VISCREF                   : 16.           ! Reference Dynamic Viscosity [-] (cP)
+DT_OIL_INTPROCESSES       : 60  ! Time step for weathering processes, in seconds
+OIL_TIMESERIE             : OilOutput
+
+SUCCESS!
+
+test3_7: Add the following (testing whether comments are an issue)
+!~~~ Weathering parameters corresponding to flags ~~~
+!!! *** OIL_SPREADING [1]  ***
+SPREADINGMETHOD           : ThicknessGradient
+USERCOEFVELMANCHA         : 10
+
+SUCCESS!
+
+test3_8: Adding the following.  Testing the impact of commenting out these variables
+
+!!! *** OIL_EVAPORATION [1] ***
+EVAPORATIONMETHOD         : EvaporativeExposure  ! [EvaporativeExposure] Options: EvaporativeExposure/PseudoComponents/Fingas
+
+   ! Shihan: Did I get this right, that these are for the PseudoComponents method?
+   ! If EVAPORATIONMETHOD: PseudoComponents, the following 4 parameters are required:
+   !ASPHALTENECONTENT         : 5
+   !WAXCONTENT                : 2.9
+   !RESINCONTENT              : 9
+   !SATURATECONTENT           : 52
+
+   ! If EVAPORATIONMETHOD: Fingas, the following 3 parameters are required
+   !FINGAS_EVAP_EQTYPE        : Logarithmic
+   !FINGAS_EVAP_EMP_DATA      : 0
+   !PERC_MASSDIST180          : 22
+
+
+FATAL; KEYWORD; Subroutine OilOptions - ModuleOil_0D. ERR70.
+
+
+This works:
+!!! *** OIL_EVAPORATION [1] ***
+!ASPHALTENECONTENT         : 5
+!WAXCONTENT                : 2.9
+!RESINCONTENT              : 9
+!SATURATECONTENT           : 52
+
+   ! If EVAPORATIONMETHOD: Fingas, the following 3 parameters are required
+   !FINGAS_EVAP_EQTYPE        : Logarithmic
+   !FINGAS_EVAP_EMP_DATA      : 0
+   !PERC_MASSDIST180          : 22
+
+ANALYTEPERCENTAGE         : 13.6 2.61 82.67 1.13 0.01
+MOLEWEIGHT                : 9.29E01 1.057011494E02 3.687520866E02 1.761327434E02 1.3E02
+VAPORPRESSURE             : 4.79E00 2.48E-02 1.01E-04 2.87E-05 6.93E-04
+SOLUBILITY                : 2.307208456E01 3.465517241E02 5.3424E-06 8.259566372 5.1000E04
+BIOCOE                    : 1.0E-01 1.0E-01 1.0487601E-02 2.9389381E-02 5.0E-03
+
+but when I add: 
+EVAPORATIONMETHOD         : EvaporativeExposure  ! [EvaporativeExposure] Options: EvaporativeExposure/PseudoComponents/Fingas
+
+I get "FATAL; KEYWORD; Subroutine OilOptions - ModuleOil_0D. ERR70"
+
+
+Test changing / -> , 
+
+test_14
+
+
 5/14/19
 
 The runs I submitted yesterday didn't work, but I'm not sure why.  Re-trying the AKNScrude example over 1-day 
@@ -45,6 +288,46 @@ TEST2: Changed submit_run.yaml to point to Lagrangian.dat file in test2 director
 mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T140329.371725-0700
 mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T140329.371725-0700/MOHID.sh
 mohid_cmd.run INFO: Submitted batch job 21025458
+
+** Typo in Lagrangian.dat file path -> needed to re-submit.
+[rmueller@cedar5 test2]$ mohid run submit_run.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/test2
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T171024.402666-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T171024.402666-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21028648
+
+FATAL; INTERNAL; OutPutTimeInternal - EnterData - ERR02.
+
+*******
+
+copied Lagrangian.dat from "test1" and changed only the part before <BeginOrigin>, calling it Lagrangian1.dat
+
+[rmueller@cedar5 test2]$ mohid run submit_run.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/test2
+
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T174002.343913-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T174002.343913-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21030089
+
+Final Particle Conditions.                                                                                                      
+Keyword: PARTIC_FIN not found
+
+ Registered Instance: EnterData
+ Instance ID        :            2
+ 
+ 
+Initial Particle Conditions.                                                                                                    
+Keyword: PARTIC_INI not found
+
+FATAL      INTERNAL   OutPutTimeInternal - EnterData - ERR02.
+
+****
+
+test3
+Copied lines 63 - 81 of test2/Lagrangian to the beginning of <<BeginOil>> in test1/Lagrangian.  This becomes test3, saved as test3/Lagrangian1.dat
+
+[rmueller@cedar1 test3]$ mohid run submit_run.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017/test3
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T175016.132871-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-14T175016.132871-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21031754
 
 TEST3: Changed submit_run.yaml to point to Lagrangian.dat file in test3 directory instead of test1
 
