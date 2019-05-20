@@ -1,3 +1,79 @@
+
+### 5/19/19
+
+Fixed time range error in Model_lowdt.dat, ran test simulation to make sure the model was running again, re-submitted job:
+```
+[rmueller@cedar1 SOG_01dec2017]$ mohid run submit_run_AKNScrude.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017
+nemo_cmd.prepare WARNING: There are uncommitted changes in /project/6001313/rmueller/MIDOSS/MIDOSS-MOHID-config
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/MediumFloater/AKNS/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-20T111949.975090-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/MediumFloater/AKNS/SOG_01dec17_MediumFloater_1000m3_7days_2019-05-20T111949.975090-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21259146
+```
+There was an uncommited change which turned out to be:
+```
+[rmueller@cedar1 SOG_01dec2017]$ hg status
+M MediumFloater/SOG_01dec2017/submit_run_AKNScrude.yaml
+```
+I commited changes
+
+#### Testing Lagrangian_DieselFuel_refined.dat
+
+```
+Submitted the following 5-min test
+
+[rmueller@cedar1 SOG_01dec2017]$ mohid run submit_run_diesel.yaml $PROJECT/rmueller/MIDOSS/results/LightEvaporator/diesel/SOG_01dec2017
+mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/LightEvaporators/SOG_01dec17_LightEvaporatorsDiesel_1000m3_7days_2019-05-20T112758.876748-0700
+mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/LightEvaporators/SOG_01dec17_LightEvaporatorsDiesel_1000m3_7days_2019-05-20T112758.876748-0700/MOHID.sh
+mohid_cmd.run INFO: Submitted batch job 21259377
+```
+
+### 5/19/19
+
+#### Lagrangian.dat errors
+
+Not seeing model results. No conversion to .nc.  
+
+re-submitted job 
+```
+>mohid run submit_run_AKNScrude.yaml $PROJECT/rmueller/MIDOSS/results/MediumFloater/AKNS/SOG_01dec2017
+```
+
+Stdout now reads: 
+```
+ -------------------------- MODEL -------------------------
+ 
+ Constructing      : 
+ ID                :            1
+ 
+ OPENMP: Max number of threads available is            1
+ OPENMP: Number of threads requested is           12
+ <Compilation Options Warning>
+ OPENMP: Number of threads implemented is            1
+ 
+ Could not read solution from HDF5 file
+```
+
+This error indicates to me that the input hdf5 files are not being read, but I've checked paths and they are okay.
+
+AH!  I think I've got it....I put in a longer time than we have data for in the HDF5file.
+
+Reducing time and submitting another test run.  
+
+
+### 5/17/19
+
+NEXT: 
+1) Once confirmed that 7-day test is successful, remove test files from:
+/home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/MediumFloater/SOG_01dec2017
+2) Update all Lagrangian.dat files so they work
+3) Ask Shihan about Fay method (not working)
+4) Download and test new version of the code
+5) Python tutorial
+6) Use surface currents to practice plotting up output in python
+7) Read Dept. of Ecology Report  
+
+
+
 5/16/19
 
 NEXT
@@ -7,6 +83,22 @@ NEXT
 3) Python tutorial
 4) Use surface currents to practice plotting up output in python
 5) Read Dept. of Ecology Report
+
+(1) With doug's help, created an error-log.md file
+
+https://bitbucket.org/midoss/midoss-mohid-config/src/default/error-log.md
+
+Basic instructions from Doug for creating the file:
+* changed the file extension from .txt to .md so that Bitbucket will render it through Markdown (same markup as we us in Jupyter)
+
+* delimited the stdout, Lagrangian.dat, etc. blocks with ``` before and after so that they are rendered as "code blocks"
+
+* changed the 1), 2) enumerations to headings; # is level 1, ## is level 2, etc.
+
+There's a good guide for Markdown syntax at https://guides.github.com/features/mastering-markdown/
+
+(2) Finished debugging Lagrangian.dat file and submitted a 7-day test run 21107333
+/home/rmueller/project/rmueller/MIDOSS/MIDOSS-MOHID-config/MediumFloater/SOG_01dec2017
 
 
 5/15/19
