@@ -27,6 +27,39 @@ mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/LightE
 mohid_cmd.run INFO: Submitted batch job 21259377
 ```
 
+Both the diesel and AKNS test worked, so I submitted a 6-day run.  The runs completed successfully but did not convert to netcdf
+
+
+```
+cp: cannot stat '/scratch/rmueller/MIDOSS/runs/LightEvaporators/SOG_01dec17_LightEvaporatorsDiesel_1000m3_7days_2019-05-20T113445.501234-0700/res/Lagrangian_SOG_01dec17_LightEvaporatorsDiesel_1000m3_7days.hdf5': No such file or directory
+Usage: hdf5-to-netcdf4 [OPTIONS] HDF5_FILE NETCDF4_FILE
+Try "hdf5-to-netcdf4 --help" for help.
+
+Error: Invalid value for "HDF5_FILE": Path "/localscratch/rmueller.21259492.0/Lagrangian_SOG_01dec17_LightEvaporatorsDiesel_1000m3_7days.hdf5" does not exist.
+cp: cannot stat '/localscratch/rmueller.21259492.0/Lagrangian_SOG_01dec17_LightEvaporatorsDiesel_1000m3_7days.nc': No such file or directory
+```
+
+hdf5-to-netcdf4 seems to work okay when called in the results directory
+```
+[rmueller@cedar5 SOG_01dec2017]$ hdf5-to-netcdf4 Lagrangian_AKNS_crude_SOG_01dec17_MediumFloater_1000m3_7days.hdf5 Lagrangian_AKNS_crude_SOG_01dec17_MediumFloater_1000m3_7days.nc
+```
+Here are cases that didn't work:
+```
+[rmueller@cedar5 SOG_01dec2017]$ hdf5-to-netcdf4 -v Lagrangian_AKNS_crude_SOG_01dec17_MediumFloater_1000m3_7days.hdf5 Lagrangian_AKNS_crude_SOG_01dec17_MediumFloater_1000m3_7days.nc
+Usage: hdf5-to-netcdf4 [OPTIONS] HDF5_FILE NETCDF4_FILE
+Try "hdf5-to-netcdf4 --help" for help.
+
+Error: Invalid value for "-v" / "--verbosity": invalid choice: Lagrangian_AKNS_crude_SOG_01dec17_MediumFloater_1000m3_7days.hdf5. (choose from debug, info, warning, error, critical)
+
+[rmueller@cedar5 SOG_01dec2017]$ hdf5-to-netcdf4 --verbosity Lagrangian_AKNS_crude_SOG_01dec17_MediumFloater_1000m3_7days.hdf5 Lagrangian_AKNS_crude_SOG_01dec17_MediumFloater_1000m3_7days.nc
+Usage: hdf5-to-netcdf4 [OPTIONS] HDF5_FILE NETCDF4_FILE
+Try "hdf5-to-netcdf4 --help" for help.
+
+Error: Invalid value for "-v" / "--verbosity": invalid choice: Lagrangian_AKNS_crude_SOG_01dec17_MediumFloater_1000m3_7days.hdf5. (choose from debug, info, warning, error, critical)
+```
+
+
+
 ### 5/19/19
 
 #### Lagrangian.dat errors
