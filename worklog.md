@@ -4,7 +4,8 @@ oops.  Some of the work on this day was logged on the 19th.
 ####Updated Lagrangian_gasoline_refined.dat
 Submitted a 5 minute test run
 
-```[rmueller@cedar1 SOG_01dec2017]$ mohid run submit_run_gas.yaml $PROJECT/rmueller/MIDOSS/results/LightEvaporator/gas/SOG_01dec2017
+```
+[rmueller@cedar1 SOG_01dec2017]$ mohid run submit_run_gas.yaml $PROJECT/rmueller/MIDOSS/results/LightEvaporator/gas/SOG_01dec2017
 mohid_cmd.run INFO: Created temporary run directory /scratch/rmueller/MIDOSS/runs/LightEvaporators/SOG_01dec17_LightEvaporatorGas_1000m3_7days_2019-05-20T210302.855692-0700
 mohid_cmd.run INFO: Wrote job run script to /scratch/rmueller/MIDOSS/runs/LightEvaporators/SOG_01dec17_LightEvaporatorGas_1000m3_7days_2019-05-20T210302.855692-0700/MOHID.sh
 mohid_cmd.run INFO: Submitted batch job 21274382
