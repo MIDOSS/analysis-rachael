@@ -5,8 +5,6 @@ The links below are to static renderings of the notebooks via
 Descriptions under the links below are from the first cell of the notebooks
 (if that cell contains Markdown or raw text).
 
-* ##[Untitled.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/Untitled.ipynb)  
-    
 * ##[SOG_01dec2017_2Dthickness.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/SOG_01dec2017_2Dthickness.ipynb)  
     
     **Plot up 2D (surface) oil thickness for the Strait of Georgia Point**  
