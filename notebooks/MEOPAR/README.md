@@ -5,6 +5,14 @@ The links below are to static renderings of the notebooks via
 Descriptions under the links below are from the first cell of the notebooks
 (if that cell contains Markdown or raw text).
 
+* ##[SOG_05jun2015_2Dthickness.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/SOG_05jun2015_2Dthickness.ipynb)  
+    
+    **Plot up 2D (surface) oil thickness for the Strait of Georgia Point**  
+    **Comparing high tide and low tide results for:**  
+      - Alaska North Slope Crude (AKNS)  
+      - Diesel  
+    **05jun2015-12jun2015: freshet, strong wind, strong current case (transition spring -> neap)**  
+
 * ##[SOG_01dec2017_2Dthickness.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/SOG_01dec2017_2Dthickness.ipynb)  
     
     **Plot up 2D (surface) oil thickness for the Strait of Georgia Point**  
@@ -13,6 +21,7 @@ Descriptions under the links below are from the first cell of the notebooks
       - Diesel  
       - Gasoline  
       - Jet Fuel  
+    **This is a spring tide, non-freshet, light wind, weak current case**  
 
 
 ##License
