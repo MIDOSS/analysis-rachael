@@ -5,6 +5,19 @@ The links below are to static renderings of the notebooks via
 Descriptions under the links below are from the first cell of the notebooks
 (if that cell contains Markdown or raw text).
 
+* ##[Plot_TS_current_wind_salinity.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/Plot_TS_current_wind_salinity.ipynb)  
+    
+    **Plot surface currents, wind speeds and salinity**  
+    This script is based on Ashu's "Make_profiles.ipynb" notebook in "climatology_analysis_notebooks"  
+
+* ##[SOG_01dec2017_concentration.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/SOG_01dec2017_concentration.ipynb)  
+    
+    **Plot up surface and depth integrated concentrations for the Strait of Georgia Point**  
+    **Comparing high tide and low tide results for:**  
+      - Alaska North Slope Crude (AKNS)  
+      - Diesel  
+    **This is a spring tide, non-freshet, light wind, weak current case**  
+
 * ##[SOG_05jun2015_2Dthickness.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/SOG_05jun2015_2Dthickness.ipynb)  
     
     **Plot up 2D (surface) oil thickness for the Strait of Georgia Point**  
@@ -12,6 +25,11 @@ Descriptions under the links below are from the first cell of the notebooks
       - Alaska North Slope Crude (AKNS)  
       - Diesel  
     **05jun2015-12jun2015: freshet, strong wind, strong current case (transition spring -> neap)**  
+
+* ##[Untitled.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/Untitled.ipynb)  
+    
+    **Plot surface currents, wind speeds and salinity**  
+    This script is based on Ashu's "Make_profiles.ipynb" notebook in "climatology_analysis_notebooks"  
 
 * ##[SOG_01dec2017_2Dthickness.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/SOG_01dec2017_2Dthickness.ipynb)  
     
