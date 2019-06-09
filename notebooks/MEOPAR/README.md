@@ -5,10 +5,14 @@ The links below are to static renderings of the notebooks via
 Descriptions under the links below are from the first cell of the notebooks
 (if that cell contains Markdown or raw text).
 
-* ##[Plot_TS_current_wind_salinity.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/Plot_TS_current_wind_salinity.ipynb)  
+* ##[save_TS_current_wind_salinity.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/save_TS_current_wind_salinity.ipynb)  
     
-    **Plot surface currents, wind speeds and salinity**  
+    **Save to netcdf surface currents, wind speeds and salinity**  
     This script is based on Ashu's "Make_profiles.ipynb" notebook in "climatology_analysis_notebooks"  
+
+* ##[plot_TS_current_wind_salinity.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/plot_TS_current_wind_salinity.ipynb)  
+    
+    **Plot surface currents, wind speeds and salinity for SOG point **  
 
 * ##[SOG_01dec2017_concentration.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/SOG_01dec2017_concentration.ipynb)  
     
