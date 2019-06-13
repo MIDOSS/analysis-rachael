@@ -10,7 +10,11 @@ Descriptions under the links below are from the first cell of the notebooks
     **Save to netcdf surface currents, wind speeds and salinity**  
     This script is based on Ashu's "Make_profiles.ipynb" notebook in "climatology_analysis_notebooks"  
 
-* ##[plot_TS_current_wind_salinity.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/plot_TS_current_wind_salinity.ipynb)  
+* ##[Plot_TS_current_wind_salinity.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/Plot_TS_current_wind_salinity.ipynb)  
+    
+    **Plot surface currents, wind speeds and salinity for SOG point **  
+
+* ##[plot_TS_current_wind_salinity_overlay.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/plot_TS_current_wind_salinity_overlay.ipynb)  
     
     **Plot surface currents, wind speeds and salinity for SOG point **  
 
