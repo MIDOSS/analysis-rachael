@@ -5,20 +5,20 @@ The links below are to static renderings of the notebooks via
 Descriptions under the links below are from the first cell of the notebooks
 (if that cell contains Markdown or raw text).
 
-* ##[save_TS_current_wind_salinity.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/save_TS_current_wind_salinity.ipynb)  
+* ##[save_TS_current_wind_salinity.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/presentations/2019/meopar_2019/save_TS_current_wind_salinity.ipynb)  
     
     **Save to netcdf surface currents, wind speeds and salinity**  
     This script is based on Ashu's "Make_profiles.ipynb" notebook in "climatology_analysis_notebooks"  
 
-* ##[Plot_TS_current_wind_salinity.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/Plot_TS_current_wind_salinity.ipynb)  
+* ##[Plot_TS_current_wind_salinity.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/presentations/2019/meopar_2019/Plot_TS_current_wind_salinity.ipynb)  
     
     **Plot surface currents, wind speeds and salinity for SOG point **  
 
-* ##[plot_TS_current_wind_salinity_overlay.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/plot_TS_current_wind_salinity_overlay.ipynb)  
+* ##[plot_TS_current_wind_salinity_overlay.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/presentations/2019/meopar_2019/plot_TS_current_wind_salinity_overlay.ipynb)  
     
     **Plot surface currents, wind speeds and salinity for SOG point **  
 
-* ##[SOG_01dec2017_concentration.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/SOG_01dec2017_concentration.ipynb)  
+* ##[SOG_01dec2017_concentration.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/presentations/2019/meopar_2019/SOG_01dec2017_concentration.ipynb)  
     
     **Plot up surface and depth integrated concentrations for the Strait of Georgia Point**  
     **Comparing high tide and low tide results for:**  
@@ -26,7 +26,7 @@ Descriptions under the links below are from the first cell of the notebooks
       - Diesel  
     **This is a spring tide, non-freshet, light wind, weak current case**  
 
-* ##[SOG_05jun2015_2Dthickness.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/SOG_05jun2015_2Dthickness.ipynb)  
+* ##[SOG_05jun2015_2Dthickness.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/presentations/2019/meopar_2019/SOG_05jun2015_2Dthickness.ipynb)  
     
     **Plot up 2D (surface) oil thickness for the Strait of Georgia Point**  
     **Comparing high tide and low tide results for:**  
@@ -34,12 +34,12 @@ Descriptions under the links below are from the first cell of the notebooks
       - Diesel  
     **05jun2015-12jun2015: freshet, strong wind, strong current case (transition spring -> neap)**  
 
-* ##[Untitled.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/Untitled.ipynb)  
+* ##[Untitled.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/presentations/2019/meopar_2019/Untitled.ipynb)  
     
     **Plot surface currents, wind speeds and salinity**  
     This script is based on Ashu's "Make_profiles.ipynb" notebook in "climatology_analysis_notebooks"  
 
-* ##[SOG_01dec2017_2Dthickness.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/MEOPAR/SOG_01dec2017_2Dthickness.ipynb)  
+* ##[SOG_01dec2017_2Dthickness.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/presentations/2019/meopar_2019/SOG_01dec2017_2Dthickness.ipynb)  
     
     **Plot up 2D (surface) oil thickness for the Strait of Georgia Point**  
     **Comparing high tide and low tide results for:**  

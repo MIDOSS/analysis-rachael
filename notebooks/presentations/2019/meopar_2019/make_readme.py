@@ -24,7 +24,7 @@ import re
 
 NBVIEWER = 'https://nbviewer.jupyter.org/urls'
 REPO = 'bitbucket.org/midoss/analysis-rachael/raw/default'
-REPO_DIR = 'notebooks/MEOPAR'
+REPO_DIR = 'notebooks/presentations/2019/meopar_2019'
 TITLE_PATTERN = re.compile('#{1,6} ?')
 
 
