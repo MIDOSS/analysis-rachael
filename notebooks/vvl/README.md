@@ -5,7 +5,7 @@ The links below are to static renderings of the notebooks via
 Descriptions under the links below are from the first cell of the notebooks
 (if that cell contains Markdown or raw text).
 
-* ##[plot_vvl_test.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/vvl`/plot_vvl_test.ipynb)  
+* ##[plot_vvl_test.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/vvl/plot_vvl_test.ipynb)  
     
     **Plot results from VVL test with SSH = 0**  
     These results were generated with teh following setup:  
