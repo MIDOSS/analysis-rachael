@@ -12,12 +12,18 @@ Descriptions under the links below are from the first cell of the notebooks
     - Salmon bank spill at -122.86 48.38  
     - currents west above 2m and north below 2m  
     - constant wave period (5), wave height (0.8), wcc (0.001), StokesU = StokesV = 0  
-    - SSH from /scratch/dlatorne/MIDOSS/forcing/vvl_test/t.hdf5  
     - currents $PROJECT/rmueller/MIDOSS/forcing/vvl_testing/currents_west_above2_north_below2.hdf5  
     - /scratch/dlatorne/MIDOSS/forcing/vvl_test/e3t.hdf5  
-    - Results on Graham at /home/rmueller/project/rmueller/MIDOSS/results/testvvl_10oct19b   
       
     Both e3t.hdf5 and t.hdf5 were re-created for this run to try and troubleshoot the "land point" error.   
+
+* ##[Final_scale_e3t_forcing.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/vvl/Final_scale_e3t_forcing.ipynb)  
+    
+    **Read in e3t and create a +/-2 m SSH versions **  
+
+* ##[scale_e3t_forcing.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/vvl/scale_e3t_forcing.ipynb)  
+    
+    **Read in e3t and create a +/-2 m SSH versions **  
 
 
 ##License
