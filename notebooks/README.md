@@ -7,11 +7,7 @@ Descriptions under the links below are from the first cell of the notebooks
 
 * ##[DT_PARTIC_comparison.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/DT_PARTIC_comparison.ipynb)  
     
-* ##[Untitled1.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/Untitled1.ipynb)  
-    
 * ##[BeachingTime_histogram.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/BeachingTime_histogram.ipynb)  
-    
-* ##[Untitled.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/Untitled.ipynb)  
     
 * ##[3Doilconc2CSV.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/3Doilconc2CSV.ipynb)  
     
@@ -24,8 +20,6 @@ Descriptions under the links below are from the first cell of the notebooks
 * ##[Surface_conc_AKNS_with_stokes.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/Surface_conc_AKNS_with_stokes.ipynb)  
     
 * ##[plot_ssh_ts.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/plot_ssh_ts.ipynb)  
-    
-* ##[DT1200_sfc_concentrations_SOG_SB_TP.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/DT1200_sfc_concentrations_SOG_SB_TP.ipynb)  
     
 * ##[HDRPS_winds.ipynb](https://nbviewer.jupyter.org/urls/bitbucket.org/midoss/analysis-rachael/raw/default/notebooks/HDRPS_winds.ipynb)  
     
