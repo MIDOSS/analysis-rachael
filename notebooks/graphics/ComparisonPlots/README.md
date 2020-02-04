@@ -5,7 +5,7 @@ The links below are to static renderings of the notebooks via
 Descriptions under the links below are from the first cell of the notebooks
 (if that cell contains Markdown or raw text).
 
-* ##[compare_EC_OSCAR_BunkerC_params.ipynb](https://nbviewer.jupyter.org/urls/github.com/MIDOSS/analysis-rachael.git/blob/master/notebooks/graphics/ComparisonPlots/compare_EC_OSCAR_BunkerC_params.ipynb)  
+* ##[compare_EC_OSCAR_BunkerC_params.ipynb](https://nbviewer.jupyter.org/urls/github.com/MIDOSS/analysis-rachael/blob/master/notebooks/graphics/ComparisonPlots/compare_EC_OSCAR_BunkerC_params.ipynb)  
     
     **Bunker-C**  
       
