@@ -5,8 +5,13 @@ The links below are to static renderings of the notebooks via
 Descriptions under the links below are from the first cell of the notebooks
 (if that cell contains Markdown or raw text).
 
-* ##[compare_Fingas_OSCAR_BunkerC_params.ipynb](https://nbviewer.jupyter.org/urls/github.com/MIDOSS/analysis-rachael.git/blob/master/notebooks/graphics/ComparisonPlots/compare_Fingas_OSCAR_BunkerC_params.ipynb)  
+* ##[compare_EC_OSCAR_BunkerC_params.ipynb](https://nbviewer.jupyter.org/urls/github.com/MIDOSS/analysis-rachael.git/blob/master/notebooks/graphics/ComparisonPlots/compare_EC_OSCAR_BunkerC_params.ipynb)  
     
+    **Bunker-C**  
+      
+    **Compares output from Bunker-C parameterizations based on the OSCAR model and Environment Canada website **  
+    http://www.etc-cte.ec.gc.ca/databases/OilProperties/pdf/WEB_Bunker_C_Fuel_Oil.pdf  
+
 
 ##License
 
