@@ -9,8 +9,10 @@ Descriptions under the links below are from the first cell of the notebooks
     
     **Bunker-C**  
       
-    **Compares output from Bunker-C parameterizations based on the OSCAR model and Environment Canada website **  
-    http://www.etc-cte.ec.gc.ca/databases/OilProperties/pdf/WEB_Bunker_C_Fuel_Oil.pdf  
+    **Compares output from Bunker-C parameterizations based on the OSCAR model and two  Environment Canada website Bunker-C types**  
+      
+    1. Bunker-C: http://www.etc-cte.ec.gc.ca/databases/OilProperties/pdf/WEB_Bunker_C_Fuel_Oil.pdf  
+    2. Bunker-C Anchorage: http://www.etc-cte.ec.gc.ca/databases/OilProperties/pdf/WEB_Bunker_C_Fuel_Oil_(Alaska).pdf  
 
 
 ##License
