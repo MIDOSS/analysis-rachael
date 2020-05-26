@@ -1,6 +1,6 @@
-def get_date(start_date, end_date, delta_time) -> datetime:
-    
-    import random
+import random
+
+def get_date(start_date, end_date, delta_time):
     
     # initialize date list with start_date and increment by delta_time
     dates = start_date
@@ -10,4 +10,4 @@ def get_date(start_date, end_date, delta_time) -> datetime:
         dates += delta_time
 
     # randomly select time based on delta_time increment
-    return(random.choice(date_array))
+    return random.choice(date_array)
