@@ -14,11 +14,8 @@ def truncate(f, n):
 def get_lat_lon_indices(geotiff_directory, spill_month, n_locations, upsample_factor):    
 
     print('Randomly selecting spill location from all-traffic GeoTIFF:')
-    # identify string to use for input file name
-    if spill_month==9:
-        month_name = 'September' #I'm sure there is a way to do this using Datetime!
-
-    traffic_reader = rio.open(f'{geotiff_directory}{month_name}_2018_All_Tugs_Hours_Geographic.tif')
+  
+    traffic_reader = rio.open(f'{geotiff_directory}all_2018_{spill_month:02.0f}.tif')
 
     # dataset closes automatically using the method below
     with traffic_reader as dataset:
