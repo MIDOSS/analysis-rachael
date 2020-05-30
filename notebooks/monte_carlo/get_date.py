@@ -1,12 +1,16 @@
+## NOTE: This function is only designed to return one date.  The 'n_locations' input doesn't yet do anything
+
 import random
 from array import *
 import rasterio as rio
 from numpy.random import choice
 import numpy as np
+from datetime import datetime, date, timedelta
 
 def get_date( start_date, 
              end_date, 
-             geotiff_directory, 
+             geotiff_directory,
+             n_locations,
              delta_time
             ):
     
@@ -36,22 +40,22 @@ def get_date( start_date,
 
     # calculate VTE probability by month based on total traffic for each month        
     vte_probability = total_vte_by_month / np.sum(total_vte_by_month)
-    
+
     # Randomly select month based on weighting by vessel traffic
     month_random = choice( months, 
                        n_locations , 
                        p = vte_probability
                      )
-    
+
     # Now that month is selected, we need to choose day, year, and time.  We weight these all the same
     time_period = end_date - start_date
     time_period_inhours = np.int(time_period.total_seconds()/3600)
     date_arr = [start_date + timedelta(hours=i) for i in range(0,time_period_inhours+1)]
-    
+
     # Extract dates in time period for only the month selected as month_random
     date_arr_select = []
     for days in date_arr:
         if days.month == month_random:
             date_arr_select.append(days)
-            
+
     return random.choice(date_arr_select)
