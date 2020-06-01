@@ -1,56 +1,48 @@
-## NOTE: This function is only designed to return one date.  The 'n_locations' input doesn't yet do anything
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# get_date: Returns spill date and time, weighted by monthly vessel traffic
+#
+# Inputs:
+#   start_date, end_date: Datetime values.  
+#   vte_probabilyt: Output from get_vte_probability
+#   delta_time: input file resolution (1-hour for Salish Sea Cast)
+#
+# Example call: get_date( datetime(2015, 1, 1, 0, 30), 
+#			  datetime(2018, 12, 31, 23, 55),
+#			  get_vte_probability( geotiff_directory ),
+#                         timedelta(hours = 1)
+#			)
+# 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 import random
-from array import *
-import rasterio as rio
-from numpy.random import choice
 import numpy as np
+from numpy.random import choice
 from datetime import datetime, date, timedelta
+from array import *
 
 def get_date( start_date, 
-             end_date, 
-             geotiff_directory,
-             n_locations,
-             delta_time
+              end_date, 
+              vte_probability,
+              delta_time
             ):
     
-    # Load GeoTIFF files for each month and add up VTE
+    # Create an array of months to use for random selection
     months = array('i',range(1,13))
-    total_vte_by_month = []
-
-    for month in months:
-
-        # The filenames are formated as "all_2018_MM.tif"
-        f_name = f'{geotiff_directory}all_2018_{month:02.0f}.tif'
-
-        # open GeoTIFF file for reading
-        traffic_reader = rio.open(f_name)
-
-        # load data in a way that automatically closes file when finished
-        with traffic_reader as dataset:
-
-            # resample data to target shape
-            data = dataset.read(1)
-
-            # remove no-data values and singular dimension 
-            data = np.squeeze(data)
-            data[data < 0] = 0
-
-            total_vte_by_month.append(data.sum()) 
-
-    # calculate VTE probability by month based on total traffic for each month        
-    vte_probability = total_vte_by_month / np.sum(total_vte_by_month)
-
+    
     # Randomly select month based on weighting by vessel traffic
+    n_locations = 1 # we are only selecting 1-value for 1-location 
     month_random = choice( months, 
-                       n_locations , 
+                       n_locations, 
                        p = vte_probability
                      )
 
-    # Now that month is selected, we need to choose day, year, and time.  We weight these all the same
+    # Now that month is selected, we need to choose day, year, and time.  
+    # We weight day within month, year, and hour equally
     time_period = end_date - start_date
     time_period_inhours = np.int(time_period.total_seconds()/3600)
-    date_arr = [start_date + timedelta(hours=i) for i in range(0,time_period_inhours+1)]
+    date_arr = [start_date + timedelta(hours=i) 
+                 for i in range(0,time_period_inhours + 1)]
 
     # Extract dates in time period for only the month selected as month_random
     date_arr_select = []
