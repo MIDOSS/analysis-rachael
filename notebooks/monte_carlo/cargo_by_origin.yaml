@@ -14,108 +14,56 @@ Alon Asphalt Company (Paramount Petroleum):
     jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
   tug:
-    bunker:
-      number_of_transfers: 232
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - &id001 !!python/object/apply:numpy.dtype
-        args: [i8, 0, 1]
-        state: !!python/tuple [3, <, null, null, null, -1, -1, 0]
-      - !!binary |
-        haTMBwAAAAA=
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 68
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        PXTgAAAAAAA=
-    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other:
-      number_of_transfers: 5
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        tDUHAAAAAAA=
+    bunker: {number_of_transfers: 232, percent_of_total: 0.8960359201654373, total_gallons: 130851973}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 68, percent_of_total: 0.10072853846234228, total_gallons: 14709821}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 5, percent_of_total: 0.0032355413722204183, total_gallons: 472500}
+Andeavor Anacortes Refinery (formerly Tesoro):
+  atb:
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 2, percent_of_total: 1.0, total_gallons: 5460000}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tanker:
+    bunker: {number_of_transfers: 4, percent_of_total: 0.020554913294797687, total_gallons: 10668000}
+    crude: {number_of_transfers: 15, percent_of_total: 0.18501734104046244, total_gallons: 96024000}
+    diesel: {number_of_transfers: 44, percent_of_total: 0.18319768786127166, total_gallons: 95079600}
+    gas: {number_of_transfers: 45, percent_of_total: 0.3724971098265896, total_gallons: 193326000}
+    jet: {number_of_transfers: 16, percent_of_total: 0.0944393063583815, total_gallons: 49014000}
+    other: {number_of_transfers: 26, percent_of_total: 0.14429364161849711, total_gallons: 74888400}
+  tug:
+    bunker: {number_of_transfers: 119, percent_of_total: 0.8380493725567947, total_gallons: 148594194}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 27, percent_of_total: 0.0890645545102314, total_gallons: 15792000}
+    gas: {number_of_transfers: 2, percent_of_total: 0.013028059835273212, total_gallons: 2310000}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 11, percent_of_total: 0.05985801309770074, total_gallons: 10613400}
 BP Cherry Point Refinery:
   atb:
-    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    gas:
-      number_of_transfers: 46
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        yNtCCgAAAAA=
-    jet:
-      number_of_transfers: 54
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        wE/2CAAAAAA=
-    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 46, percent_of_total: 0.5337873914232507, total_gallons: 172153800}
+    jet: {number_of_transfers: 54, percent_of_total: 0.4662126085767493, total_gallons: 150360000}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
   tanker:
-    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    crude:
-      number_of_transfers: 2
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        gPsZAQAAAAA=
-    diesel:
-      number_of_transfers: 46
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        6OR7EQAAAAA=
-    gas:
-      number_of_transfers: 60
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        mCMAFwAAAAA=
-    jet:
-      number_of_transfers: 26
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        wHwzCAAAAAA=
-    other:
-      number_of_transfers: 37
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        oBTqBgAAAAA=
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    crude: {number_of_transfers: 2, percent_of_total: 0.019426185792040914, total_gallons: 18480000}
+    diesel: {number_of_transfers: 46, percent_of_total: 0.30835096406862034, total_gallons: 293332200}
+    gas: {number_of_transfers: 60, percent_of_total: 0.4056426005658318, total_gallons: 385885080}
+    jet: {number_of_transfers: 26, percent_of_total: 0.14463678330619553, total_gallons: 137592000}
+    other: {number_of_transfers: 37, percent_of_total: 0.12194346626731138, total_gallons: 116004000}
   tug:
-    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 65
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        MMz6CAAAAAA=
-    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other:
-      number_of_transfers: 5
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        MPylAAAAAAA=
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 65, percent_of_total: 0.9326573062922517, total_gallons: 150654000}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 5, percent_of_total: 0.06734269370774831, total_gallons: 10878000}
 Kinder Morgan Liquids Terminal - Harbor Island:
   atb:
     bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
@@ -125,132 +73,20 @@ Kinder Morgan Liquids Terminal - Harbor Island:
     jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
   tanker:
-    bunker:
-      number_of_transfers: 3
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        gA/nAQAAAAA=
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 3, percent_of_total: 1.0, total_gallons: 31920000}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
   tug:
-    bunker:
-      number_of_transfers: 101
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        WrbjAgAAAAA=
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 42
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        OBHFAAAAAAA=
-    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other:
-      number_of_transfers: 2
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        sE0RAAAAAAA=
-Marathon Anacortes Refinery (formerly Tesoro):
-  atb:
-    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    gas:
-      number_of_transfers: 2
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        IFBTAAAAAAA=
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-  tanker:
-    bunker:
-      number_of_transfers: 4
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        4MeiAAAAAAA=
-    crude:
-      number_of_transfers: 15
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        wDW5BQAAAAA=
-    diesel:
-      number_of_transfers: 44
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        sMyqBQAAAAA=
-    gas:
-      number_of_transfers: 45
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        sOuFCwAAAAA=
-    jet:
-      number_of_transfers: 16
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        8OTrAgAAAAA=
-    other:
-      number_of_transfers: 26
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        0LR2BAAAAAA=
-  tug:
-    bunker:
-      number_of_transfers: 119
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        El7bCAAAAAA=
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 27
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        gPfwAAAAAAA=
-    gas:
-      number_of_transfers: 2
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        cD8jAAAAAAA=
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other:
-      number_of_transfers: 11
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        mPKhAAAAAAA=
-Maxum Petroleum - Harbor Island Terminal:
+    bunker: {number_of_transfers: 101, percent_of_total: 0.7753122957575335, total_gallons: 48477786}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 42, percent_of_total: 0.20655147699419574, total_gallons: 12915000}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 2, percent_of_total: 0.018136227248270846, total_gallons: 1134000}
+Maxum (Rainer Petroleum):
   atb:
     bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
@@ -259,43 +95,19 @@ Maxum Petroleum - Harbor Island Terminal:
     jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
   tanker:
-    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 29
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        Wr8fAAAAAAA=
-    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other:
-      number_of_transfers: 5
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        M1YAAAAAAAA=
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 29, percent_of_total: 0.9895052430981767, total_gallons: 2080602}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 5, percent_of_total: 0.01049475690182335, total_gallons: 22067}
   tug:
-    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 42
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        jpheAAAAAAA=
-    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other:
-      number_of_transfers: 21
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        /2wBAAAAAAA=
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 42, percent_of_total: 0.9851516246066783, total_gallons: 6199438}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 21, percent_of_total: 0.014848375393321688, total_gallons: 93439}
 NAVSUP Manchester:
   atb:
     bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
@@ -312,23 +124,33 @@ NAVSUP Manchester:
     jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
   tug:
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 24, percent_of_total: 0.1807425752877271, total_gallons: 6947600}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 59, percent_of_total: 0.8192574247122729, total_gallons: 31491600}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+Naval Air Station Whidbey Island (NASWI):
+  atb:
     bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 24
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        EANqAAAAAAA=
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    jet:
-      number_of_transfers: 59
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        EIbgAQAAAAA=
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tanker:
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tug:
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
 Nustar Energy Tacoma:
   atb:
@@ -346,100 +168,78 @@ Nustar Energy Tacoma:
     jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
   tug:
-    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 1
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        2KYIAAAAAAA=
-    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other:
-      number_of_transfers: 1
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        QA0DAAAAAAA=
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 1, percent_of_total: 0.7392438070404173, total_gallons: 567000}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 1, percent_of_total: 0.2607561929595828, total_gallons: 200000}
 Phillips 66 Ferndale Refinery:
   atb:
-    bunker:
-      number_of_transfers: 20
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        YFV1AgAAAAA=
+    bunker: {number_of_transfers: 20, percent_of_total: 0.16898403083700442, total_gallons: 41244000}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 74, percent_of_total: 0.8310159691629956, total_gallons: 202826400}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tanker:
+    bunker: {number_of_transfers: 1, percent_of_total: 0.1941747572815534, total_gallons: 4200000}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 3, percent_of_total: 0.8058252427184466, total_gallons: 17430000}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tug:
+    bunker: {number_of_transfers: 150, percent_of_total: 0.3891154924946831, total_gallons: 159066600}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 200, percent_of_total: 0.355333860743237, total_gallons: 145257000}
+    gas: {number_of_transfers: 94, percent_of_total: 0.1800865089231591, total_gallons: 73617600}
+    jet: {number_of_transfers: 1, percent_of_total: 0.0016438750244012698, total_gallons: 672000}
+    other: {number_of_transfers: 39, percent_of_total: 0.07382026281451953, total_gallons: 30177000}
+Phillips 66 Tacoma Terminal:
+  atb:
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    gas:
-      number_of_transfers: 74
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        oOIWDAAAAAA=
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
   tanker:
-    bunker:
-      number_of_transfers: 1
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        QBZAAAAAAAA=
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 3
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        8PUJAQAAAAA=
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
   tug:
-    bunker:
-      number_of_transfers: 150
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        6Cl7CQAAAAA=
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 200
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        KHKoCAAAAAA=
-    gas:
-      number_of_transfers: 94
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        wFBjBAAAAAA=
-    jet:
-      number_of_transfers: 1
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        AEEKAAAAAAA=
-    other:
-      number_of_transfers: 39
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        6HbMAQAAAAA=
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+REG Grays Harbor, LLC:
+  atb:
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tanker:
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tug:
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
 SeaPort Sound Terminal:
   atb:
     bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
@@ -456,136 +256,56 @@ SeaPort Sound Terminal:
     jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
   tug:
-    bunker:
-      number_of_transfers: 219
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        rq71CAAAAAA=
+    bunker: {number_of_transfers: 219, percent_of_total: 0.7642237198097759, total_gallons: 150318766}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 37, percent_of_total: 0.03529233632582521, total_gallons: 6941816}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 24, percent_of_total: 0.2004839438643989, total_gallons: 39434132}
+Shell Oil LP Seattle Distribution Terminal:
+  atb:
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 37
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        eOxpAAAAAAA=
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other:
-      number_of_transfers: 24
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        lLdZAgAAAAA=
-Shell Puget Sound Refinery:
-  atb:
-    bunker:
-      number_of_transfers: 22
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        IKCHAwAAAAA=
-    crude:
-      number_of_transfers: 3
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        wELAAAAAAAA=
-    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    gas:
-      number_of_transfers: 37
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        UBb9BQAAAAA=
-    jet:
-      number_of_transfers: 16
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        4BhRAQAAAAA=
     other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
   tanker:
-    bunker:
-      number_of_transfers: 7
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        gAu+AQAAAAA=
-    crude:
-      number_of_transfers: 1
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        wELAAAAAAAA=
-    diesel:
-      number_of_transfers: 18
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        YDSzAwAAAAA=
-    gas:
-      number_of_transfers: 51
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        yLhlCgAAAAA=
-    jet:
-      number_of_transfers: 41
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        4IlHAwAAAAA=
-    other:
-      number_of_transfers: 12
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        4IrBAAAAAAA=
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
   tug:
     bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 33
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        wBgyBAAAAAA=
-    gas:
-      number_of_transfers: 23
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        4J6OAQAAAAA=
-    jet:
-      number_of_transfers: 2
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        MPAqAAAAAAA=
-    other:
-      number_of_transfers: 11
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        2IEdAQAAAAA=
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+Shell Puget Sound Refinery:
+  atb:
+    bunker: {number_of_transfers: 22, percent_of_total: 0.30465407717903287, total_gallons: 59220000}
+    crude: {number_of_transfers: 3, percent_of_total: 0.06482001642107083, total_gallons: 12600000}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 37, percent_of_total: 0.5168748109416188, total_gallons: 100472400}
+    jet: {number_of_transfers: 16, percent_of_total: 0.11365109545827752, total_gallons: 22092000}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tanker:
+    bunker: {number_of_transfers: 7, percent_of_total: 0.08447319553845593, total_gallons: 29232000}
+    crude: {number_of_transfers: 1, percent_of_total: 0.03641086014588618, total_gallons: 12600000}
+    diesel: {number_of_transfers: 18, percent_of_total: 0.17938417098539924, total_gallons: 62076000}
+    gas: {number_of_transfers: 51, percent_of_total: 0.5040840848130302, total_gallons: 174438600}
+    jet: {number_of_transfers: 41, percent_of_total: 0.15899408930370298, total_gallons: 55020000}
+    other: {number_of_transfers: 12, percent_of_total: 0.03665359921352542, total_gallons: 12684000}
+  tug:
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 33, percent_of_total: 0.5963351716776374, total_gallons: 70392000}
+    gas: {number_of_transfers: 23, percent_of_total: 0.22131293364170077, total_gallons: 26124000}
+    jet: {number_of_transfers: 2, percent_of_total: 0.02383917452410603, total_gallons: 2814000}
+    other: {number_of_transfers: 11, percent_of_total: 0.15851272015655576, total_gallons: 18711000}
 TLP Management Services LLC (TMS):
   atb:
     bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
@@ -595,31 +315,19 @@ TLP Management Services LLC (TMS):
     jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
   tanker:
-    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 1
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        CF8CAAAAAAA=
-    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 1, percent_of_total: 1.0, total_gallons: 155400}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
   tug:
-    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 67
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        ZB8+AgAAAAA=
-    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 67, percent_of_total: 1.0, total_gallons: 37625700}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
 Tesoro Pasco Terminal:
   atb:
     bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
@@ -636,24 +344,12 @@ Tesoro Pasco Terminal:
     jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
   tug:
-    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 2
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        QNEMAAAAAAA=
-    gas:
-      number_of_transfers: 5
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        oK05AAAAAAA=
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 2, percent_of_total: 0.18181818181818182, total_gallons: 840000}
+    gas: {number_of_transfers: 5, percent_of_total: 0.8181818181818182, total_gallons: 3780000}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
 Tesoro Port Angeles Terminal:
   atb:
     bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
@@ -670,30 +366,12 @@ Tesoro Port Angeles Terminal:
     jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
   tug:
-    bunker:
-      number_of_transfers: 95
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        mTaJAQAAAAA=
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 20
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        meMkAAAAAAA=
-    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other:
-      number_of_transfers: 8
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        OLMUAAAAAAA=
+    bunker: {number_of_transfers: 95, percent_of_total: 0.8722519517302217, total_gallons: 25769625}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 20, percent_of_total: 0.08182976277989558, total_gallons: 2417561}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 8, percent_of_total: 0.045918285489882714, total_gallons: 1356600}
 Tesoro Vancouver Terminal:
   atb:
     bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
@@ -703,31 +381,19 @@ Tesoro Vancouver Terminal:
     jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
   tanker:
-    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 1
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        MC0MAAAAAAA=
-    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 1, percent_of_total: 1.0, total_gallons: 798000}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
   tug:
-    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel:
-      number_of_transfers: 8
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        gGlhAAAAAAA=
-    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 15, percent_of_total: 1.0, total_gallons: 11844000}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
 Tidewater Snake River Terminal:
   atb:
     bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
@@ -744,18 +410,12 @@ Tidewater Snake River Terminal:
     jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
     other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
   tug:
-    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other:
-      number_of_transfers: 56
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        EACwAwAAAAA=
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 1, percent_of_total: 0.00032317486992211483, total_gallons: 20000}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 56, percent_of_total: 0.9996768251300779, total_gallons: 61866000}
 Tidewater Vancouver Terminal:
   atb:
     bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
@@ -780,80 +440,32 @@ Tidewater Vancouver Terminal:
     other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
 U.S. Oil & Refining:
   atb:
-    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    crude: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    gas:
-      number_of_transfers: 4
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        sFVjAAAAAAA=
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    crude: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 4, percent_of_total: 1.0, total_gallons: 6510000}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
   tanker:
-    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    crude:
-      number_of_transfers: 1
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        MD2wAAAAAAA=
-    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
-    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    crude: {number_of_transfers: 1, percent_of_total: 1.0, total_gallons: 11550000}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
   tug:
-    bunker:
-      number_of_transfers: 11
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        ZXrAAAAAAAA=
-    crude:
-      number_of_transfers: 8
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        2M6iAQAAAAA=
-    diesel:
-      number_of_transfers: 114
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        8LzYAQAAAAA=
-    gas:
-      number_of_transfers: 12
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        8H1VAAAAAAA=
-    jet:
-      number_of_transfers: 31
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        aJhYAQAAAAA=
-    other:
-      number_of_transfers: 34
-      percent_of_total: 0
-      total_gallons: !!python/object/apply:numpy.core.multiarray.scalar
-      - *id001
-      - !!binary |
-        6NH0BQAAAAA=
-names: [Maxum Petroleum - Harbor Island Terminal, Shell Puget Sound Refinery, Shell
-    Oil LP Seattle Distribution Terminal, Maxum (Rainer Petroleum), Tidewater Snake
-    River Terminal, Nustar Energy Tacoma, SeaPort Sound Terminal, Tesoro Vancouver
-    Terminal, Phillips 66 Ferndale Refinery, Phillips 66 Tacoma Terminal, Marathon
-    Anacortes Refinery (formerly Tesoro), Tesoro Port Angeles Terminal, U.S. Oil &
-    Refining, 'US Oil Tacoma ', Naval Air Station Whidbey Island (NASWI), NAVSUP Manchester,
-  Alon Asphalt Company (Paramount Petroleum), Kinder Morgan Liquids Terminal - Harbor
-    Island, Nustar Energy Tacoma, Tesoro Pasco Terminal, 'REG Grays Harbor, LLC',
-  Tidewater Vancouver Terminal, TLP, TLP Management Services LLC (TMS)]
+    bunker: {number_of_transfers: 11, percent_of_total: 0.06333743063753379, total_gallons: 12614245}
+    crude: {number_of_transfers: 8, percent_of_total: 0.13781422976233534, total_gallons: 27447000}
+    diesel: {number_of_transfers: 114, percent_of_total: 0.15556061738585733, total_gallons: 30981360}
+    gas: {number_of_transfers: 12, percent_of_total: 0.028132239097621324, total_gallons: 5602800}
+    jet: {number_of_transfers: 31, percent_of_total: 0.11339359042571955, total_gallons: 22583400}
+    other: {number_of_transfers: 34, percent_of_total: 0.5017618926909326, total_gallons: 99930600}
+names: [BP Cherry Point Refinery, Shell Puget Sound Refinery, Shell Oil LP Seattle
+    Distribution Terminal, Maxum (Rainer Petroleum), Tidewater Snake River Terminal,
+  Nustar Energy Tacoma, SeaPort Sound Terminal, Tesoro Vancouver Terminal, Phillips
+    66 Ferndale Refinery, Phillips 66 Tacoma Terminal, Andeavor Anacortes Refinery
+    (formerly Tesoro), Tesoro Port Angeles Terminal, U.S. Oil & Refining, Naval Air
+    Station Whidbey Island (NASWI), NAVSUP Manchester, Alon Asphalt Company (Paramount
+    Petroleum), Kinder Morgan Liquids Terminal - Harbor Island, Nustar Energy Tacoma,
+  Tesoro Pasco Terminal, 'REG Grays Harbor, LLC', Tidewater Vancouver Terminal, TLP
+    Management Services LLC (TMS)]
