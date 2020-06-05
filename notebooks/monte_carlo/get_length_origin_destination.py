@@ -3,18 +3,27 @@ from datetime import datetime, date, timedelta
 import numpy as np
 from salishsea_tools import geo_tools
 
-def get_length_origin_destination(vessel_type, month):
+def get_length_origin_destination( shapefile_directory, 
+                                   vessel_type, 
+                                   month, 
+                                   spill_lat,
+                                   spill_lon,
+                                   search_radius
+                                 ):
     
-    vessel_type = 'cargo'
-    month       = '01'
-    search_radius = 0.5 # km
-    
+    # These are the values to use for testing
+    # search_radius = 0.5 # km
+    # vessel_type = 'cargo'
+    # month       = '01'
+    # shapefile_directory  = '/Users/rmueller/Data/MIDOSS/{vessel_type}_2018_{month}/'
+
     ### the shapefile and directory are hardcoded for now 
-    shapedir  = '/Users/rmueller/Data/MIDOSS/cargo_2018_01/'
+    
     shapefile = f'{vessel_type}_2018_{month}.shp'
     
     # load data
-    data = gpd.read_file(shapedir + shapefile)
+    data = gpd.read_file(shapefile_directory + shapefile)
+    [nrows,ncols] = data.shape
     
     # think about a way of doing this that doesn't require 
     # loading all lat/lon values (with a healthy dose of patience)
