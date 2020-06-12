@@ -1,0 +1,253 @@
+Barge Mooring Near Stanovan:
+  atb:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tanker:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tug:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+Chevron Cobble Hill:
+  atb:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tanker:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tug:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+Chevron Stanovan:
+  atb:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tanker:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tug:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+ESSO IOCO Vancouver:
+  atb:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tanker:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tug:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+ESSO Nanaimo Departure Bay:
+  atb:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 50}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 50}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tanker:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 50}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 50}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tug:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 50}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 50}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+Shell Chemainus Bare Point:
+  atb:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tanker:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tug:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+Shell Shellburn:
+  atb:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tanker:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tug:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+Suncor Nanaimo:
+  atb:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 75}
+    diesel: {percent_of_total: 25}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tanker:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 75}
+    diesel: {percent_of_total: 25}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tug:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 75}
+    diesel: {percent_of_total: 25}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+Suncor Vancouver:
+  atb:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tanker:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tug:
+    akns: {percent_of_total: 0}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 100}
+    dilbit: {percent_of_total: 0}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+Westridge Marine Terminal:
+  atb:
+    akns: {percent_of_total: 75}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 0}
+    dilbit: {percent_of_total: 25}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tanker:
+    akns: {percent_of_total: 75}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 0}
+    dilbit: {percent_of_total: 25}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+  tug:
+    akns: {percent_of_total: 75}
+    bunker: {percent_of_total: 0}
+    diesel: {percent_of_total: 0}
+    dilbit: {percent_of_total: 25}
+    gas: {percent_of_total: 0}
+    jet: {percent_of_total: 0}
+    other: {percent_of_total: 0}
+names: [ESSO Nanaimo Departure Bay, Suncor Nanaimo, Shell Chemainus Bare Point, Chevron
+    Cobble Hill, Chevron Stanovan, Barge Mooring Near Stanovan, Shell Shellburn, Westridge
+    Marine Terminal, ESSO IOCO Vancouver, Suncor Vancouver]
