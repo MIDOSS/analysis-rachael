@@ -1,0 +1,534 @@
+Alon Asphalt Company (Paramount Petroleum):
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 1, percent_of_total: 0.49, total_gallons: 1428000}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 1, percent_of_total: 0.51, total_gallons: 1470000}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 95, percent_of_total: 0.83, total_gallons: 114729593}
+    diesel: {number_of_transfers: 28, percent_of_total: 0.11, total_gallons: 14960400}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 18, percent_of_total: 0.06, total_gallons: 8267700}
+Andeavor Anacortes Refinery (formerly Tesoro):
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 24, percent_of_total: 0.6, total_gallons: 340240530}
+    bunker: {number_of_transfers: 3, percent_of_total: 0.01, total_gallons: 5460000}
+    diesel: {number_of_transfers: 22, percent_of_total: 0.09, total_gallons: 52332800}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 14, percent_of_total: 0.12, total_gallons: 67956000}
+    jet: {number_of_transfers: 3, percent_of_total: 0.02, total_gallons: 10752000}
+    other: {number_of_transfers: 42, percent_of_total: 0.16, total_gallons: 91988400}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 2, percent_of_total: 1.0, total_gallons: 2940000}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+BP Cherry Point Refinery:
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 3, percent_of_total: 0.91, total_gallons: 6426000}
+    jet: {number_of_transfers: 1, percent_of_total: 0.09, total_gallons: 611730}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 103, percent_of_total: 0.84, total_gallons: 1648883966}
+    bunker: {number_of_transfers: 6, percent_of_total: 0.04, total_gallons: 74351256}
+    diesel: {number_of_transfers: 5, percent_of_total: 0.01, total_gallons: 25229526}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 10, percent_of_total: 0.03, total_gallons: 67050690}
+    jet: {number_of_transfers: 7, percent_of_total: 0.02, total_gallons: 33450900}
+    other: {number_of_transfers: 14, percent_of_total: 0.06, total_gallons: 120725640}
+  tug:
+    akns: {number_of_transfers: 1, percent_of_total: 0.19, total_gallons: 3570000}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 1, percent_of_total: 0.13, total_gallons: 2520000}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 27, percent_of_total: 0.68, total_gallons: 13000680}
+Kinder Morgan Liquids Terminal - Harbor Island:
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 24, percent_of_total: 1.0, total_gallons: 32970000}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 49, percent_of_total: 0.69, total_gallons: 47896800}
+    diesel: {number_of_transfers: 17, percent_of_total: 0.17, total_gallons: 11848200}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 3, percent_of_total: 0.01, total_gallons: 966000}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 14, percent_of_total: 0.13, total_gallons: 8883000}
+Maxum (Rainer Petroleum):
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 2, percent_of_total: 1.0, total_gallons: 28000}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+NAVSUP Manchester:
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 1, percent_of_total: 1.0, total_gallons: 5040000}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 1, percent_of_total: 1.0, total_gallons: 9240000}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 6, percent_of_total: 0.78, total_gallons: 5043800}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 5, percent_of_total: 0.21, total_gallons: 1366000}
+    other: {number_of_transfers: 1, percent_of_total: 0.0, total_gallons: 30000}
+Naval Air Station Whidbey Island (NASWI):
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 55, percent_of_total: 1.0, total_gallons: 29595000}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+Nustar Energy Tacoma:
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 1, percent_of_total: 1.0, total_gallons: 3360000}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+Phillips 66 Ferndale Refinery:
+  atb:
+    akns: {number_of_transfers: 1, percent_of_total: 0.72, total_gallons: 3360000}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 1, percent_of_total: 0.28, total_gallons: 1302000}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 45, percent_of_total: 1.0, total_gallons: 560490000}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tug:
+    akns: {number_of_transfers: 1, percent_of_total: 0.29, total_gallons: 3570000}
+    bunker: {number_of_transfers: 1, percent_of_total: 0.07, total_gallons: 924000}
+    diesel: {number_of_transfers: 1, percent_of_total: 0.03, total_gallons: 344400}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 6, percent_of_total: 0.61, total_gallons: 7518000}
+Phillips 66 Tacoma Terminal:
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 4, percent_of_total: 1.0, total_gallons: 4592000}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 5, percent_of_total: 0.04, total_gallons: 3423000}
+    diesel: {number_of_transfers: 47, percent_of_total: 0.21, total_gallons: 18879000}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 93, percent_of_total: 0.75, total_gallons: 67297800}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+REG Grays Harbor, LLC:
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 4, percent_of_total: 1.0, total_gallons: 17814201}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+SeaPort Sound Terminal:
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 15, percent_of_total: 0.33, total_gallons: 25956000}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 32, percent_of_total: 0.67, total_gallons: 52138800}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 1, percent_of_total: 1.0, total_gallons: 352019}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 48, percent_of_total: 0.74, total_gallons: 66162848}
+    diesel: {number_of_transfers: 7, percent_of_total: 0.08, total_gallons: 7392000}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 2, percent_of_total: 0.06, total_gallons: 5216400}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 10, percent_of_total: 0.12, total_gallons: 10962000}
+Shell Oil LP Seattle Distribution Terminal:
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 3, percent_of_total: 1.0, total_gallons: 4242000}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+Shell Puget Sound Refinery:
+  atb:
+    akns: {number_of_transfers: 2, percent_of_total: 0.59, total_gallons: 11012610}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 12, percent_of_total: 0.41, total_gallons: 7773150}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 95, percent_of_total: 0.99, total_gallons: 1253949942}
+    bunker: {number_of_transfers: 1, percent_of_total: 0.0, total_gallons: 281820}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 1, percent_of_total: 0.01, total_gallons: 8201750}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 1, percent_of_total: 0.01, total_gallons: 304500}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 13, percent_of_total: 0.99, total_gallons: 35490000}
+TLP Management Services LLC (TMS):
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 7, percent_of_total: 1.0, total_gallons: 19068000}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 1, percent_of_total: 0.31, total_gallons: 2268000}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 1, percent_of_total: 0.69, total_gallons: 5040000}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 10, percent_of_total: 0.77, total_gallons: 14742000}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 1, percent_of_total: 0.03, total_gallons: 630000}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 6, percent_of_total: 0.2, total_gallons: 3780000}
+Tesoro Pasco Terminal:
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 19, percent_of_total: 0.17, total_gallons: 16992696}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 52, percent_of_total: 0.57, total_gallons: 55425436}
+    jet: {number_of_transfers: 28, percent_of_total: 0.26, total_gallons: 25353594}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+Tesoro Port Angeles Terminal:
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 25, percent_of_total: 0.87, total_gallons: 21151996}
+    diesel: {number_of_transfers: 14, percent_of_total: 0.11, total_gallons: 2778218}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 3, percent_of_total: 0.01, total_gallons: 315000}
+Tesoro Vancouver Terminal:
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 1, percent_of_total: 1.0, total_gallons: 4200000}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+Tidewater Snake River Terminal:
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 1, percent_of_total: 1.0, total_gallons: 1603140}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 73, percent_of_total: 0.44, total_gallons: 76938876}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 85, percent_of_total: 0.53, total_gallons: 93500388}
+    jet: {number_of_transfers: 1, percent_of_total: 0.01, total_gallons: 924000}
+    other: {number_of_transfers: 5, percent_of_total: 0.03, total_gallons: 4582788}
+Tidewater Vancouver Terminal:
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+  tug:
+    akns: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    diesel: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    jet: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0, total_gallons: 0}
+U.S. Oil & Refining:
+  atb:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 1, percent_of_total: 0.15, total_gallons: 1764000}
+    diesel: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 7, percent_of_total: 0.85, total_gallons: 9744000}
+    jet: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tanker:
+    akns: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    bunker: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    diesel: {number_of_transfers: 2, percent_of_total: 0.47, total_gallons: 4746000}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    jet: {number_of_transfers: 1, percent_of_total: 0.53, total_gallons: 5250000}
+    other: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+  tug:
+    akns: {number_of_transfers: 6, percent_of_total: 0.44, total_gallons: 19950000}
+    bunker: {number_of_transfers: 1, percent_of_total: 0.0, total_gallons: 12600}
+    diesel: {number_of_transfers: 15, percent_of_total: 0.43, total_gallons: 19538400}
+    dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
+    gas: {number_of_transfers: 1, percent_of_total: 0.0, total_gallons: 14994}
+    jet: {number_of_transfers: 1, percent_of_total: 0.02, total_gallons: 714000}
+    other: {number_of_transfers: 6, percent_of_total: 0.11, total_gallons: 4947600}
+names: [BP Cherry Point Refinery, Shell Puget Sound Refinery, Shell Oil LP Seattle
+    Distribution Terminal, Maxum (Rainer Petroleum), Tidewater Snake River Terminal,
+  Nustar Energy Tacoma, SeaPort Sound Terminal, Tesoro Vancouver Terminal, Phillips
+    66 Ferndale Refinery, Phillips 66 Tacoma Terminal, Andeavor Anacortes Refinery
+    (formerly Tesoro), Tesoro Port Angeles Terminal, U.S. Oil & Refining, Naval Air
+    Station Whidbey Island (NASWI), NAVSUP Manchester, Alon Asphalt Company (Paramount
+    Petroleum), Kinder Morgan Liquids Terminal - Harbor Island, Nustar Energy Tacoma,
+  Tesoro Pasco Terminal, 'REG Grays Harbor, LLC', Tidewater Vancouver Terminal, TLP
+    Management Services LLC (TMS)]
