@@ -1,14 +1,15 @@
-import geopandas as gpd
-from datetime import datetime, date, timedelta
-import numpy as np
-from salishsea_tools import geo_tools
+import geopandas 
+import datetime 
+import numpy 
+import salishsea_tools 
 
 def get_length_origin_destination( shapefile_directory, 
                                    vessel_type, 
                                    month, 
                                    spill_lat,
                                    spill_lon,
-                                   search_radius
+                                   search_radius,
+                                   random_seed=None
                                  ):
     
     # These are the values to use for testing
@@ -22,7 +23,7 @@ def get_length_origin_destination( shapefile_directory,
     shapefile = f'{vessel_type}_2018_{month}.shp'
     
     # load data
-    data = gpd.read_file(shapefile_directory + shapefile)
+    data = geopandas.read_file(shapefile_directory + shapefile)
     [nrows,ncols] = data.shape
     
     # think about a way of doing this that doesn't require 
@@ -32,21 +33,21 @@ def get_length_origin_destination( shapefile_directory,
     lat_array = [data.geometry[i].coords[0][1] for i in range(nrows)]
     
     # identify all the lines within search_radius
-    distance = geo_tools.haversine(spill_lon, spill_lat, lon_array, lat_array)
-    array_index = np.where(distance < search_radius)
+    distance = salishsea_tools.geo_tools(spill_lon, spill_lat, lon_array, lat_array)
+    array_index = numpy.where(distance < search_radius)
     
-    total_seconds  = np.zeros(len(array_index))
-    total_distance = np.zeros(len(array_index))
-    vte            = np.zeros(len(array_index))
+    total_seconds  = numpy.zeros(len(array_index))
+    total_distance = numpy.zeros(len(array_index))
+    vte            = numpy.zeros(len(array_index))
 
     # loop through values in array_index values to calculate 
     for index in range(len(array_index)):
 
         # calculate the duration of travel for each poly line segment
-        start_date = datetime.strptime(data.ST_DATE[index] , 
+        start_date = datetime.datetime.strptime(data.ST_DATE[index] , 
                                        '%Y-%m-%d %H:%M:%S'
                                       )
-        end_date = datetime.strptime(data.EN_DATE[index] ,
+        end_date = datetime.datetime.strptime(data.EN_DATE[index] ,
                                      '%Y-%m-%d %H:%M:%S'
                                     )
         delta_time = end_date - start_date
@@ -59,7 +60,7 @@ def get_length_origin_destination( shapefile_directory,
         end_lat   = data.geometry[index].coords[1][1]
 
         # calculate the distance in km of vessel line segment
-        total_distance[index] = geo_tools.haversine( 
+        total_distance[index] = salishsea_tools.geo_tools.haversine( 
             start_lon, start_lat, end_lon, end_lat 
         )
         vte[index] = total_seconds[index]/total_distance[index]
@@ -73,6 +74,15 @@ def get_length_origin_destination( shapefile_directory,
     length = data.LENGTH[the_one.item()]
     origin = data.FROM_[the_one.item()]
     destination = data.TO[the_one.item()]
+   
+    # standardize ATB and tug lengths to represent length of tug and tank barge
+    # see [AIS data attribute table](https://docs.google.com/document/d/14hAxrTFpKloy88zRYLL4TiqLwbn8s53MYQeCt6B3MJ4/edit) 
+    # for more information
     
+    # Initialize PCG-64 random number generator
+    random_generator = numpy.random.default_rng(random_seed)
+    if vessel_type == 'tug' or vessel_type == 'atb' and length < 100:
+        length = random_generator.choice([147, 172, 178, 206, 207])
+        
     # that's a wrap, folks.
     return length, origin, destination
