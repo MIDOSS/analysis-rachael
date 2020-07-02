@@ -1,24 +1,24 @@
 atb:
-  akns: {number_of_transfers: 3, percent_of_total: 0.05, total_gallons: 14372610}
-  bunker: {number_of_transfers: 40, percent_of_total: 0.19, total_gallons: 60690000}
-  diesel: {number_of_transfers: 39, percent_of_total: 0.17, total_gallons: 53980500}
-  dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
-  gas: {number_of_transfers: 70, percent_of_total: 0.35, total_gallons: 108645950}
-  jet: {number_of_transfers: 5, percent_of_total: 0.08, total_gallons: 23795730}
-  other: {number_of_transfers: 49, percent_of_total: 0.16, total_gallons: 50338680}
+  akns: {fraction_of_total: 0.0461, number_of_transfers: 3, total_gallons: 14372610}
+  bunker: {fraction_of_total: 0.1946, number_of_transfers: 40, total_gallons: 60690000}
+  diesel: {fraction_of_total: 0.1731, number_of_transfers: 39, total_gallons: 53980500}
+  dilbit: {fraction_of_total: 0.0, number_of_transfers: 0, total_gallons: 0}
+  gas: {fraction_of_total: 0.3484, number_of_transfers: 70, total_gallons: 108645950}
+  jet: {fraction_of_total: 0.0763, number_of_transfers: 5, total_gallons: 23795730}
+  other: {fraction_of_total: 0.16149999999999998, number_of_transfers: 49, total_gallons: 50338680}
 barge:
-  akns: {number_of_transfers: 8, percent_of_total: 0.03, total_gallons: 27090000}
-  bunker: {number_of_transfers: 229, percent_of_total: 0.31, total_gallons: 262397028}
-  diesel: {number_of_transfers: 254, percent_of_total: 0.23, total_gallons: 192301306}
-  dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
-  gas: {number_of_transfers: 244, percent_of_total: 0.28, total_gallons: 232538818}
-  jet: {number_of_transfers: 112, percent_of_total: 0.09, total_gallons: 73240594}
-  other: {number_of_transfers: 65, percent_of_total: 0.06, total_gallons: 50033013}
+  akns: {fraction_of_total: 0.0323, number_of_transfers: 8, total_gallons: 27090000}
+  bunker: {fraction_of_total: 0.3133, number_of_transfers: 229, total_gallons: 262397028}
+  diesel: {fraction_of_total: 0.2296, number_of_transfers: 254, total_gallons: 192301306}
+  dilbit: {fraction_of_total: 0.0, number_of_transfers: 0, total_gallons: 0}
+  gas: {fraction_of_total: 0.2776, number_of_transfers: 244, total_gallons: 232538818}
+  jet: {fraction_of_total: 0.0874, number_of_transfers: 112, total_gallons: 73240594}
+  other: {fraction_of_total: 0.05979999999999988, number_of_transfers: 65, total_gallons: 50033013}
 tanker:
-  akns: {number_of_transfers: 268, percent_of_total: 0.86, total_gallons: 3816584438}
-  bunker: {number_of_transfers: 11, percent_of_total: 0.02, total_gallons: 81521076}
-  diesel: {number_of_transfers: 35, percent_of_total: 0.02, total_gallons: 93767466}
-  dilbit: {number_of_transfers: 0, percent_of_total: 0.0, total_gallons: 0}
-  gas: {number_of_transfers: 25, percent_of_total: 0.03, total_gallons: 140046690}
-  jet: {number_of_transfers: 13, percent_of_total: 0.02, total_gallons: 67512900}
-  other: {number_of_transfers: 63, percent_of_total: 0.05, total_gallons: 240552010}
+  akns: {fraction_of_total: 0.8596, number_of_transfers: 268, total_gallons: 3816584438}
+  bunker: {fraction_of_total: 0.0184, number_of_transfers: 11, total_gallons: 81521076}
+  diesel: {fraction_of_total: 0.0211, number_of_transfers: 35, total_gallons: 93767466}
+  dilbit: {fraction_of_total: 0.0, number_of_transfers: 0, total_gallons: 0}
+  gas: {fraction_of_total: 0.0315, number_of_transfers: 25, total_gallons: 140046690}
+  jet: {fraction_of_total: 0.0152, number_of_transfers: 13, total_gallons: 67512900}
+  other: {fraction_of_total: 0.0542, number_of_transfers: 63, total_gallons: 240552010}
