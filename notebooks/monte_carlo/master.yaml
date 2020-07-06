@@ -1,0 +1,109 @@
+categories:
+  CAD_origin_destination:
+  - ESSO Nanaimo Departure Bay
+  - Suncor Nanaimo
+  - Shell Chemainus Bare Point
+  - Chevron Cobble Hill
+  - Chevron Stanovan
+  - Barge Mooring Near Stanovan
+  - Shell Shellburn
+  - Westridge Marine Terminal
+  - ESSO IOCO Vancouver
+  - Suncor Vancouver
+  US_origin_destination:
+  - BP Cherry Point Refinery
+  - Shell Puget Sound Refinery
+  - Shell Oil LP Seattle Distribution Terminal
+  - Maxum (Rainer Petroleum)
+  - Tidewater Snake River Terminal
+  - Nustar Energy Tacoma
+  - SeaPort Sound Terminal
+  - Tesoro Vancouver Terminal
+  - Phillips 66 Ferndale Refinery
+  - Phillips 66 Tacoma Terminal
+  - Andeavor Anacortes Refinery (formerly Tesoro)
+  - Tesoro Port Angeles Terminal
+  - U.S. Oil & Refining
+  - Naval Air Station Whidbey Island (NASWI)
+  - NAVSUP Manchester
+  - Alon Asphalt Company (Paramount Petroleum)
+  - Kinder Morgan Liquids Terminal - Harbor Island
+  - Tesoro Pasco Terminal
+  - REG Grays Harbor, LLC
+  - Tidewater Vancouver Terminal
+  - TLP Management Services LLC (TMS)
+  all_vessels:
+  - tanker
+  - atb
+  - barge
+  - cargo
+  - cruise
+  - ferry
+  - fishing
+  - smallpass
+  - other
+  fuel_type:
+  - akns
+  - bunker
+  - dilbit
+  - jet
+  - diesel
+  - gas
+  - other
+  generic_origin_destination:
+  - Pacific
+  - US
+  - Canada
+  tank_vessels:
+  - tanker
+  - atb
+  - barge
+directories: /Users/rmueller/Projects/MIDOSS/analysis-rachael/notebooks/monte_carlo/
+files:
+  CAD_origin: CAD_origin.yaml
+  Pacific_origin: Pacific_origin.yaml
+  US_combined: US_all.yaml
+  US_origin: US_origin.yaml
+  WA_destination: WA_destination.yaml
+  WA_origin: WA_origin.yaml
+  fuel: fuel_by_vessel.yaml
+vessel_attributes:
+  atb:
+    cargo_probability: 0.8
+    fuel_probability: 0.2
+    max_cargo: 35000000
+    max_fuel: 710000
+    min_cargo: 1500000
+    min_fuel: 0
+  barge:
+    cargo_probability: 0.8
+    fuel_probability: 0.2
+    max_cargo: 32000000
+    max_fuel: 710000
+    min_cargo: 1500000
+    min_fuel: 6000
+  cargo:
+    max_fuel: 20000000
+    min_fuel: 1500000
+  cruise:
+    max_fuel: 5500000
+    min_fuel: 3500000
+  ferry:
+    max_fuel: 500000
+    min_fuel: 30000
+  fishing:
+    max_fuel: 300000
+    min_fuel: 150
+  other:
+    max_fuel: 3100
+    min_fuel: 20
+  smallpass:
+    max_fuel: 12000
+    min_fuel: 150
+  tanker:
+    cargo_probability: 0.8
+    fuel_probability: 0.2
+    max_cargo: 159000000
+    max_fuel: 0
+    min_cargo: 34000000
+    min_fuel: 0
