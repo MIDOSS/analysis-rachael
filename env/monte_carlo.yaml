@@ -1,0 +1,23 @@
+name: monte_carlo
+
+channels:
+ - conda-forge
+ - defaults
+
+dependencies:
+ - arrow
+ - xlrd
+ - numpy
+ - jupyterlab
+ - matplotlib
+ - netcdf4
+ - pandas
+ - pip
+ - pytables
+ - python>=3.8
+ - pyyaml
+ - rasterio
+ - scipy
+ - xarray
+
+prefix: /Users/rmueller/Projects/MIDOSS/analysis-rachael/env/monte_carlo.yaml
