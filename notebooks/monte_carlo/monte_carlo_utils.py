@@ -40,10 +40,9 @@ def get_oil_type_cargo(yaml_file, facility, ship_type, random_seed):
             return fuel_type
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Uses data in yaml file to allocate fuel for cases WITHOUT 
-# origin/destination, just ship type. Same as `get_oil_type_cargo but 
-# w/o facility input.  This case allocates based on the 
-# combined US import/export fuel volumes
+# Uses data in yaml file to allocate fuel for cases of generic origin  
+# or destination of 'US', 'Pacific', or 'Canada' just ship type. 
+# Same as `get_oil_type_cargo but these yaml files lack facility names.  
 
 def get_oil_type_cargo_generic_US(yaml_file, ship_type, random_seed):
    
