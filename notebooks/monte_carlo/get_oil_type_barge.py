@@ -26,9 +26,10 @@ def get_oil_type_barge(master_dir,
     # instead of combined cargo- & fuel-spill risk. 
     #
     # This flag will turn to 1 (fuel-spill risk only) when:
-    # 1) Tug is not included in Casey's pre-selected data for tugs that 
-    #    travel within a 1km radius of known marine oil terminal and,
-    #    as a result, origin/destination has null value
+    # 1) Tug is not included in Casey's pre-selected "Voyage" dataset, 
+    #    which selected tug traffic that traveled within a 2 km of 
+    #    known marine oil terminal at some point in 2018.  If not 
+    #    included, the origin/destination values are null.
     # 2) Tug is included in Casey's pre-selected data but is not 
     #    joined by our origin-destination analysis and, as a result,
     #    has null values for origin/destination. 
@@ -184,7 +185,7 @@ def get_oil_type_barge(master_dir,
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Remaining cases are those that were not connected to our list of 
     # known oil-transfer facilities.  They are vessels that are included
-    # in Casey's pre-selection data (as within 1 km of oil-transfer 
+    # in Casey's pre-selection data (as within 2 km of oil-transfer 
     # facility) but were not within the area that Cam and identified as 
     # being related to oil-terminal traffic. The reason why we did a 
     # selection refinement is because there are many oil terminals
@@ -196,7 +197,7 @@ def get_oil_type_barge(master_dir,
     # any track in Casey's pre-selected data will be joined with our 
     # origin-destination script.  Tracks are not joined (and will 
     # have null values for origin/destination) if adjacent 
-    # ship tracks are (a) < 2 km long, (b) over 4 hours apart, (c)
+    # ship tracks are (a) < 1 km long, (b) over 4 hours apart, (c)
     # requiring > 80 knts to join.  The tracks that are joined 
     # but that lack details of origin-destination fall into the category 
     # ship tracks that may or may not be oil-traffic.  As such, 
