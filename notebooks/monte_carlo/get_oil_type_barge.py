@@ -43,8 +43,10 @@ def get_oil_type_barge(master_dir,
         master = yaml.safe_load(file)
 
     # Assign US and CAD origin/destinations from master file
-    CAD_origin_destination = master['categories']['CAD_origin_destination']
-    US_origin_destination = master['categories']['US_origin_destination']
+    CAD_origin_destination = master['categories']\
+                          ['CAD_origin_destination']
+    US_origin_destination = master['categories']\
+                          ['US_origin_destination']
 
     # Get file paths to fuel-type yaml files
     # US_origin is for US as origin
@@ -58,12 +60,13 @@ def get_oil_type_barge(master_dir,
     Pacific_yaml = home/master['files']['Pacific_origin']
 
     # get probability of non-allocated track being an oil-barge
-    probability_oilcargo = \
-        home/\
-        master['vessel_attributes']['barge']['probability_oilcargo']
+    probability_oilcargo = master['vessel_attributes']['barge']['probability_oilcargo']
 
     probability_fuelonly = 1 - probability_oilcargo
     
+    # Initialize PCG-64 random number generator
+    random_generator = numpy.random.default_rng(random_seed)
+
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # these pairs need to be used together for "get_oil_type_cargo" 
     # (but don't yet have error-checks in place):
@@ -208,23 +211,22 @@ def get_oil_type_barge(master_dir,
     # like any other tank traffic with an .8/.2 probility of 
     # cargo/fuel spill.  
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   
-    # Initialize PCG-64 random number generator
-    random_generator = numpy.random.default_rng(random_seed)
-     
+        
     elif origin == 'Pacific':
         fuel_flag = random_generator.choice(
-                    [0 1], 
-                    p = [probability_oilcargo probability_fuelonly])
+            [0, 1], 
+            p = [probability_oilcargo, probability_fuelonly]
+        )
         if fuel_flag:
             oil_type = []
         else:
             oil_type = get_oil_type_cargo_generic_US(
-                      Pacific_yaml, ship_type, random_seed)
+                      Pacific_yaml, ship_type, random_seed
+            )
     elif origin == 'US':
         fuel_flag = random_generator.choice(
-                    [0 1], 
-                    p = [probability_oilcargo probability_fuelonly])
+                    [0, 1], 
+                    p = [probability_oilcargo, probability_fuelonly])
         if fuel_flag:
             oil_type = []
         else:
@@ -232,8 +234,8 @@ def get_oil_type_barge(master_dir,
                       US_yaml, ship_type, random_seed)
     elif origin == 'Canada':
         fuel_flag = random_generator.choice(
-                    [0 1], 
-                    p = [probability_oilcargo probability_fuelonly])
+                    [0, 1], 
+                    p = [probability_oilcargo, probability_fuelonly])
         if fuel_flag:
             oil_type = []
         
