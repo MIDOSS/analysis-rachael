@@ -6,10 +6,7 @@ import pathlib
 # Uses data in yaml file to allocate fuel for cases WITH 
 # origin/destination
 
-def get_oil_type_cargo(yaml_file, facility, ship_type, random_seed):
-   
-    # Initialize PCG-64 random number generator
-    random_generator = numpy.random.default_rng(random_seed)
+def get_oil_type_cargo(yaml_file, facility, ship_type, random_generator):
 
     with yaml_file.open("rt") as file:
             
@@ -33,9 +30,11 @@ def get_oil_type_cargo(yaml_file, facility, ship_type, random_seed):
                     fuel_type = random_generator.choice(
                               list(ship.keys()), p = probability)
                 except ValueError:
-                    raise Exception('Error: fraction of fuel transfers'\ 
-                                    f'for {ship} servicing {facility}'\
-                                    ' does not sum to 1')
+                    # I was getting an error when including a '\' at the
+                    # end of first line, so I removed it....
+                    raise Exception(['Error: fraction of fuel transfers ' 
+                                    + f'for {ship_type} servicing {facility} '\
+                                    + f'does not sum to 1 in {yaml_file}'])
                 
             return fuel_type
 
@@ -44,11 +43,8 @@ def get_oil_type_cargo(yaml_file, facility, ship_type, random_seed):
 # or destination of 'US', 'Pacific', or 'Canada' just ship type. 
 # Same as `get_oil_type_cargo but these yaml files lack facility names.  
 
-def get_oil_type_cargo_generic_US(yaml_file, ship_type, random_seed):
+def get_oil_type_cargo_generic_US(yaml_file, ship_type, random_generator):
    
-    # Initialize PCG-64 random number generator
-    random_generator = numpy.random.default_rng(random_seed)
-
     with yaml_file.open("rt") as file:
             
             # load fraction_of_total values for weighting random generator
@@ -68,8 +64,10 @@ def get_oil_type_cargo_generic_US(yaml_file, ship_type, random_seed):
                     fuel_type = random_generator.choice(
                         list(ship.keys()), p = probability)
                 except ValueError:
-                    raise Exception('Error: fraction of fuel transfers'\ 
-                                    f'for {ship} servicing {facility}'\
-                                    ' does not sum to 1')
+                    # I was getting an error when including a '\' at the
+                    # end of first line, so I removed it....
+                    raise Exception('Error: fraction of fuel transfers ' 
+                                    f'for {ship_type} servicing {facility} '\
+                                    f'does not sum to 1 in {yaml_file}')
                 
             return fuel_type
