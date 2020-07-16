@@ -45,9 +45,9 @@ def get_oil_type_barge(master_dir,
 
     # Assign US and CAD origin/destinations from master file
     CAD_origin_destination = master['categories']\
-                          ['CAD_origin_destination']
+        ['CAD_origin_destination']
     US_origin_destination = master['categories']\
-                          ['US_origin_destination']
+        ['US_origin_destination']
 
     # Get file paths to fuel-type yaml files
     # US_origin is for US as origin
@@ -61,7 +61,8 @@ def get_oil_type_barge(master_dir,
     Pacific_yaml = home/master['files']['Pacific_origin']
 
     # get probability of non-allocated track being an oil-barge
-    probability_oilcargo = master['vessel_attributes']['barge']['probability_oilcargo']
+    probability_oilcargo = master['vessel_attributes']['barge']\
+        ['probability_oilcargo']
 
     probability_fuelonly = 1 - probability_oilcargo
     
@@ -93,7 +94,8 @@ def get_oil_type_barge(master_dir,
             else:
                 # allocate fuel based on a 'barge' from westridge 
                 oil_type = get_oil_type_cargo( 
-                          CAD_yaml, origin, ship_type, random_seed)
+                          CAD_yaml, origin, ship_type, random_seed
+                )
         else:
             if destination in US_origin_destination:
                 # we have better information on WA fuel transfers, 
@@ -101,7 +103,8 @@ def get_oil_type_barge(master_dir,
                 
                 oil_type = get_oil_type_cargo(
                           WA_in_yaml, destination, 
-                          ship_type, random_seed)
+                          ship_type, random_seed
+                )
                 
                 # There is a possibility that barge traffic has a CAD
                 # origin but the US destination is matched with no fuel
@@ -123,14 +126,16 @@ def get_oil_type_barge(master_dir,
                 
                 oil_type = get_oil_type_cargo(
                           CAD_yaml, destination, 
-                          ship_type, random_seed)
+                          ship_type, random_seed
+                )
                 
             elif destination == 'Suncor Nanaimo':
                 # Similar to ESSO. No error catch needed. 
                 
                 oil_type = get_oil_type_cargo(
                           CAD_yaml, destination, 
-                          ship_type, random_seed)
+                          ship_type, random_seed
+                )
                               
             else: 
                 # if origin is a CAD terminal with no US oil terminal
