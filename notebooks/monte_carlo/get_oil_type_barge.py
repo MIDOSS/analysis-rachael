@@ -13,7 +13,7 @@ def get_oil_type_barge(master_dir,
                     master_file,
                     origin, 
                     destination, 
-                    random_seed
+                    random_generator
                     ):
 
     ship_type = 'barge'
@@ -67,7 +67,7 @@ def get_oil_type_barge(master_dir,
     probability_fuelonly = 1 - probability_oilcargo
     
     # Initialize PCG-64 random number generator
-    random_generator = numpy.random.default_rng(random_seed)
+    random_generator = numpy.random.default_rng(random_generator)
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # these pairs need to be used together for "get_oil_type_cargo" 
@@ -94,7 +94,7 @@ def get_oil_type_barge(master_dir,
             else:
                 # allocate fuel based on a 'barge' from westridge 
                 oil_type = get_oil_type_cargo( 
-                          CAD_yaml, origin, ship_type, random_seed
+                          CAD_yaml, origin, ship_type, random_generator
                 )
         else:
             if destination in US_origin_destination:
@@ -103,7 +103,7 @@ def get_oil_type_barge(master_dir,
                 
                 oil_type = get_oil_type_cargo(
                           WA_in_yaml, destination, 
-                          ship_type, random_seed
+                          ship_type, random_generator
                 )
                 
                 # There is a possibility that barge traffic has a CAD
@@ -126,7 +126,7 @@ def get_oil_type_barge(master_dir,
                 
                 oil_type = get_oil_type_cargo(
                           CAD_yaml, destination, 
-                          ship_type, random_seed
+                          ship_type, random_generator
                 )
                 
             elif destination == 'Suncor Nanaimo':
@@ -134,7 +134,7 @@ def get_oil_type_barge(master_dir,
                 
                 oil_type = get_oil_type_cargo(
                           CAD_yaml, destination, 
-                          ship_type, random_seed
+                          ship_type, random_generator
                 )
                               
             else: 
@@ -148,11 +148,11 @@ def get_oil_type_barge(master_dir,
                 # needed.
                 
                 oil_type = get_oil_type_cargo(
-                          CAD_yaml, origin, ship_type, random_seed)
+                          CAD_yaml, origin, ship_type, random_generator)
                 
     elif origin in US_origin_destination:
         oil_type = get_oil_type_cargo(
-                  WA_out_yaml, origin, ship_type, random_seed)
+                  WA_out_yaml, origin, ship_type, random_generator)
         
         # *** ERROR CATCH ***
         # As a result of using 2 different data sources (AIS and 
@@ -169,7 +169,7 @@ def get_oil_type_barge(master_dir,
 
     elif destination in US_origin_destination:
         oil_type = get_oil_type_cargo(
-                  WA_in_yaml, destination, ship_type, random_seed)
+                  WA_in_yaml, destination, ship_type, random_generator)
         
         # *** ERROR CATCH ***
         # Same explanation as given above, in 
@@ -185,7 +185,7 @@ def get_oil_type_barge(master_dir,
             oil_type = 'jet'
         else:
             oil_type = get_oil_type_cargo(
-                      CAD_yaml, destination, ship_type, random_seed)
+                      CAD_yaml, destination, ship_type, random_generator)
  
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Remaining cases are those that were not connected to our list of 
@@ -227,7 +227,7 @@ def get_oil_type_barge(master_dir,
             oil_type = []
         else:
             oil_type = get_oil_type_cargo_generic_US(
-                      Pacific_yaml, ship_type, random_seed
+                      Pacific_yaml, ship_type, random_generator
             )
     elif origin == 'US':
         fuel_flag = random_generator.choice(
@@ -237,7 +237,7 @@ def get_oil_type_barge(master_dir,
             oil_type = []
         else:
             oil_type = get_oil_type_cargo_generic_US(
-                      US_yaml, ship_type, random_seed)
+                      US_yaml, ship_type, random_generator)
     elif origin == 'Canada':
         fuel_flag = random_generator.choice(
                     [0, 1], 
@@ -247,7 +247,7 @@ def get_oil_type_barge(master_dir,
         
         else:
             oil_type = get_oil_type_cargo_generic_US(
-                        CAD_yaml, ship_type, random_seed)  
+                        CAD_yaml, ship_type, random_generator)  
     
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Remaining cases have null values for origin destination.
@@ -263,7 +263,7 @@ def get_oil_type_barge(master_dir,
         fuel_flag = 1
         oil_type = []
 #         oil_type = get_oil_type_fuel(
-#                   fuel_yaml, ship_type, random_seed)
+#                   fuel_yaml, ship_type, random_generator)
     
              
     return oil_type, fuel_flag

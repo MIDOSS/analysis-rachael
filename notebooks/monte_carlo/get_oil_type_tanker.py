@@ -12,7 +12,7 @@ def get_oil_type_tanker(master_dir,
                     master_file,
                     origin, 
                     destination, 
-                    random_seed
+                    random_generator
                     ):
 
     ship_type = 'tanker'
@@ -52,7 +52,7 @@ def get_oil_type_tanker(master_dir,
         if origin == 'Westridge Marine Terminal':
             oil_type = get_oil_type_cargo(
                 CAD_yaml, origin, 
-                ship_type, random_seed
+                ship_type, random_generator
             )
         else:
             if destination in US_origin_destination:
@@ -60,44 +60,44 @@ def get_oil_type_tanker(master_dir,
                 #so I'm prioritizing this information source
                 oil_type = get_oil_type_cargo(
                     WA_in_yaml, destination, 
-                    ship_type, random_seed
+                    ship_type, random_generator
                 )
             else:
                 oil_type = get_oil_type_cargo(
                     CAD_yaml, origin, 
-                    ship_type, random_seed
+                    ship_type, random_generator
                 )
     elif origin in US_origin_destination:  
         oil_type = get_oil_type_cargo(
             WA_out_yaml, origin, 
-            ship_type, random_seed
+            ship_type, random_generator
         )
     elif destination in US_origin_destination:
         oil_type = get_oil_type_cargo(
             WA_in_yaml, destination, 
-            ship_type, random_seed
+            ship_type, random_generator
         )
     elif destination in CAD_origin_destination:
         oil_type = get_oil_type_cargo(
             CAD_yaml, destination, 
-            ship_type, random_seed
+            ship_type, random_generator
         )
     elif origin == 'Pacific':
         oil_type = get_oil_type_cargo(
             Pacific_yaml, origin, 
-            ship_type, random_seed
+            ship_type, random_generator
         )
     elif origin == 'US':
         oil_type = get_oil_type_cargo(
             US_yaml, origin, 
-            ship_type, random_seed
+            ship_type, random_generator
         )
     else: 
         # Currently, this is a catch for all ship tracks not allocated with origin or destination
         # It's a generic fuel attribution from the combined US import and export
         oil_type = get_oil_type_cargo(
             USall_yaml, origin, 
-            ship_type, random_seed
+            ship_type, random_generator
         )
         
     return oil_type

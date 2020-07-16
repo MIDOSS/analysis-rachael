@@ -12,7 +12,7 @@ def get_oil_type_atb(master_dir,
                     master_file,
                     origin, 
                     destination, 
-                    random_seed
+                    random_generator
                     ):
 
     ship_type = 'atb'
@@ -67,12 +67,12 @@ def get_oil_type_atb(master_dir,
             if destination == 'U.S. Oil & Refining':
                 oil_type = get_oil_type_cargo(
                     CAD_yaml, origin, 
-                    ship_type, random_seed
+                    ship_type, random_generator
                 )
             elif destination in US_origin_destination:
                 oil_type = get_oil_type_cargo(
                     CAD_yaml, origin, 
-                    ship_type, random_seed
+                    ship_type, random_generator
                 )
             elif destination in CAD_origin_destination:
                 # assume export within CAD is from Jet fuel storage tanks 
@@ -81,7 +81,7 @@ def get_oil_type_atb(master_dir,
             else:
                 oil_type = get_oil_type_cargo(
                     CAD_yaml, origin, 
-                    ship_type, random_seed
+                    ship_type, random_generator
                 )
         else:
             if destination in US_origin_destination:
@@ -89,23 +89,23 @@ def get_oil_type_atb(master_dir,
                 # so I prioritize this information source
                 oil_type = get_oil_type_cargo(
                     WA_in_yaml, destination, 
-                    ship_type, random_seed
+                    ship_type, random_generator
                 )
             elif destination == 'ESSO Nanaimo Departure Bay':
                 oil_type = get_oil_type_cargo(
                     CAD_yaml, destination, 
-                    ship_type, random_seed
+                    ship_type, random_generator
                 )
                     
             elif destination == 'Suncor Nanaimo':
                 oil_type = get_oil_type_cargo(
                     CAD_yaml, destination, 
-                    ship_type, random_seed
+                    ship_type, random_generator
                 )
             else: 
                 oil_type = get_oil_type_cargo(
                     CAD_yaml, origin, 
-                    ship_type, random_seed
+                    ship_type, random_generator
                 )
     elif origin in US_origin_destination:
         if destination == 'Westridge Marine Terminal':
@@ -114,12 +114,12 @@ def get_oil_type_atb(master_dir,
         else:
             oil_type = get_oil_type_cargo(
                 WA_out_yaml, origin, 
-                ship_type, random_seed
+                ship_type, random_generator
             )
     elif destination in US_origin_destination:
         oil_type = get_oil_type_cargo(
             WA_in_yaml, destination, 
-            ship_type, random_seed
+            ship_type, random_generator
         )
     elif destination in CAD_origin_destination:
         if destination == 'Westridge Marine Terminal':
@@ -128,24 +128,24 @@ def get_oil_type_atb(master_dir,
         else:
             oil_type = get_oil_type_cargo(
                 CAD_yaml, destination, 
-                ship_type, random_seed
+                ship_type, random_generator
             )
     elif origin == 'Pacific':
         oil_type = get_oil_type_cargo(
             Pacific_yaml, origin, 
-            ship_type, random_seed
+            ship_type, random_generator
         )
     elif origin == 'US':
         oil_type = get_oil_type_cargo(
             US_yaml, origin, 
-            ship_type, random_seed
+            ship_type, random_generator
         )
     else:
         # For all other traffic, use a generic fuel attribution from the combined
         # US import and export
         oil_type = get_oil_type_cargo(
             USall_yaml, origin, 
-            ship_type, random_seed
+            ship_type, random_generator
         )
         
         
