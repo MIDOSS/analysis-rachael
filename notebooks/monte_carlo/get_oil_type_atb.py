@@ -2,12 +2,13 @@ import numpy
 import yaml
 import pathlib
 from monte_carlo_utils import get_oil_type_cargo 
+from monte_carlo_utils import get_oil_type_cargo_generic_US
 
 #### Decision tree for allocating oil type to atb traffic
 # see google drawing [atb oil attribution](https://docs.google.com/drawings/d/1Aigd2wccnl6-pQVo4KLN0xq1is6poD9z5JnFVb-fduE/edit)
 #
 
-def get_oil_type_ATB(master_dir,
+def get_oil_type_atb(master_dir,
                     master_file,
                     origin, 
                     destination, 
@@ -15,7 +16,22 @@ def get_oil_type_ATB(master_dir,
                     ):
 
     ship_type = 'atb'
-
+    
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Unlike traditional tank barges, the vessels with 'atb'
+    # designation are known oil-cargo vessels.  We used three 
+    # different data sources to verify: AIS, Dept of Ecology's 
+    # fuel transfer records and Charlie Costanzo's ATB list. 
+    # details of traffic can be seen in this google spreadsheet:
+    # https://docs.google.com/spreadsheets/d/1dlT0JydkFG43LorqgtHle5IN6caRYjf_3qLrUYqANDY/edit#gid=1593104354
+    #
+    # Because of this pre-identification and selection method,
+    # we can assume that all atbs are oil-cargo atbs and that 
+    # the absence of origin-destination information is due to 
+    # issues in linking ship tracks and not ambiguity about 
+    # whether traffic is oil-cargo traffic.
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ##  Load file paths and terminal names
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -23,8 +39,10 @@ def get_oil_type_ATB(master_dir,
         master = yaml.safe_load(file)
 
     # Assign US and CAD origin/destinations from master file
-    CAD_origin_destination = master['categories']['CAD_origin_destination']
-    US_origin_destination = master['categories']['US_origin_destination']
+    CAD_origin_destination = master['categories']\
+        ['CAD_origin_destination']
+    US_origin_destination = master['categories']\
+        ['US_origin_destination']
 
     # Get file paths to fuel-type yaml files
     # US_origin is for US as origin
@@ -47,48 +65,88 @@ def get_oil_type_ATB(master_dir,
     if origin in CAD_origin_destination:
         if origin == 'Westridge Marine Terminal':
             if destination == 'U.S. Oil & Refining':
-                fuel_type = get_oil_type_cargo(CAD_yaml, origin, ship_type, random_seed)
+                oil_type = get_oil_type_cargo(
+                    CAD_yaml, origin, 
+                    ship_type, random_seed
+                )
             elif destination in US_origin_destination:
-                fuel_type = get_oil_type_cargo(CAD_yaml, origin, ship_type, random_seed)
+                oil_type = get_oil_type_cargo(
+                    CAD_yaml, origin, 
+                    ship_type, random_seed
+                )
             elif destination in CAD_origin_destination:
                 # assume export within CAD is from Jet fuel storage tanks 
                 # as there is a pipeline to Parkland for crude oil
-                fuel_type = 'jet'
+                oil_type = 'jet'
             else:
-                fuel_type = get_oil_type_cargo(CAD_yaml, origin, ship_type, random_seed)
+                oil_type = get_oil_type_cargo(
+                    CAD_yaml, origin, 
+                    ship_type, random_seed
+                )
         else:
             if destination in US_origin_destination:
                 # we have better information on WA fuel transfers, 
                 # so I prioritize this information source
-                fuel_type = get_oil_type_cargo(WA_in_yaml, destination, ship_type, random_seed)
+                oil_type = get_oil_type_cargo(
+                    WA_in_yaml, destination, 
+                    ship_type, random_seed
+                )
             elif destination == 'ESSO Nanaimo Departure Bay':
-                fuel_type = get_oil_type_cargo(CAD_yaml, destination, ship_type, random_seed)
+                oil_type = get_oil_type_cargo(
+                    CAD_yaml, destination, 
+                    ship_type, random_seed
+                )
+                    
             elif destination == 'Suncor Nanaimo':
-                fuel_type = get_oil_type_cargo(CAD_yaml, destination, ship_type, random_seed)
+                oil_type = get_oil_type_cargo(
+                    CAD_yaml, destination, 
+                    ship_type, random_seed
+                )
             else: 
-                fuel_type = get_oil_type_cargo(CAD_yaml, origin, ship_type, random_seed)
+                oil_type = get_oil_type_cargo(
+                    CAD_yaml, origin, 
+                    ship_type, random_seed
+                )
     elif origin in US_origin_destination:
         if destination == 'Westridge Marine Terminal':
             # Westridge stores jet fuel from US for re-distribution 
-            fuel_type = 'jet'
+            oil_type = 'jet'
         else:
-            fuel_type = get_oil_type_cargo(WA_out_yaml, origin, ship_type, random_seed)
+            oil_type = get_oil_type_cargo(
+                WA_out_yaml, origin, 
+                ship_type, random_seed
+            )
     elif destination in US_origin_destination:
-        fuel_type = get_oil_type_cargo(WA_in_yaml, destination, ship_type, random_seed)
+        oil_type = get_oil_type_cargo(
+            WA_in_yaml, destination, 
+            ship_type, random_seed
+        )
     elif destination in CAD_origin_destination:
         if destination == 'Westridge Marine Terminal':
             # Westridge doesn't receive crude for storage 
-            fuel_type = 'jet'
+            oil_type = 'jet'
         else:
-            fuel_type = get_oil_type_cargo(CAD_yaml, destination, ship_type, random_seed)
+            oil_type = get_oil_type_cargo(
+                CAD_yaml, destination, 
+                ship_type, random_seed
+            )
     elif origin == 'Pacific':
-        fuel_type = get_oil_type_cargo(Pacific_yaml, origin, ship_type, random_seed)
+        oil_type = get_oil_type_cargo(
+            Pacific_yaml, origin, 
+            ship_type, random_seed
+        )
     elif origin == 'US':
-        fuel_type = get_oil_type_cargo(US_yaml, origin, ship_type, random_seed)
+        oil_type = get_oil_type_cargo(
+            US_yaml, origin, 
+            ship_type, random_seed
+        )
     else:
         # For all other traffic, use a generic fuel attribution from the combined
         # US import and export
-        fuel_type = get_oil_type_cargo(USall_yaml, origin, ship_type, random_seed)
+        oil_type = get_oil_type_cargo(
+            USall_yaml, origin, 
+            ship_type, random_seed
+        )
         
         
-    return fuel_type
+    return oil_type
