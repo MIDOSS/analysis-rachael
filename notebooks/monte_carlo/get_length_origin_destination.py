@@ -1,7 +1,7 @@
 import geopandas 
 import datetime 
 import numpy 
-import salishsea_tools 
+from salishsea_tools import geo_tools
 
 def get_length_origin_destination( shapefile_directory, 
                                    vessel_type, 
@@ -33,7 +33,7 @@ def get_length_origin_destination( shapefile_directory,
     lat_array = [data.geometry[i].coords[0][1] for i in range(nrows)]
     
     # identify all the lines within search_radius
-    distance = salishsea_tools.geo_tools(spill_lon, spill_lat, lon_array, lat_array)
+    distance = geo_tools.haversine(spill_lon, spill_lat, lon_array, lat_array)
     array_index = numpy.where(distance < search_radius)
     
     total_seconds  = numpy.zeros(len(array_index))
@@ -60,14 +60,14 @@ def get_length_origin_destination( shapefile_directory,
         end_lat   = data.geometry[index].coords[1][1]
 
         # calculate the distance in km of vessel line segment
-        total_distance[index] = salishsea_tools.geo_tools.haversine( 
+        total_distance[index] = geo_tools.haversine( 
             start_lon, start_lat, end_lon, end_lat 
         )
         vte[index] = total_seconds[index]/total_distance[index]
 
     # find the index for greatest vte (for cases where there is 
     # more than one polyline)    
-    i, = np.where(vte == max(vte))
+    i, = numpy.where(vte == max(vte))
     the_one = array_index[i.item()]
     
     # now that we have found the one true polyline, lets get its digits!
@@ -81,7 +81,7 @@ def get_length_origin_destination( shapefile_directory,
     
     # Initialize PCG-64 random number generator
     random_generator = numpy.random.default_rng(random_seed)
-    if vessel_type == 'tug' or vessel_type == 'atb' and length < 100:
+    if vessel_type == 'barge' or vessel_type == 'atb' and length < 100:
         length = random_generator.choice([147, 172, 178, 206, 207])
         
     # that's a wrap, folks.
