@@ -1,0 +1,87 @@
+atb:
+  akns:
+    fraction_of_total: 0.0187
+    number_of_transfers: 6
+    total_gallons: 26972610
+  bunker:
+    fraction_of_total: 0.1153
+    number_of_transfers: 91
+    total_gallons: 166425864
+  diesel:
+    fraction_of_total: 0.2504
+    number_of_transfers: 184
+    total_gallons: 361504500
+  dilbit:
+    fraction_of_total: 0.0
+    number_of_transfers: 0
+    total_gallons: 0
+  gas:
+    fraction_of_total: 0.4144
+    number_of_transfers: 235
+    total_gallons: 598126550
+  jet:
+    fraction_of_total: 0.136
+    number_of_transfers: 75
+    total_gallons: 196247730
+  other:
+    fraction_of_total: 0.06520000000000001
+    number_of_transfers: 83
+    total_gallons: 94228680
+barge:
+  akns:
+    fraction_of_total: 0.0251
+    number_of_transfers: 16
+    total_gallons: 54537000
+  bunker:
+    fraction_of_total: 0.4294
+    number_of_transfers: 1147
+    total_gallons: 932818353
+  diesel:
+    fraction_of_total: 0.1838
+    number_of_transfers: 868
+    total_gallons: 399216902
+  dilbit:
+    fraction_of_total: 0.0
+    number_of_transfers: 0
+    total_gallons: 0
+  gas:
+    fraction_of_total: 0.1574
+    number_of_transfers: 378
+    total_gallons: 341915218
+  jet:
+    fraction_of_total: 0.062
+    number_of_transfers: 210
+    total_gallons: 134623594
+  other:
+    fraction_of_total: 0.14230000000000012
+    number_of_transfers: 284
+    total_gallons: 309142449
+tanker:
+  akns:
+    fraction_of_total: 0.6254
+    number_of_transfers: 287
+    total_gallons: 3955238438
+  bunker:
+    fraction_of_total: 0.0249
+    number_of_transfers: 26
+    total_gallons: 157541076
+  diesel:
+    fraction_of_total: 0.0893
+    number_of_transfers: 177
+    total_gallons: 564719268
+  dilbit:
+    fraction_of_total: 0.0
+    number_of_transfers: 0
+    total_gallons: 0
+  gas:
+    fraction_of_total: 0.1413
+    number_of_transfers: 181
+    total_gallons: 893696370
+  jet:
+    fraction_of_total: 0.0489
+    number_of_transfers: 96
+    total_gallons: 309138900
+  other:
+    fraction_of_total: 0.0702
+    number_of_transfers: 143
+    total_gallons: 444150477
