@@ -65,6 +65,7 @@ def get_oil_type_barge(master_dir,
         ['probability_oilcargo']
 
     probability_fuelonly = 1 - probability_oilcargo
+    print(f'Barge probability of non-oil-transport: {probability_fuelonly}')
     
     # Initialize PCG-64 random number generator
     random_generator = numpy.random.default_rng(random_generator)
@@ -188,25 +189,15 @@ def get_oil_type_barge(master_dir,
                       CAD_yaml, destination, ship_type, random_generator)
  
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Remaining cases are those that were not connected to our list of 
-    # known oil-transfer facilities.  They are vessels that are included
-    # in Casey's pre-selection data (as within 2 km of oil-transfer 
-    # facility) but were not within the area that Cam and identified as 
-    # being related to oil-terminal traffic. The reason why we did a 
-    # selection refinement is because there are many oil terminals
-    # that are next to barge transfer sites for lumber, cars, etc, and 
-    # with ship tracks included that are obviously related to these
-    # other activities and not oil-transfer.  To handle these cases, 
-    # we reviewed each site to determine the distance that would 
-    # best isolate the oil traffic from this other traffic. However, 
-    # any track in Casey's pre-selected data will be joined with our 
-    # origin-destination script.  Tracks are not joined (and will 
+    # Remaining cases are those that were not linked to an oil terminal
+    # in our origin-destination analysis for transport to/from 
+    # known oil-transfer facilities.  Tracks were not joined (and will 
     # have null values for origin/destination) if adjacent 
     # ship tracks are (a) < 1 km long, (b) over 4 hours apart, (c)
-    # requiring > 80 knts to join.  The tracks that are joined 
-    # but that lack details of origin-destination fall into the category 
-    # ship tracks that may or may not be oil-traffic.  As such, 
-    # I first use probability of oil-cargo for tank barge traffic to 
+    # requiring > 80 knts to join.  The tracks that lack details of 
+    # origin-destination fall into the category of ship tracks that 
+    # may or may not be oil-traffic.  As such, I first use probability 
+    # of oil-cargo for tank barge traffic to 
     # weight whether the ship track represents an oil-carge & fuel spill 
     # risk (fuel_flag = 0) or a fuel-spill risk only (fuel_flag = 1).
     # For the cases with fuel_flag == 0, I use origin 
@@ -255,15 +246,17 @@ def get_oil_type_barge(master_dir,
     # weight whether the ship track is an oil-carge & fuel spill risk 
     # (fuel_flag = 0) or a fuel-spill risk only (fuel_flag = 1)
     # For the cases with fuel_flag == 0, I use the US_generic fuel allocation
-    # to attribute fuel type, regardless of wether barge is north of the 
-    # 49th parallel (i.e. Strait of Georgia) or south of the 49th parallel. 
+    # to attribute fuel type. 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
  
     else:
-        fuel_flag = 1
-        oil_type = []
-#         oil_type = get_oil_type_fuel(
-#                   fuel_yaml, ship_type, random_generator)
-    
-             
+        fuel_flag = random_generator.choice(
+                    [0, 1], 
+                    p = [probability_oilcargo, probability_fuelonly])
+        if fuel_flag:
+            oil_type = []
+        else:
+            oil_type = get_oil_type_cargo_generic_US(
+                      US_yaml, ship_type, random_generator)
+            
     return oil_type, fuel_flag
