@@ -21,9 +21,9 @@ def make_bins(lower_bound, upper_bound, step_size):
     return bins, center_points
 
 def get_bin(value, bins):
-    """ bins is a list of tuples, like [(0,20), (20, 40), (40, 60)],
-        binning returns the smallest index i of bins so that
-        bin[i][0] <= value < bin[i][1]
+    """ Returns the smallest index i of bins so that
+        bin[i][0] <= value < bin[i][1], where
+        bins is a list of tuples, like [(0,20), (20, 40), (40, 60)]
     """
     
     for i in range(0, len(bins)):
@@ -32,12 +32,13 @@ def get_bin(value, bins):
     return -1
 
 def place_into_bins(sorting_data, data_to_bin, bins):
-    """ Sorting_data and data_to_bin are 1D arrays of the same length.
-        In our case, they are different attributes of vessels identified by MMSI.
-        We use the 'sorting_data' attribute to select the bin into which 
-        the value(s) of 'data_to_bin' is added.
-        The output, binned_data, has the same length as 'bins', which is 
-        the output variable of the function 'make_bins'. 
+    """ Returns 'binned_data, a vector of same length as 'bins' that
+        has the values of 'data_to_bin' sorted into bins according to
+        values of 'sorting_data.'
+        Sorting_data and data_to_bin are 1D arrays of the same length.
+        In our case, they are different attributes of vessels identified 
+        by MMSI.
+        'bins' is the output variable of the function 'make_bins'. 
     """
     
     binned_data = numpy.zeros(len(bins))
@@ -52,7 +53,8 @@ def place_into_bins(sorting_data, data_to_bin, bins):
 
 # 
 def clamp(n, minn, maxn):
-    """ minn and maxn are scalars that represent min and max capacities
+    """ Returns the number n after fixing min and max thresholds. 
+        minn and maxn are scalars that represent min and max capacities.
         clamp ensures that capacities are within min/max thresholds
         and sets n to minn or maxn if outside of thresholds, such that
         minn < n < maxn
@@ -65,12 +67,10 @@ def clamp(n, minn, maxn):
         return n
     
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Uses data in yaml file to allocate fuel for cases WITH 
-# origin/destination
-
 def get_oil_type_cargo(yaml_file, facility, ship_type, random_generator):
-
+    """ Returns oil for cargo attribution based on facility and vessel
+        by querying information in input yaml_file
+    """
     with yaml_file.open("rt") as file:
             
             # load fraction_of_total values for weighting 
@@ -101,13 +101,14 @@ def get_oil_type_cargo(yaml_file, facility, ship_type, random_generator):
                 
             return fuel_type
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Uses data in yaml file to allocate fuel for cases of generic origin  
-# or destination of 'US', 'Pacific', or 'Canada' just ship type. 
-# Same as `get_oil_type_cargo but these yaml files lack facility names.  
 
 def get_oil_type_cargo_generic_US(yaml_file, ship_type, random_generator):
-   
+    """ Returns oil for cargo attribution based on facility and vessel
+        by querying information in input yaml_file.  This is essentially
+        the same as 'get_oil_type_cargo' but is designed for yaml files
+        that lack facility names
+    """
+
     with yaml_file.open("rt") as file:
             
             # load fraction_of_total values for weighting random generator
