@@ -8,7 +8,7 @@ def get_oil_capacity(
     vessel_type,
     random_generator
 ):
-    """ Returns fuel_capacity [liters] and tank_capacity [liters] based on vessel
+    """ Returns fuel_capacity [liters] and cargo_capacity [liters] based on vessel
         length and type, with the exception of ATBs and barges.  Tank_capacity 
         is estimated by length for ATBs > 50 m only.  For all other ATB and barge 
         traffic, as well as fuel capacity for ATBs > 50 m, both fuel and cargo 
@@ -34,7 +34,7 @@ def get_oil_capacity(
 
     if vessel_length < 0:
         fuel_capacity = master['vessel_attributes'][vessel_type]['min_fuel']
-        tank_capacity = master['vessel_attributes'][vessel_type]['min_cargo']
+        cargo_capacity = master['vessel_attributes'][vessel_type]['min_cargo']
     
     else:
         
@@ -160,7 +160,7 @@ def get_oil_capacity(
 
             fuel_capacity = 1e3 * ( 111047 * 
                              exp( 9.32e-03 * vessel_length )) / 264.172
-            tank_capacity = 0
+            cargo_capacity = 0
             
             # impose fuel capacity limits for this vessel type
             min_fuel = master['vessel_attributes']['cargo']['min_fuel']
@@ -177,7 +177,7 @@ def get_oil_capacity(
 
             fuel_capacity =1e3 *  ( 58271 * 
                              exp( 9.97e-03 * vessel_length )) / 264.172
-            tank_capacity = 0
+            cargo_capacity = 0
             
             # impose fuel capacity limits for this vessel type
             min_fuel = master['vessel_attributes']['cruise']['min_fuel']
@@ -194,7 +194,7 @@ def get_oil_capacity(
 
             fuel_capacity = 1e3 * ( 1381 * 
                              exp( 0.0371 * vessel_length )) / 264.172
-            tank_capacity = 0
+            cargo_capacity = 0
             
             # impose fuel capacity limits for this vessel type
             min_fuel = master['vessel_attributes']['ferry']['min_fuel']
@@ -211,7 +211,7 @@ def get_oil_capacity(
 
             fuel_capacity = 1e3 * ( 223 * 
                              exp( 0.598 * vessel_length )) / 264.172
-            tank_capacity = 0
+            cargo_capacity = 0
                 
             # impose fuel capacity limits for this vessel type
             min_fuel = master['vessel_attributes']['fishing']['min_fuel']
@@ -227,7 +227,7 @@ def get_oil_capacity(
         elif vessel_type == "smallpass" or vessel_type == "other":
 
             fuel_capacity = 1e3 * ( 8.05 * vessel_length + 158 ) / 264.172
-            tank_capacity = 0
+            cargo_capacity = 0
                 
             # impose fuel capacity limits for this vessel type
             min_fuel = master['vessel_attributes']['smallpass']['min_fuel']
@@ -239,4 +239,4 @@ def get_oil_capacity(
                 max_fuel
             )
 
-    return fuel_capacity, tank_capacity
+    return fuel_capacity, cargo_capacity
