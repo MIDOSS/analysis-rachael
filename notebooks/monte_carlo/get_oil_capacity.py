@@ -158,8 +158,13 @@ def get_oil_capacity(
         # ~~~ cargo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         elif vessel_type == "cargo":
 
-            fuel_capacity = 1e3 * ( 111047 * 
-                             exp( 9.32e-03 * vessel_length )) / 264.172
+            C =  master['vessel_attributes']['cargo']['fuel_fit_coefs'] 
+            
+            fit_capacity = (
+                numpy.exp(C[1])* 
+                numpy.exp(C[0]*vessel_length)
+            )
+
             cargo_capacity = 0
             
             # impose fuel capacity limits for this vessel type
@@ -167,7 +172,7 @@ def get_oil_capacity(
             max_fuel   = master['vessel_attributes']['cargo']['max_fuel']
 
             fuel_capacity = clamp(
-                fuel_capacity, 
+                fit_capacity, 
                 min_fuel, 
                 max_fuel
             )
@@ -175,8 +180,13 @@ def get_oil_capacity(
         # ~~~ cruise ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         elif vessel_type == "cruise":
 
-            fuel_capacity =1e3 *  ( 58271 * 
-                             exp( 9.97e-03 * vessel_length )) / 264.172
+            C =  master['vessel_attributes']['cruise']['fuel_fit_coefs'] 
+            
+            fit_capacity = (
+                C[1] +
+                C[0]*vessel_length
+            )
+            
             cargo_capacity = 0
             
             # impose fuel capacity limits for this vessel type
@@ -184,7 +194,7 @@ def get_oil_capacity(
             max_fuel   = master['vessel_attributes']['cruise']['max_fuel']
 
             fuel_capacity = clamp(
-                fuel_capacity, 
+                fit_capacity, 
                 min_fuel, 
                 max_fuel
             )
@@ -192,8 +202,13 @@ def get_oil_capacity(
         # ~~~ ferry ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         elif vessel_type == "ferry":
 
-            fuel_capacity = 1e3 * ( 1381 * 
-                             exp( 0.0371 * vessel_length )) / 264.172
+            C =  master['vessel_attributes']['ferry']['fuel_fit_coefs'] 
+            
+            fit_capacity = (
+                numpy.exp(C[1])* 
+                numpy.exp(C[0]*vessel_length)
+            )
+
             cargo_capacity = 0
             
             # impose fuel capacity limits for this vessel type
@@ -201,7 +216,7 @@ def get_oil_capacity(
             max_fuel   = master['vessel_attributes']['ferry']['max_fuel']
 
             fuel_capacity = clamp(
-                fuel_capacity, 
+                fit_capacity, 
                 min_fuel, 
                 max_fuel
             )
@@ -209,8 +224,14 @@ def get_oil_capacity(
         # ~~~ fishing ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         elif vessel_type == "fishing":
 
-            fuel_capacity = 1e3 * ( 223 * 
-                             exp( 0.598 * vessel_length )) / 264.172
+            C =  master['vessel_attributes']['fishing']['fuel_fit_coefs'] 
+            
+            fit_capacity = (
+                C[2] +
+                C[1]*vessel_length +
+                C[0]*vessel_length**2
+            )
+
             cargo_capacity = 0
                 
             # impose fuel capacity limits for this vessel type
@@ -218,7 +239,7 @@ def get_oil_capacity(
             max_fuel = master['vessel_attributes']['fishing']['max_fuel']
 
             fuel_capacity = clamp(
-                fuel_capacity, 
+                fit_capacity, 
                 min_fuel, 
                 max_fuel
             )
@@ -226,7 +247,13 @@ def get_oil_capacity(
         # ~~~ small pass or other ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         elif vessel_type == "smallpass" or vessel_type == "other":
 
-            fuel_capacity = 1e3 * ( 8.05 * vessel_length + 158 ) / 264.172
+            C =  master['vessel_attributes']['smallpass']['fuel_fit_coefs'] 
+            
+            fit_capacity = (
+                numpy.exp(C[1])* 
+                numpy.exp(C[0]*vessel_length)
+            )
+
             cargo_capacity = 0
                 
             # impose fuel capacity limits for this vessel type
@@ -234,7 +261,7 @@ def get_oil_capacity(
             max_fuel = master['vessel_attributes']['smallpass']['max_fuel']
 
             fuel_capacity = clamp(
-                fuel_capacity, 
+                fit_capacity, 
                 min_fuel, 
                 max_fuel
             )
