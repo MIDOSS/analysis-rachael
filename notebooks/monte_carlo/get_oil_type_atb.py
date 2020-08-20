@@ -143,9 +143,10 @@ def get_oil_type_atb(master_dir,
     else:
         # For all other traffic, use a generic fuel attribution from the combined
         # US import and export
-        oil_type = get_oil_type_cargo(
-            USall_yaml, origin, 
-            ship_type, random_generator
+        oil_type = get_oil_type_cargo_generic_US(
+            USall_yaml, 
+            ship_type, 
+            random_generator
         )
         
         
