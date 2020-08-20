@@ -21,7 +21,8 @@ def get_oil_type_tanker(master_dir,
     ##  Load file paths and terminal names
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     with open(f'{master_dir}{master_file}') as file:
-        master = yaml.safe_load(file)
+        master = yaml.load(file, Loader=yaml.Loader)
+        # master = yaml.safe_load(file)
 
     # Assign US and CAD origin/destinations from master file
     CAD_origin_destination = master['categories']\
@@ -32,13 +33,13 @@ def get_oil_type_tanker(master_dir,
     # Get file paths to fuel-type yaml files
     # US_origin is for US as origin
     # US_combined represents the combined import and export of fuel
-    home = pathlib.Path(master['directories'])
-    CAD_yaml     = home/master['files']['CAD_origin']
-    WA_in_yaml   = home/master['files']['WA_destination']
-    WA_out_yaml  = home/master['files']['WA_origin']
-    US_yaml      = home/master['files']['US_origin']
-    USall_yaml   = home/master['files']['US_combined']
-    Pacific_yaml = home/master['files']['Pacific_origin']
+    #home = pathlib.Path(master['directories'])
+    CAD_yaml     = master['files']['CAD_origin']
+    WA_in_yaml   = master['files']['WA_destination']
+    WA_out_yaml  = master['files']['WA_origin']
+    US_yaml      = master['files']['US_origin']
+    USall_yaml   = master['files']['US_combined']
+    Pacific_yaml = master['files']['Pacific_origin']
 
 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -83,19 +84,19 @@ def get_oil_type_tanker(master_dir,
             ship_type, random_generator
         )
     elif origin == 'Pacific':
-        oil_type = get_oil_type_cargo(
+        oil_type = get_oil_type_cargo_generic_US(
             Pacific_yaml, origin, 
             ship_type, random_generator
         )
     elif origin == 'US':
-        oil_type = get_oil_type_cargo(
+        oil_type = get_oil_type_cargo_generic_US(
             US_yaml, origin, 
             ship_type, random_generator
         )
     else: 
         # Currently, this is a catch for all ship tracks not allocated with origin or destination
         # It's a generic fuel attribution from the combined US import and export
-        oil_type = get_oil_type_cargo(
+        oil_type = get_oil_type_cargo_generic_US(
             USall_yaml, origin, 
             ship_type, random_generator
         )
