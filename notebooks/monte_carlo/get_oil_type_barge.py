@@ -238,7 +238,7 @@ def get_oil_type_barge(master_dir,
         
         else:
             oil_type = get_oil_type_cargo_generic_US(
-                        CAD_yaml, ship_type, random_generator)  
+                        US_yaml, ship_type, random_generator)  
     
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Remaining cases have null values for origin destination.
