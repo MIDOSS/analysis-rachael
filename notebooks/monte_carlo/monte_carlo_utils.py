@@ -71,7 +71,7 @@ def get_oil_type_cargo(yaml_file, facility, ship_type, random_generator):
     """ Returns oil for cargo attribution based on facility and vessel
         by querying information in input yaml_file
     """
-    with yaml_file.open("rt") as file:
+    with open(yaml_file,"r") as file:
             
             # load fraction_of_total values for weighting 
             # random generator
@@ -108,8 +108,9 @@ def get_oil_type_cargo_generic_US(yaml_file, ship_type, random_generator):
         the same as 'get_oil_type_cargo' but is designed for yaml files
         that lack facility names
     """
-
-    with yaml_file.open("rt") as file:
+    print(yaml_file)
+    print(yaml_file.format)
+    with open(yaml_file,"r") as file:
             
             # load fraction_of_total values for weighting random generator
             cargo = yaml.safe_load(file)
