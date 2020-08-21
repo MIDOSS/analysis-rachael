@@ -85,19 +85,19 @@ def get_oil_type_tanker(master_dir,
         )
     elif origin == 'Pacific':
         oil_type = get_oil_type_cargo_generic_US(
-            Pacific_yaml, origin, 
+            Pacific_yaml,  
             ship_type, random_generator
         )
     elif origin == 'US':
         oil_type = get_oil_type_cargo_generic_US(
-            US_yaml, origin, 
+            US_yaml,  
             ship_type, random_generator
         )
     else: 
         # Currently, this is a catch for all ship tracks not allocated with origin or destination
         # It's a generic fuel attribution from the combined US import and export
         oil_type = get_oil_type_cargo_generic_US(
-            USall_yaml, origin, 
+            USall_yaml, 
             ship_type, random_generator
         )
         
