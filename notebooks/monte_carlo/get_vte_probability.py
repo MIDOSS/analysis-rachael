@@ -2,9 +2,12 @@
 
 import rasterio as rio
 import numpy as np
+import pathlib
 from array import *
 
-def get_vte_probability( geotiff_directory ):
+def get_vte_probability( 
+    geotiff_directory 
+):
 
     # Load GeoTIFF files for each month and add up VTE
     months = array('i',range(1,13))
@@ -13,8 +16,8 @@ def get_vte_probability( geotiff_directory ):
     for month in months:
 
         # The filenames are formated as "all_2018_MM.tif"
-        f_name = f'{geotiff_directory}all_2018_{month:02.0f}.tif'
-
+        f_name = geotiff_directory/f'all_2018_{month:02.0f}.tif'
+        
         # open GeoTIFF file for reading
         traffic_reader = rio.open(f_name)
 

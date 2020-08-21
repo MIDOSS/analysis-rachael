@@ -21,7 +21,10 @@ def get_vessel_type(geotiff_directory,
         # loop through each vessel type and store VTE for each vessel type, at selected location
         for name in vessel_types:
 
-            traffic_reader = rio.open(f'{geotiff_directory}{name}_{ais_data_year}_{spill_month:02.0f}.tif')
+            traffic_reader = rio.open(
+                geotiff_directory/
+                f'{name}_{ais_data_year}_{spill_month:02.0f}.tif'
+            )
 
             # dataset closes automatically using the method below
             with traffic_reader as dataset:
