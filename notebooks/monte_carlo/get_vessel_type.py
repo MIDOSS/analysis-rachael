@@ -53,6 +53,7 @@ def get_vessel_type(geotiff_directory,
                               p = probability)
 
         # populate vessel type selection for each n-locations
-        vessel_type.append(vessel_random)
+        # vessel_type.append(vessel_random)
+        vessel_type = vessel_random[0] 
         
     return vessel_type
