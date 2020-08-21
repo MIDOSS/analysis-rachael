@@ -36,7 +36,7 @@ def get_oil_type_atb(
     ##  Load file paths and terminal names
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     with open(master_file) as file:
-        master = yaml.safe_load(file)
+        master = yaml.load(file, Loader=yaml.Loader)
 
     # Assign US and CAD origin/destinations from master file
     CAD_origin_destination = master['categories']\
@@ -47,13 +47,12 @@ def get_oil_type_atb(
     # Get file paths to fuel-type yaml files
     # US_origin is for US as origin
     # US_combined represents the combined import and export of fuel
-    home = pathlib.Path(master['directories'])
-    CAD_yaml     = home/master['files']['CAD_origin']
-    WA_in_yaml   = home/master['files']['WA_destination']
-    WA_out_yaml  = home/master['files']['WA_origin']
-    US_yaml      = home/master['files']['US_origin']
-    USall_yaml   = home/master['files']['US_combined']
-    Pacific_yaml = home/master['files']['Pacific_origin']
+    CAD_yaml     = master['files']['CAD_origin']
+    WA_in_yaml   = master['files']['WA_destination']
+    WA_out_yaml  = master['files']['WA_origin']
+    US_yaml      = master['files']['US_origin']
+    USall_yaml   = master['files']['US_combined']
+    Pacific_yaml = master['files']['Pacific_origin']
     
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # NOTE: these pairs need to be used together for "get_oil_type_cargo" 

@@ -33,7 +33,6 @@ def get_oil_type_tanker(
     # Get file paths to fuel-type yaml files
     # US_origin is for US as origin
     # US_combined represents the combined import and export of fuel
-    #home = pathlib.Path(master['directories'])
     CAD_yaml     = master['files']['CAD_origin']
     WA_in_yaml   = master['files']['WA_destination']
     WA_out_yaml  = master['files']['WA_origin']
