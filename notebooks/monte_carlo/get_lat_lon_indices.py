@@ -1,7 +1,8 @@
+import rasterio 
 from rasterio.enums import Resampling
-import rasterio as rio
 import numpy as np
 from numpy.random import choice
+import pathlib
 
 def truncate(f, n):
     '''Truncates/pads a float f to n decimal places without rounding'''
@@ -15,7 +16,9 @@ def get_lat_lon_indices(geotiff_directory, spill_month, n_locations, upsample_fa
 
     print('Randomly selecting spill location from all-traffic GeoTIFF:')
   
-    traffic_reader = rio.open(f'{geotiff_directory}all_2018_{spill_month:02.0f}.tif')
+    traffic_reader = rasterio.open(
+        geotiff_directory/f'all_2018_{spill_month:02.0f}.tif'
+    )
 
     # dataset closes automatically using the method below
     with traffic_reader as dataset:
