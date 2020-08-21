@@ -8,19 +8,19 @@ from monte_carlo_utils import get_oil_type_cargo_generic_US
 #### Decision tree for allocating oil type to tanker traffic
 # see google drawing [Tanker_Oil_Attribution](https://docs.google.com/drawings/d/1-4gl2yNNWxqXK-IOr4KNZxO-awBC-bNrjRNrt86fykU/edit) for a visual representation
 
-def get_oil_type_tanker(master_dir,
-                    master_file,
-                    origin, 
-                    destination, 
-                    random_generator
-                    ):
+def get_oil_type_tanker(
+    master_file,
+    origin, 
+    destination, 
+    random_generator
+):
 
     ship_type = 'tanker'
     
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ##  Load file paths and terminal names
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    with open(f'{master_dir}{master_file}') as file:
+    with open(master_file) as file:
         master = yaml.load(file, Loader=yaml.Loader)
         # master = yaml.safe_load(file)
 

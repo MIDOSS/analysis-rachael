@@ -9,12 +9,12 @@ from monte_carlo_utils import get_oil_type_cargo_generic_US
 # [Barge_Oil_Attribution](https://docs.google.com/drawings/d/10PM53-UnnILYCAPKU9MxiR-Y4OW0tIMhVzSjaHr-iSc/edit)
 # for a visual representation
 
-def get_oil_type_barge(master_dir,
-                    master_file,
-                    origin, 
-                    destination, 
-                    random_generator
-                    ):
+def get_oil_type_barge(
+    master_file,
+    origin, 
+    destination, 
+    random_generator
+):
 
     ship_type = 'barge'
 

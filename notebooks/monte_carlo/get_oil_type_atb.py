@@ -8,12 +8,12 @@ from monte_carlo_utils import get_oil_type_cargo_generic_US
 # see google drawing [atb oil attribution](https://docs.google.com/drawings/d/1Aigd2wccnl6-pQVo4KLN0xq1is6poD9z5JnFVb-fduE/edit)
 #
 
-def get_oil_type_atb(master_dir,
-                    master_file,
-                    origin, 
-                    destination, 
-                    random_generator
-                    ):
+def get_oil_type_atb(
+    master_file,
+    origin, 
+    destination, 
+    random_generator
+):
 
     ship_type = 'atb'
     
