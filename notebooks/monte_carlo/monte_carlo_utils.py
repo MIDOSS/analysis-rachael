@@ -108,8 +108,7 @@ def get_oil_type_cargo_generic_US(yaml_file, ship_type, random_generator):
         the same as 'get_oil_type_cargo' but is designed for yaml files
         that lack facility names
     """
-    print(yaml_file)
-    print(yaml_file.format)
+    
     with open(yaml_file,"r") as file:
             
             # load fraction_of_total values for weighting random generator
