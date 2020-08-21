@@ -35,7 +35,7 @@ def get_oil_type_atb(
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ##  Load file paths and terminal names
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    with open(f'{master_dir}{master_file}') as file:
+    with open(master_file) as file:
         master = yaml.safe_load(file)
 
     # Assign US and CAD origin/destinations from master file
