@@ -1,6 +1,7 @@
 from math import exp 
 from monte_carlo_utils import make_bins, get_bin, place_into_bins, clamp
 import yaml
+import numpy
 
 def get_oil_capacity( 
     master_file,
@@ -244,8 +245,8 @@ def get_oil_capacity(
                 max_fuel
             )
 
-        # ~~~ small pass or other ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        elif vessel_type == "smallpass" or vessel_type == "other":
+        # ~~~ small pass ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        elif vessel_type == "smallpass":
 
             C =  master['vessel_attributes']['smallpass']['fuel_fit_coefs'] 
             
@@ -266,4 +267,26 @@ def get_oil_capacity(
                 max_fuel
             )
 
+        # ~~~ other ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        elif vessel_type == "other":
+
+            C =  master['vessel_attributes']['other']['fuel_fit_coefs'] 
+            
+            fit_capacity = (
+                numpy.exp(C[1])* 
+                numpy.exp(C[0]*vessel_length)
+            )
+
+            cargo_capacity = 0
+                
+            # impose fuel capacity limits for this vessel type
+            min_fuel = master['vessel_attributes']['other']['min_fuel']
+            max_fuel = master['vessel_attributes']['other']['max_fuel']
+
+            fuel_capacity = clamp(
+                fit_capacity, 
+                min_fuel, 
+                max_fuel
+            )
+            
     return fuel_capacity, cargo_capacity
