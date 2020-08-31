@@ -1,6 +1,28 @@
 import numpy 
 import yaml
 import pathlib
+from decimal import *
+
+def decimal_divide(numerator, denominator, precision):
+    """Returns a floating point representation of the 
+        mathematically correct answer to division of 
+        a numerator with a denominator, up to precision equal to 
+        'precision'.
+        
+        Python binary arithmatic errors occur for precisions greater 
+        than 1e-9 decimal places and this method ensures that the sum 
+        of weighted values is 1 (and not affected by binary arithmatic 
+        errors). 
+        """
+    
+    result_list = []
+    for value in numerator:
+        getcontext().prec = precision
+        fraction_decimal = Decimal(value)/Decimal(denominator)
+        result_list.append(fraction_decimal)
+        fraction_float = numpy.array(result_list)    
+    
+    return fraction_float
 
 def make_bins(lower_bound, upper_bound, step_size):
     """ Returns an ascending list of tuples from start to stop, with
