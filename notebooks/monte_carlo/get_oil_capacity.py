@@ -4,7 +4,7 @@ import yaml
 import numpy
 
 def get_oil_capacity( 
-    master_file,
+    oil_attribution_file,
     vessel_length, 
     vessel_type,
     random_generator
@@ -19,23 +19,23 @@ def get_oil_capacity(
         capacities for non-ATB tug and tank barges is well represented by the 
         ATB data. 
 
-        master_file [string]: This is the output file from make_master.yaml
+        oil_attrs_file [string]: This is the output file from make_oil_attrs.yaml
         vessel_length [meters]: Can be any number representing ship length
         vessel_type [string]: tanker, atb, barge, cargo, cruise,
                               ferry, fishing, smallpass, or other
     """
-    with open(master_file) as file:
-        master = yaml.load(file, Loader=yaml.Loader)
+    with open(oil_attribution_file) as file:
+        oil_attrs = yaml.load(file, Loader=yaml.Loader)
      
-    if vessel_type not in master['categories']['all_vessels']:              
+    if vessel_type not in oil_attrs['categories']['all_vessels']:              
         raise ValueError(["Oops! Vessel type isn't valid." + 
            "Today's flavors are: tanker, atb, barge, cargo, cruise, " +
            "ferry, fishing, smallpass, or other.  So..." +
             "Go fish! (or try 'fishing' instead)"])
 
     if vessel_length < 0:
-        fuel_capacity = master['vessel_attributes'][vessel_type]['min_fuel']
-        cargo_capacity = master['vessel_attributes'][vessel_type]['min_cargo']
+        fuel_capacity = oil_attrs['vessel_attributes'][vessel_type]['min_fuel']
+        cargo_capacity = oil_attrs['vessel_attributes'][vessel_type]['min_cargo']
     
     else:
         
@@ -43,36 +43,36 @@ def get_oil_capacity(
         if vessel_type == "tanker":
 
             bins = (
-                 master['vessel_attributes']['tanker']
+                 oil_attrs['vessel_attributes']['tanker']
                 ['length_bins']
             )
 
             if vessel_length >= max(max(bins)):
                 cargo_capacity = (
-                    master['vessel_attributes']['tanker']
+                    oil_attrs['vessel_attributes']['tanker']
                     ['max_cargo'])
                 fuel_capacity = (
-                    master['vessel_attributes']['tanker']
+                    oil_attrs['vessel_attributes']['tanker']
                     ['max_fuel'])
 
             elif vessel_length < 0:
                 cargo_capacity = (
-                    master['vessel_attributes']['tanker']
+                    oil_attrs['vessel_attributes']['tanker']
                     ['min_cargo']
                 )
                 fuel_capacity = (
-                    master['vessel_attributes']['tanker']
+                    oil_attrs['vessel_attributes']['tanker']
                     ['min_fuel']
                 )
             else:
                 bin_index = get_bin(vessel_length, bins)
 
                 cargo_capacity = (
-                    master['vessel_attributes']['tanker']
+                    oil_attrs['vessel_attributes']['tanker']
                     ['cargo_capacity'][bin_index]
                 )
                 fuel_capacity = (
-                    master['vessel_attributes']['tanker']
+                    oil_attrs['vessel_attributes']['tanker']
                     ['fuel_capacity'][bin_index]
                 )
 
@@ -80,12 +80,12 @@ def get_oil_capacity(
         # ~~~ atbs ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         elif vessel_type == "atb":
 
-            atb_min_cargo = master['vessel_attributes']['atb']['min_cargo']
-            atb_max_cargo = master['vessel_attributes']['atb']['max_cargo']
+            atb_min_cargo = oil_attrs['vessel_attributes']['atb']['min_cargo']
+            atb_max_cargo = oil_attrs['vessel_attributes']['atb']['max_cargo']
 
             if vessel_length > 50:
                 # For ATB lengths > 50 m, calculate capacity from linear fit 
-                C = master['vessel_attributes']['atb']['cargo_fit_coefs']
+                C = oil_attrs['vessel_attributes']['atb']['cargo_fit_coefs']
                 fit_capacity = ( 
                     C[1] + 
                     C[0]*vessel_length 
@@ -100,11 +100,11 @@ def get_oil_capacity(
                 # Use cargo capacity weights by AIS ship track data
                 # for lengths < 50 m 
                 cargo_weight = (
-                    master['vessel_attributes']['atb']
+                    oil_attrs['vessel_attributes']['atb']
                     ['cargo_capacity_probability']
                 )
                 cargo_capacity_bin_centers =  (
-                    master['vessel_attributes']['atb']
+                    oil_attrs['vessel_attributes']['atb']
                     ['cargo_capacity_bin_centers'] 
                 )
                 cargo_capacity = random_generator.choice(
@@ -114,11 +114,11 @@ def get_oil_capacity(
 
             # for all ATBs, estimate fuel capacity by AIS ship track weighting   
             fuel_weight = (
-                master['vessel_attributes']['atb']
+                oil_attrs['vessel_attributes']['atb']
                 ['fuel_capacity_probability']
             )
             fuel_capacity_bin_centers =  (
-                master['vessel_attributes']['atb']
+                oil_attrs['vessel_attributes']['atb']
                 ['fuel_capacity_bin_centers']
             )
             fuel_capacity = random_generator.choice(
@@ -130,11 +130,11 @@ def get_oil_capacity(
         elif vessel_type == "barge":
 
             cargo_weight = (
-                master['vessel_attributes']['barge']
+                oil_attrs['vessel_attributes']['barge']
                 ['cargo_capacity_probability']
             )
             cargo_capacity_bin_centers =  (
-                master['vessel_attributes']['barge']
+                oil_attrs['vessel_attributes']['barge']
                 ['cargo_capacity_bin_centers'] 
             )
             cargo_capacity = random_generator.choice(
@@ -143,11 +143,11 @@ def get_oil_capacity(
             )
 
             fuel_weight = (
-                master['vessel_attributes']['barge']
+                oil_attrs['vessel_attributes']['barge']
                 ['fuel_capacity_probability']
             )
             fuel_capacity_bin_centers =  (
-                master['vessel_attributes']['barge']
+                oil_attrs['vessel_attributes']['barge']
                 ['fuel_capacity_bin_centers']
             )
             fuel_capacity = random_generator.choice(
@@ -159,7 +159,7 @@ def get_oil_capacity(
         # ~~~ cargo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         elif vessel_type == "cargo":
 
-            C =  master['vessel_attributes']['cargo']['fuel_fit_coefs'] 
+            C =  oil_attrs['vessel_attributes']['cargo']['fuel_fit_coefs'] 
             
             fit_capacity = (
                 numpy.exp(C[1])* 
@@ -169,8 +169,8 @@ def get_oil_capacity(
             cargo_capacity = 0
             
             # impose fuel capacity limits for this vessel type
-            min_fuel = master['vessel_attributes']['cargo']['min_fuel']
-            max_fuel   = master['vessel_attributes']['cargo']['max_fuel']
+            min_fuel = oil_attrs['vessel_attributes']['cargo']['min_fuel']
+            max_fuel   = oil_attrs['vessel_attributes']['cargo']['max_fuel']
 
             fuel_capacity = clamp(
                 fit_capacity, 
@@ -181,7 +181,7 @@ def get_oil_capacity(
         # ~~~ cruise ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         elif vessel_type == "cruise":
 
-            C =  master['vessel_attributes']['cruise']['fuel_fit_coefs'] 
+            C =  oil_attrs['vessel_attributes']['cruise']['fuel_fit_coefs'] 
             
             fit_capacity = (
                 C[1] +
@@ -191,8 +191,8 @@ def get_oil_capacity(
             cargo_capacity = 0
             
             # impose fuel capacity limits for this vessel type
-            min_fuel = master['vessel_attributes']['cruise']['min_fuel']
-            max_fuel   = master['vessel_attributes']['cruise']['max_fuel']
+            min_fuel = oil_attrs['vessel_attributes']['cruise']['min_fuel']
+            max_fuel   = oil_attrs['vessel_attributes']['cruise']['max_fuel']
 
             fuel_capacity = clamp(
                 fit_capacity, 
@@ -203,7 +203,7 @@ def get_oil_capacity(
         # ~~~ ferry ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         elif vessel_type == "ferry":
 
-            C =  master['vessel_attributes']['ferry']['fuel_fit_coefs'] 
+            C =  oil_attrs['vessel_attributes']['ferry']['fuel_fit_coefs'] 
             
             fit_capacity = (
                 numpy.exp(C[1])* 
@@ -213,8 +213,8 @@ def get_oil_capacity(
             cargo_capacity = 0
             
             # impose fuel capacity limits for this vessel type
-            min_fuel = master['vessel_attributes']['ferry']['min_fuel']
-            max_fuel   = master['vessel_attributes']['ferry']['max_fuel']
+            min_fuel = oil_attrs['vessel_attributes']['ferry']['min_fuel']
+            max_fuel   = oil_attrs['vessel_attributes']['ferry']['max_fuel']
 
             fuel_capacity = clamp(
                 fit_capacity, 
@@ -225,7 +225,7 @@ def get_oil_capacity(
         # ~~~ fishing ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         elif vessel_type == "fishing":
 
-            C =  master['vessel_attributes']['fishing']['fuel_fit_coefs'] 
+            C =  oil_attrs['vessel_attributes']['fishing']['fuel_fit_coefs'] 
             
             fit_capacity = (
                 C[2] +
@@ -236,8 +236,8 @@ def get_oil_capacity(
             cargo_capacity = 0
                 
             # impose fuel capacity limits for this vessel type
-            min_fuel = master['vessel_attributes']['fishing']['min_fuel']
-            max_fuel = master['vessel_attributes']['fishing']['max_fuel']
+            min_fuel = oil_attrs['vessel_attributes']['fishing']['min_fuel']
+            max_fuel = oil_attrs['vessel_attributes']['fishing']['max_fuel']
 
             fuel_capacity = clamp(
                 fit_capacity, 
@@ -248,7 +248,7 @@ def get_oil_capacity(
         # ~~~ small pass ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         elif vessel_type == "smallpass":
 
-            C =  master['vessel_attributes']['smallpass']['fuel_fit_coefs'] 
+            C =  oil_attrs['vessel_attributes']['smallpass']['fuel_fit_coefs'] 
             
             fit_capacity = (
                 numpy.exp(C[1])* 
@@ -258,8 +258,8 @@ def get_oil_capacity(
             cargo_capacity = 0
                 
             # impose fuel capacity limits for this vessel type
-            min_fuel = master['vessel_attributes']['smallpass']['min_fuel']
-            max_fuel = master['vessel_attributes']['smallpass']['max_fuel']
+            min_fuel = oil_attrs['vessel_attributes']['smallpass']['min_fuel']
+            max_fuel = oil_attrs['vessel_attributes']['smallpass']['max_fuel']
 
             fuel_capacity = clamp(
                 fit_capacity, 
@@ -270,7 +270,7 @@ def get_oil_capacity(
         # ~~~ other ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         elif vessel_type == "other":
 
-            C =  master['vessel_attributes']['other']['fuel_fit_coefs'] 
+            C =  oil_attrs['vessel_attributes']['other']['fuel_fit_coefs'] 
             
             fit_capacity = (
                 numpy.exp(C[1])* 
@@ -280,8 +280,8 @@ def get_oil_capacity(
             cargo_capacity = 0
                 
             # impose fuel capacity limits for this vessel type
-            min_fuel = master['vessel_attributes']['other']['min_fuel']
-            max_fuel = master['vessel_attributes']['other']['max_fuel']
+            min_fuel = oil_attrs['vessel_attributes']['other']['min_fuel']
+            max_fuel = oil_attrs['vessel_attributes']['other']['max_fuel']
 
             fuel_capacity = clamp(
                 fit_capacity, 
