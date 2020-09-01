@@ -9,6 +9,15 @@ def decimal_divide(numerator, denominator, precision):
         a numerator with a denominator, up to precision equal to 
         'precision'.
         
+        Inputs: 
+        numerator can be either a scalar value or vector.
+        denominator must be a singular value. 
+        precision defines the order of precision, e.g.,
+          precision = 10 allows for ten orders of magnitude or 1e-10
+          decimal places. 
+          
+        Note: No error catches are included.
+        
         Python binary arithmatic errors occur for precisions greater 
         than 1e-9 decimal places and this method ensures that the sum 
         of weighted values is 1 (and not affected by binary arithmatic 
@@ -16,12 +25,19 @@ def decimal_divide(numerator, denominator, precision):
         """
     
     result_list = []
-    for value in numerator:
-        getcontext().prec = precision
-        fraction_decimal = Decimal(value)/Decimal(denominator)
-        result_list.append(fraction_decimal)
-        fraction_float = numpy.array(result_list)    
     
+    if type(numerator) == int:
+        getcontext().prec = precision
+        fraction_decimal = Decimal(numerator)/Decimal(denominator)
+        result_list.append(fraction_decimal)
+    else:
+        for value in numerator:
+            getcontext().prec = precision
+            fraction_decimal = Decimal(value)/Decimal(denominator)
+            result_list.append(fraction_decimal)
+    
+    fraction_float = numpy.array(result_list)    
+
     return fraction_float
 
 def make_bins(lower_bound, upper_bound, step_size):

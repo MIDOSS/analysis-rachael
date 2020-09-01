@@ -10,7 +10,7 @@ from monte_carlo_utils import get_oil_type_cargo_generic_US
 # for a visual representation
 
 def get_oil_type_barge(
-    master_file,
+    oil_attribution_file,
     origin, 
     destination, 
     random_generator
@@ -40,27 +40,27 @@ def get_oil_type_barge(
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ##  Load file paths and terminal names
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    with open(master_file) as file:
-        master = yaml.load(file, Loader=yaml.Loader)
+    with open(oil_attribution_file) as file:
+        oil_attrs = yaml.load(file, Loader=yaml.Loader)
 
-    # Assign US and CAD origin/destinations from master file
-    CAD_origin_destination = master['categories']\
+    # Assign US and CAD origin/destinations from oil_attrs file
+    CAD_origin_destination = oil_attrs['categories']\
         ['CAD_origin_destination']
-    US_origin_destination = master['categories']\
+    US_origin_destination = oil_attrs['categories']\
         ['US_origin_destination']
 
     # Get file paths to fuel-type yaml files
     # US_origin is for US as origin
     # US_combined represents the combined import and export of fuel
-    CAD_yaml     = master['files']['CAD_origin']
-    WA_in_yaml   = master['files']['WA_destination']
-    WA_out_yaml  = master['files']['WA_origin']
-    US_yaml      = master['files']['US_origin']
-    USall_yaml   = master['files']['US_combined']
-    Pacific_yaml = master['files']['Pacific_origin']
+    CAD_yaml     = oil_attrs['files']['CAD_origin']
+    WA_in_yaml   = oil_attrs['files']['WA_destination']
+    WA_out_yaml  = oil_attrs['files']['WA_origin']
+    US_yaml      = oil_attrs['files']['US_origin']
+    USall_yaml   = oil_attrs['files']['US_combined']
+    Pacific_yaml = oil_attrs['files']['Pacific_origin']
 
     # get probability of non-allocated track being an oil-barge
-    probability_oilcargo = master['vessel_attributes']['barge']\
+    probability_oilcargo = oil_attrs['vessel_attributes']['barge']\
         ['probability_oilcargo']
 
     probability_fuelonly = 1 - probability_oilcargo
