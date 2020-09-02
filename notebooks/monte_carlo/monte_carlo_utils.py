@@ -26,19 +26,37 @@ def decimal_divide(numerator, denominator, precision):
     
     result_list = []
     
-    if type(numerator) == int:
-        getcontext().prec = precision
-        fraction_decimal = Decimal(numerator)/Decimal(denominator)
-        result_list.append(fraction_decimal)
-    else:
-        for value in numerator:
-            getcontext().prec = precision
-            fraction_decimal = Decimal(value)/Decimal(denominator)
-            result_list.append(fraction_decimal)
-    
-    fraction_float = numpy.array(result_list)    
+    fraction_decimal = numpy.around(
+        numerator / denominator,
+        decimals = precision
+    )
+#    fraction_float = fraction_decimal
+#     if type(numerator) == int or type(numerator) == numpy.float64:
+#         getcontext().prec = precision
+#         fraction_decimal = Decimal(numerator)/Decimal(denominator)
+#         result_list.append(
+#             numpy.around(
+#                 numpy.float(fraction_decimal),
+#                 decimals = precision
+#             )
+#         )
+        
+#     else:
+#         for value in numerator:
+#             getcontext().prec = precision
+#             fraction_decimal = Decimal(value)/Decimal(denominator)
+#             result_list.append(
+#                 numpy.around(
+#                     numpy.float(fraction_decimal),
+#                     decimals = precision
+#                 )
+#             )
 
-    return fraction_float
+    
+#     fraction_float = numpy.array(result_list)    
+#   return fraction_float
+
+    return fraction_decimal
 
 def make_bins(lower_bound, upper_bound, step_size):
     """ Returns an ascending list of tuples from start to stop, with
