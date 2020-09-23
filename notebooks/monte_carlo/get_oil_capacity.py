@@ -33,10 +33,15 @@ def get_oil_capacity(
            "ferry, fishing, smallpass, or other.  So..." +
             "Go fish! (or try 'fishing' instead)"])
 
-    if vessel_length < 0:
+    if vessel_length < oil_attrs['vessel_attributes'][vessel_type]['min_length']:
+        # set lower bound
         fuel_capacity = oil_attrs['vessel_attributes'][vessel_type]['min_fuel']
-        cargo_capacity = oil_attrs['vessel_attributes'][vessel_type]['min_cargo']
-    
+        cargo_capacity = oil_attrs['vessel_attributes'][vessel_type]['min_cargo'] if vessel_type in oil_attrs['categories']['tank_vessels'] else 0.0
+        
+    elif vessel_length > oil_attrs['vessel_attributes'][vessel_type]['max_length']:
+        # set upper bound
+        fuel_capacity = oil_attrs['vessel_attributes'][vessel_type]['max_fuel']
+        cargo_capacity = oil_attrs['vessel_attributes'][vessel_type]['max_cargo'] if vessel_type in oil_attrs['categories']['tank_vessels'] else 0.0
     else:
         
         # ~~~ tankers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
