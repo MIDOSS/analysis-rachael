@@ -20,6 +20,9 @@ def load_sro(sro_file_wpath, variable_name=''):
     [bunker_data] = load_sro(bunker_sro)
     [bunker_data] = load_sro(bunker_sro,["MassOil"])
     [bunker_data] = load_sro(bunker_sro,["MassOil", "VolumeOil"])
+
+    TO-DO:
+    Evaluate use of axis=0 vs. axis=1 in "drop" because Elise mentioned the I may run into trouble unless I use axis=1
     """
     #~~~ Load data and tidy it up ~~~
     data = pandas.read_csv(sro_file_wpath, sep="\s+", skiprows=4)
