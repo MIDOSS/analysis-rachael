@@ -6,9 +6,7 @@ channels:
 
 dependencies:
  - arrow
- - xlrd
- - numpy
- - jupyterlab
+ - Click
  - matplotlib
  - netcdf4
  - pandas
@@ -19,5 +17,10 @@ dependencies:
  - rasterio
  - scipy
  - xarray
+ - openpyxl
+ - numpy
+ - jupyterlab
+ - geopandas
+ - Cartopy
 
 prefix: /Users/rmueller/Projects/MIDOSS/analysis-rachael/env/monte_carlo.yaml
