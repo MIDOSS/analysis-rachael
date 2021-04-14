@@ -1,87 +1,87 @@
 atb:
   akns:
-    fraction_of_total: 0.0111
+    fraction_of_total: 0.01105998099452866
     number_of_transfers: 3
-    total_gallons: 12600000
+    total_gallons: 12600000.0
   bunker:
-    fraction_of_total: 0.0934
+    fraction_of_total: 0.09281243224444977
     number_of_transfers: 51
-    total_gallons: 105735864
+    total_gallons: 105735864.0
   diesel:
-    fraction_of_total: 0.2717
-    number_of_transfers: 145
-    total_gallons: 307524000
+    fraction_of_total: 0.273623929804639
+    number_of_transfers: 146
+    total_gallons: 311724000.0
   dilbit:
     fraction_of_total: 0.0
     number_of_transfers: 0
-    total_gallons: 0
+    total_gallons: 0.0
   gas:
-    fraction_of_total: 0.4325
+    fraction_of_total: 0.42965445501511784
     number_of_transfers: 165
-    total_gallons: 489480600
+    total_gallons: 489480600.0
   jet:
-    fraction_of_total: 0.1524
-    number_of_transfers: 70
-    total_gallons: 172452000
+    fraction_of_total: 0.1543236014769899
+    number_of_transfers: 71
+    total_gallons: 175812000.0
   other:
-    fraction_of_total: 0.03889999999999999
+    fraction_of_total: 0.03852560046427483
     number_of_transfers: 34
-    total_gallons: 43890000
+    total_gallons: 43890000.0
 barge:
   akns:
-    fraction_of_total: 0.0206
+    fraction_of_total: 0.021701745243172265
     number_of_transfers: 8
-    total_gallons: 27447000
+    total_gallons: 27447000.0
   bunker:
-    fraction_of_total: 0.5023
+    fraction_of_total: 0.530087543292163
     number_of_transfers: 918
-    total_gallons: 670421325
+    total_gallons: 670421325.0
   diesel:
-    fraction_of_total: 0.155
-    number_of_transfers: 614
-    total_gallons: 206915596
+    fraction_of_total: 0.13358872008070433
+    number_of_transfers: 546
+    total_gallons: 168954596.0
   dilbit:
-    fraction_of_total: 0.0
-    number_of_transfers: 0
-    total_gallons: 0
+    fraction_of_total: 0.002452377070979197
+    number_of_transfers: 6
+    total_gallons: 3101612.0
   gas:
-    fraction_of_total: 0.082
+    fraction_of_total: 0.08648153781525511
     number_of_transfers: 134
-    total_gallons: 109376400
+    total_gallons: 109376400.0
   jet:
-    fraction_of_total: 0.046
-    number_of_transfers: 98
-    total_gallons: 61383000
+    fraction_of_total: 0.04551222931257474
+    number_of_transfers: 93
+    total_gallons: 57561000.0
   other:
-    fraction_of_total: 0.1941
-    number_of_transfers: 219
-    total_gallons: 259109436
+    fraction_of_total: 0.18017584718515137
+    number_of_transfers: 177
+    total_gallons: 227875059.0
 tanker:
   akns:
-    fraction_of_total: 0.0736
+    fraction_of_total: 0.07358208458935075
     number_of_transfers: 19
-    total_gallons: 138654000
+    total_gallons: 138654000.0
   bunker:
-    fraction_of_total: 0.0403
+    fraction_of_total: 0.040342940488427625
     number_of_transfers: 15
-    total_gallons: 76020000
+    total_gallons: 76020000.0
   diesel:
-    fraction_of_total: 0.2499
-    number_of_transfers: 142
-    total_gallons: 470951802
+    fraction_of_total: 0.24984624083204224
+    number_of_transfers: 141
+    total_gallons: 470796402.0
   dilbit:
     fraction_of_total: 0.0
     number_of_transfers: 0
-    total_gallons: 0
+    total_gallons: 0.0
   gas:
-    fraction_of_total: 0.3999
+    fraction_of_total: 0.3999532253270524
     number_of_transfers: 156
-    total_gallons: 753649680
+    total_gallons: 753649680.0
   jet:
-    fraction_of_total: 0.1282
+    fraction_of_total: 0.1282281417844885
     number_of_transfers: 83
-    total_gallons: 241626000
+    total_gallons: 241626000.0
   other:
-    fraction_of_total: 0.1081000000000001
+    fraction_of_total: 0.10804736697863847
     number_of_transfers: 80
-    total_gallons: 203598467
+    total_gallons: 203598467.0
