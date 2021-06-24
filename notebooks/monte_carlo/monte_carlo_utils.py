@@ -1,6 +1,7 @@
 import numpy 
 import yaml
 import pathlib
+import pandas
 from decimal import *
 
 def decimal_divide(numerator, denominator, precision):
@@ -191,3 +192,642 @@ def get_oil_type_cargo_generic_US(yaml_file, ship_type, random_generator):
                                     f'does not sum to 1 in {yaml_file}')
                 
             return fuel_type
+
+def get_oil_classification(DOE_transfer_xlsx):
+    """ Returns the list of all the names in the DOE database that are 
+        attributed to our oil types.  
+        INPUT['string' or Path]: 
+            location/name of 2018 DOE oil transfer excel spreadsheet
+        OUTPUT[dictionary]:
+            Oil types attributed in our study to: AKNS, Bunker, Dilbit, 
+            Diesel, Gas, Jet and Other. 
+    """
+    # Import columns are: 
+    #   (G) Deliverer, (H) Receiver, (O) Region, (P) Product, 
+    #   (Q) Quantity in Gallons, (R) Transfer Type (Fueling, Cargo, or Other)', 
+    #   (w) DelivererTypeDescription, (x) ReceiverTypeDescription 
+    #2018
+    df = pandas.read_excel(
+        DOE_transfer_xlsx,
+        sheet_name='Vessel Oil Transfer', 
+        usecols="G,H,P,Q,R,W,X"
+    )
+    # oil types used in our study
+    oil_types = [
+        'akns', 'bunker', 'dilbit', 'jet', 'diesel', 'gas', 'other'
+    ]
+    # initialize oil dictionary
+    oil_classification = {}
+    for oil in oil_types:
+        oil_classification[oil] = []
+
+    [nrows,ncols] = df.shape
+    for row in range(nrows):
+        if ('CRUDE' in df.Product[row] and 
+            df.Product[row] not in 
+            oil_classification['akns']
+           ):
+            oil_classification['akns'].append(df.Product[row])
+        elif ('BAKKEN' in df.Product[row] and 
+              df.Product[row] not in oil_classification['akns']
+             ):
+            oil_classification['akns'].append(df.Product[row])
+        elif ('BUNKER' in df.Product[row] and 
+              df.Product[row] not in oil_classification['bunker']
+             ):
+            oil_classification['bunker'].append(df.Product[row])
+        elif ('BITUMEN' in df.Product[row] and 
+              df.Product[row] not in oil_classification['dilbit']
+             ):
+            oil_classification['dilbit'].append(df.Product[row])
+        elif ('DIESEL' in df.Product[row] and 
+              df.Product[row] not in oil_classification['diesel']
+             ):
+            oil_classification['diesel'].append(df.Product[row])
+        elif ('GASOLINE' in df.Product[row] and 
+              df.Product[row] not in oil_classification['gas']
+             ):
+            oil_classification['gas'].append(df.Product[row])
+        elif ('JET' in df.Product[row] and df.Product[row] not in 
+              oil_classification['jet']
+             ):
+            oil_classification['jet'].append(df.Product[row])
+        elif ('CRUDE' not in df.Product[row] and
+              'BAKKEN' not in df.Product[row] and
+              'BUNKER' not in df.Product[row] and
+              'BITUMEN' not in df.Product[row] and
+              'DIESEL' not in df.Product[row] and
+              'GASOLINE' not in df.Product[row] and
+              'JET' not in df.Product[row] and
+              df.Product[row] not in oil_classification['other']):
+            oil_classification['other'].append(df.Product[row])
+
+    return oil_classification
+
+def get_DOE_barges(DOE_xls,direction='combined',facilities='selected',transfer_type = 'cargo_fuel'):
+    """
+    Returns number of transfers to/from WA marine terminals used in our study
+    DOE_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
+    marine_terminals [string list]: list of US marine terminals to include
+    direction [string]: 'import','export','combined', where:
+        'import' means from vessel to marine terminal
+        'export' means from marine terminal to vessel
+        'combined' means both import and export transfers
+    facilities [string]: 'all' or 'selected', 
+    transfer_type [string]: 'fuel','cargo','cargo_fuel'
+    """
+    # Import columns are: 
+    #   (G) Deliverer, (H) Receiver, (P) Product, 
+    #   (R) Transfer Type (Fueling, Cargo, or Other)', 
+    #   (w) DelivererTypeDescription, (x) ReceiverTypeDescription 
+    #2018
+    DOE_df = pandas.read_excel(
+        DOE_xls,
+        sheet_name='Vessel Oil Transfer', 
+        usecols="G,H,P,R,W,X"
+    )
+    # convert inputs to lower-case
+    direction = direction.lower()
+    transfer_type = transfer_type.lower()
+    facilities = facilities.lower()
+    
+    # 
+    if transfer_type not in ['fuel', 'cargo', 'cargo_fuel']:
+        raise ValueError('transfer_type options: fuel,cargo or cargo_fuel.')
+    if direction not in ['import', 'export', 'combined']:
+        raise ValueError('direction options: import, export or combined.')
+    
+    #  SELECTED FACILITIES
+    if facilities == 'selected':
+        
+        # The following list includes facilities used in Casey's origin/destination 
+        # analysis with names matching the Dept. of Ecology (DOE) database.  
+        # For example, the shapefile "Maxum Petroleum - Harbor Island Terminal" is 
+        # labeled as 'Maxum (Rainer Petroleum)' in the DOE database.  I use the 
+        # Ecology language here and will need to translate to Shapefile speak
+
+        # If facilities are used in output to compare with monte-carlo transfers
+        # then some terminals will need to be grouped, as they are in the monte carlo. 
+        # Terminal groupings in the voyage joins are: (1)
+        # 'Maxum (Rainer Petroleum)' and 'Shell Oil LP Seattle Distribution Terminal' 
+        # are represented in
+        #  ==>'Kinder Morgan Liquids Terminal - Harbor Island', and 
+        # (2) 'Nustar Energy Tacoma' => 'Phillips 66 Tacoma Terminal'
+        facility_names = [ 
+            'Alon Asphalt Company (Paramount Petroleum)',
+            'Andeavor Anacortes Refinery (formerly Tesoro)',
+            'BP Cherry Point Refinery', 
+            'Kinder Morgan Liquids Terminal - Harbor Island' ,  
+            'Maxum (Rainer Petroleum)',
+            'Naval Air Station Whidbey Island (NASWI)',
+            'NAVSUP Manchester',
+            'Nustar Energy Tacoma',
+            'Phillips 66 Ferndale Refinery', 
+            'Phillips 66 Tacoma Terminal',      
+            'SeaPort Sound Terminal', 
+            'Shell Oil LP Seattle Distribution Terminal',
+            'Shell Puget Sound Refinery', 
+            'Tesoro Port Angeles Terminal','U.S. Oil & Refining',        
+            'Tesoro Pasco Terminal', 'REG Grays Harbor, LLC', 
+            'Tesoro Vancouver Terminal',
+            'Tidewater Snake River Terminal', 
+            'Tidewater Vancouver Terminal',
+            'TLP Management Services LLC (TMS)'
+        ]
+
+
+        # get transfer records for imports, exports and both imports and exports
+        # imports
+        if direction == 'import':
+            print('import')
+            if transfer_type == 'cargo':
+                import_df = DOE_df.loc[
+                    (DOE_df.Receiver.isin(facility_names)) &
+                    (DOE_df.TransferType == 'Cargo') &  
+                    (DOE_df.DelivererTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Deliverer.str.contains('ITB')) & 
+                    (~DOE_df.Deliverer.str.contains('ATB')),
+                ]
+
+            elif transfer_type == 'fuel':
+                import_df = DOE_df.loc[
+                    (DOE_df.Receiver.isin(facility_names)) &
+                    (DOE_df.TransferType == 'Fueling') &  
+                    (DOE_df.DelivererTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Deliverer.str.contains('ITB')) & 
+                    (~DOE_df.Deliverer.str.contains('ATB')),
+                ]
+
+            elif transfer_type == 'cargo_fuel':
+                import_df = DOE_df.loc[
+                    (DOE_df.Receiver.isin(facility_names)) &
+                    (DOE_df.DelivererTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Deliverer.str.contains('ITB')) & 
+                    (~DOE_df.Deliverer.str.contains('ATB')),
+                ]
+            return import_df    
+        if direction == 'export':
+            print('export')
+            #exports
+            if transfer_type == 'cargo':
+                export_df = DOE_df.loc[
+                    (DOE_df.Deliverer.isin(facility_names)) &
+                    (DOE_df.TransferType == 'Cargo') &
+                    (DOE_df.ReceiverTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Receiver.str.contains('ITB')) & 
+                    (~DOE_df.Receiver.str.contains('ATB')),
+                ]
+            elif transfer_type == 'fuel':
+                export_df = DOE_df.loc[
+                    (DOE_df.Deliverer.isin(facility_names)) &
+                    (DOE_df.TransferType == 'Fueling') &
+                    (DOE_df.ReceiverTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Receiver.str.contains('ITB')) & 
+                    (~DOE_df.Receiver.str.contains('ATB')),
+                ]
+            elif transfer_type == 'cargo_fuel':
+                export_df = DOE_df.loc[
+                    (DOE_df.Deliverer.isin(facility_names)) &
+                    (DOE_df.ReceiverTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Receiver.str.contains('ITB')) & 
+                    (~DOE_df.Receiver.str.contains('ATB')),
+                ]
+            return export_df
+        # Now combine both imports and exports for 
+        if direction == 'combined':
+            print('combined')
+            #import
+            if transfer_type == 'cargo':
+                print('cargo')
+                import_df = DOE_df.loc[
+                    (DOE_df.Receiver.isin(facility_names)) &
+                    (DOE_df.TransferType == 'Cargo') &  
+                    (DOE_df.DelivererTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Deliverer.str.contains('ITB')) & 
+                    (~DOE_df.Deliverer.str.contains('ATB')),
+                ]
+
+            elif transfer_type == 'fuel':
+                print('fuel')
+                import_df = DOE_df.loc[
+                    (DOE_df.Receiver.isin(facility_names)) &
+                    (DOE_df.TransferType == 'Fueling') &  
+                    (DOE_df.DelivererTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Deliverer.str.contains('ITB')) & 
+                    (~DOE_df.Deliverer.str.contains('ATB')),
+                ]
+
+            elif transfer_type == 'cargo_fuel':
+                print('cargo_fuel')
+                import_df = DOE_df.loc[
+                    (DOE_df.Receiver.isin(facility_names)) &
+                    (DOE_df.DelivererTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Deliverer.str.contains('ITB')) & 
+                    (~DOE_df.Deliverer.str.contains('ATB')),
+                ]
+            #export
+            if transfer_type == 'cargo':
+                print('cargo')
+                export_df = DOE_df.loc[
+                    (DOE_df.Deliverer.isin(facility_names)) &
+                    (DOE_df.TransferType == 'Cargo') &
+                    (DOE_df.ReceiverTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Receiver.str.contains('ITB')) & 
+                    (~DOE_df.Receiver.str.contains('ATB')),
+                ]
+            elif transfer_type == 'fuel':
+                print('fuel')
+                export_df = DOE_df.loc[
+                    (DOE_df.Deliverer.isin(facility_names)) &
+                    (DOE_df.TransferType == 'Fueling') &
+                    (DOE_df.ReceiverTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Receiver.str.contains('ITB')) & 
+                    (~DOE_df.Receiver.str.contains('ATB')),
+                ]
+            elif transfer_type == 'cargo_fuel':
+                print('cargo_fuel')
+                export_df = DOE_df.loc[
+                    (DOE_df.Deliverer.isin(facility_names)) &
+                    (DOE_df.ReceiverTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Receiver.str.contains('ITB')) & 
+                    (~DOE_df.Receiver.str.contains('ATB')),
+                ]
+            #combine import and export
+            importexport_df = import_df.append(export_df)
+            importexport_df.reset_index(inplace=True)
+            return importexport_df
+        
+    elif facilities == 'all':
+        # get transfer records for imports, exports and both imports and exports
+        # imports
+        if direction == 'import':
+            print('import')
+            if transfer_type == 'cargo':
+                import_df = DOE_df.loc[
+                    (DOE_df.TransferType == 'Cargo') &  
+                    (DOE_df.DelivererTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Deliverer.str.contains('ITB')) & 
+                    (~DOE_df.Deliverer.str.contains('ATB')),
+                ]
+
+            elif transfer_type == 'fuel':
+                import_df = DOE_df.loc[
+                    (DOE_df.TransferType == 'Fueling') &  
+                    (DOE_df.DelivererTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Deliverer.str.contains('ITB')) & 
+                    (~DOE_df.Deliverer.str.contains('ATB')),
+                ]
+
+            elif transfer_type == 'cargo_fuel':
+                import_df = DOE_df.loc[
+                    (DOE_df.DelivererTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Deliverer.str.contains('ITB')) & 
+                    (~DOE_df.Deliverer.str.contains('ATB')),
+                ]
+            return import_df    
+        if direction == 'export':
+            print('export')
+            #exports
+            if transfer_type == 'cargo':
+                export_df = DOE_df.loc[
+                    (DOE_df.TransferType == 'Cargo') &
+                    (DOE_df.ReceiverTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Receiver.str.contains('ITB')) & 
+                    (~DOE_df.Receiver.str.contains('ATB')),
+                ]
+            elif transfer_type == 'fuel':
+                export_df = DOE_df.loc[
+                    (DOE_df.TransferType == 'Fueling') &
+                    (DOE_df.ReceiverTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Receiver.str.contains('ITB')) & 
+                    (~DOE_df.Receiver.str.contains('ATB')),
+                ]
+            elif transfer_type == 'cargo_fuel':
+                export_df = DOE_df.loc[
+                    (DOE_df.ReceiverTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Receiver.str.contains('ITB')) & 
+                    (~DOE_df.Receiver.str.contains('ATB')),
+                ]
+            return export_df
+        # Now combine both imports and exports for 
+        if direction == 'combined':
+            print('combined')
+            #import
+            if transfer_type == 'cargo':
+                print('cargo')
+                import_df = DOE_df.loc[
+                    (DOE_df.TransferType == 'Cargo') &  
+                    (DOE_df.DelivererTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Deliverer.str.contains('ITB')) & 
+                    (~DOE_df.Deliverer.str.contains('ATB')),
+                ]
+
+            elif transfer_type == 'fuel':
+                print('fuel')
+                import_df = DOE_df.loc[
+                    (DOE_df.TransferType == 'Fueling') &  
+                    (DOE_df.DelivererTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Deliverer.str.contains('ITB')) & 
+                    (~DOE_df.Deliverer.str.contains('ATB')),
+                ]
+
+            elif transfer_type == 'cargo_fuel':
+                print('cargo_fuel')
+                import_df = DOE_df.loc[
+                    (DOE_df.DelivererTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Deliverer.str.contains('ITB')) & 
+                    (~DOE_df.Deliverer.str.contains('ATB')),
+                ]
+            #export
+            if transfer_type == 'cargo':
+                print('cargo')
+                export_df = DOE_df.loc[
+                    (DOE_df.TransferType == 'Cargo') &
+                    (DOE_df.ReceiverTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Receiver.str.contains('ITB')) & 
+                    (~DOE_df.Receiver.str.contains('ATB')),
+                ]
+            elif transfer_type == 'fuel':
+                print('fuel')
+                export_df = DOE_df.loc[
+                    (DOE_df.TransferType == 'Fueling') &
+                    (DOE_df.ReceiverTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Receiver.str.contains('ITB')) & 
+                    (~DOE_df.Receiver.str.contains('ATB')),
+                ]
+            elif transfer_type == 'cargo_fuel':
+                print('cargo_fuel')
+                export_df = DOE_df.loc[
+                    (DOE_df.ReceiverTypeDescription.isin(
+                        ['TANK BARGE','TUGBOAT'])) & 
+                    (~DOE_df.Receiver.str.contains('ITB')) & 
+                    (~DOE_df.Receiver.str.contains('ATB')),
+                ]
+            #combine import and export
+            importexport_df = import_df.append(export_df)
+            importexport_df.reset_index(inplace=True)
+            return importexport_df
+                                                
+def get_montecarlo_oilexport(vessel, monte_carlo_csv):
+    
+    # VERIFY THIS LIST IS SAME AS IN OIL_ATTRIBUTION.YAML 
+    # AND GET FACILITY NAMES FROM THERE
+    # list of facility names to query monte-carlo csv file, with:
+    # 1) Marathon Anacortes Refinery (formerly Tesoro) instead of Andeavor 
+    #    Anacortes Refinery (formerly Tesoro) 
+    # 2) Maxum Petroleum - Harbor Island Terminal instead of 
+    #    Maxum (Rainer Petroleum)
+    facility_names_mc = [ 
+        'BP Cherry Point Refinery', 'Shell Puget Sound Refinery',
+        'Tidewater Snake River Terminal', 
+        'SeaPort Sound Terminal', 'Tesoro Vancouver Terminal',
+        'Phillips 66 Ferndale Refinery', 'Phillips 66 Tacoma Terminal', 
+        'Marathon Anacortes Refinery (formerly Tesoro)',
+        'Tesoro Port Angeles Terminal','U.S. Oil & Refining',
+        'Naval Air Station Whidbey Island (NASWI)',
+        'NAVSUP Manchester', 'Alon Asphalt Company (Paramount Petroleum)', 
+        'Kinder Morgan Liquids Terminal - Harbor Island',
+        'Tesoro Pasco Terminal', 'REG Grays Harbor, LLC', 
+        'Tidewater Vancouver Terminal',
+        'TLP Management Services LLC (TMS)'
+    ]
+    oil_template_names = [
+        'Lagrangian_akns.dat','Lagrangian_bunker.dat',
+         'Lagrangian_diesel.dat','Lagrangian_gas.dat',
+         'Lagrangian_jet.dat','Lagrangian_dilbit.dat',
+         'Lagrangian_other.dat'
+    ]
+    oil_types = [
+        'ANS','Bunker-C',
+        'Diesel','Gasoline',
+        'Jet Fuel', 'Dilbit', 
+        'Other'
+    ]
+    
+    # open montecarlo spills file
+    mcdf = pandas.read_csv(monte_carlo_csv)
+    # replace Lagrangian template file names with oil type tags
+    mcdf['Lagrangian_template'] = mcdf['Lagrangian_template'].replace(
+        oil_template_names, 
+        oil_types
+    )
+     # query dataframe for infromation on oil export types by vessel
+#     spill_capacity = mcdf.loc[
+#         (mcdf.vessel_type == vessel) &
+#         (mcdf.fuel_cargo == 'cargo') &
+#         ((mcdf.vessel_origin == 'US') | 
+#          (mcdf.vessel_origin.isin(facility_names_mc))),
+#         ['cargo_capacity', 'vessel_origin', 'Lagrangian_template']
+#     ]
+    spill_capacity = mcdf.loc[
+        (mcdf.vessel_type == vessel) &
+        (mcdf.fuel_cargo == 'cargo') &
+        (mcdf.vessel_origin.isin(facility_names_mc)),
+        ['cargo_capacity', 'vessel_origin', 'Lagrangian_template']
+    ]
+    # add up oil capacities by vessel and oil types
+    total_capacity = (
+        spill_capacity.groupby(
+            'Lagrangian_template'
+        ).cargo_capacity.sum()
+    )
+    return total_capacity
+            
+def get_DOE_df(DOE_xls):
+    # Import columns are: (G) Deliverer, (H) Receiver, (O) Region, (P) Product, 
+    #                     (Q) Quantity in Gallons, (R) Transfer Type (oiling, Cargo, or Other)', 
+    #                     (w) DelivererTypeDescription, (x) ReceiverTypeDescription 
+    
+    precision = 5
+    
+    df = pandas.read_excel(
+        DOE_xls,
+        sheet_name='Vessel Oil Transfer', 
+        usecols="G,H,P,Q,R,W,X"
+    )
+
+    df.TransferQtyInGallon = (
+        df.TransferQtyInGallon.astype(float).round(precision)
+    )
+
+    # housekeeping: Force one name per marine transfer site
+    df = df.replace(
+        to_replace = "US Oil Tacoma ",
+        value = "U.S. Oil & Refining"
+    )
+    df = df.replace(
+        to_replace = "TLP",
+        value = "TLP Management Services LLC (TMS)"
+    )
+    return df
+            
+def get_DOE_oilclassification(DOE_xls):
+    # identify all names of oils in DOE database that are attributed to our oil types
+    oil_types    = [
+        'akns', 'bunker', 'dilbit', 
+        'jet', 'diesel', 'gas', 'other'
+    ]
+    oil_classification = {}
+    for oil in oil_types:
+        oil_classification[oil] = []
+
+    df = get_DOE_df(DOE_xls)
+    [nrows,ncols] = df.shape
+    for row in range(nrows):
+        if 'CRUDE' in df.Product[row] and df.Product[row] not in oil_classification['akns']:
+            oil_classification['akns'].append(df.Product[row])
+        elif 'BAKKEN' in df.Product[row] and df.Product[row] not in oil_classification['akns']:
+            oil_classification['akns'].append(df.Product[row])
+        elif 'BUNKER' in df.Product[row] and df.Product[row] not in oil_classification['bunker']:
+            oil_classification['bunker'].append(df.Product[row])
+        elif 'BITUMEN' in df.Product[row] and df.Product[row] not in oil_classification['dilbit']:
+            oil_classification['dilbit'].append(df.Product[row])
+        elif 'DIESEL' in df.Product[row] and df.Product[row] not in oil_classification['diesel']:
+            oil_classification['diesel'].append(df.Product[row])
+        elif 'GASOLINE' in df.Product[row] and df.Product[row] not in oil_classification['gas']:
+            oil_classification['gas'].append(df.Product[row])
+        elif 'JET' in df.Product[row] and df.Product[row] not in oil_classification['jet']:
+            oil_classification['jet'].append(df.Product[row])
+        elif ('CRUDE' not in df.Product[row] and
+              'BAKKEN' not in df.Product[row] and
+              'BUNKER' not in df.Product[row] and
+              'BITUMEN' not in df.Product[row] and
+              'DIESEL' not in df.Product[row] and
+              'GASOLINE' not in df.Product[row] and
+              'JET' not in df.Product[row] and
+              df.Product[row] not in oil_classification['other']):
+            oil_classification['other'].append(df.Product[row])
+    return oil_classification            
+            
+def get_DOE_exports(DOE_xls, facilities='selected'):
+    """
+    Returns number of transfers to/from WA marine terminals used in our study
+    DOE_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
+    marine_terminals [string list]: list of US marine terminals to include
+    direction [string]: 'import','export','combined', where:
+        'import' means from vessel to marine terminal
+        'export' means from marine terminal to vessel
+        'combined' means both import and export transfers
+    facilities [string]: 'all' or 'selected', 
+    transfer_type [string]: 'cargo'
+    """
+    # convert inputs to lower-case
+    #transfer_type = transfer_type.lower()
+    facilities = facilities.lower() 
+    
+    # Import Department of Ecology data: 
+    df = get_DOE_df(DOE_xls)
+    
+    # get list of oils grouped by our monte_carlo oil types
+    oil_types = [
+        'akns', 'bunker', 'dilbit', 
+        'jet', 'diesel', 'gas', 'other'
+    ]
+    oil_classification = get_DOE_oilclassification(DOE_xls)
+    
+    #  SELECTED FACILITIES
+    export={}
+    if facilities == 'selected':
+        
+        # The following list includes facilities used in Casey's origin/destination 
+        # analysis with names matching the Dept. of Ecology (DOE) database.  
+        # For example, the shapefile "Maxum Petroleum - Harbor Island Terminal" is 
+        # labeled as 'Maxum (Rainer Petroleum)' in the DOE database.  I use the 
+        # Ecology language here and will need to translate to Shapefile speak
+
+        # If facilities are used in output to compare with monte-carlo transfers
+        # then some terminals will need to be grouped, as they are in the monte carlo. 
+        # Terminal groupings in the voyage joins are: (1)
+        # 'Maxum (Rainer Petroleum)' and 'Shell Oil LP Seattle Distribution Terminal' 
+        # are represented in
+        #  ==>'Kinder Morgan Liquids Terminal - Harbor Island', and 
+        # (2) 'Nustar Energy Tacoma' => 'Phillips 66 Tacoma Terminal'
+        facility_names = [ 
+            'Alon Asphalt Company (Paramount Petroleum)',
+            'Andeavor Anacortes Refinery (formerly Tesoro)',
+            'BP Cherry Point Refinery', 
+            'Kinder Morgan Liquids Terminal - Harbor Island' ,  
+            'Maxum (Rainer Petroleum)',
+            'Naval Air Station Whidbey Island (NASWI)',
+            'NAVSUP Manchester',
+            'Nustar Energy Tacoma',
+            'Phillips 66 Ferndale Refinery', 
+            'Phillips 66 Tacoma Terminal',      
+            'SeaPort Sound Terminal', 
+            'Shell Oil LP Seattle Distribution Terminal',
+            'Shell Puget Sound Refinery', 
+            'Tesoro Port Angeles Terminal','U.S. Oil & Refining',        
+            'Tesoro Pasco Terminal', 'REG Grays Harbor, LLC', 
+            'Tesoro Vancouver Terminal',
+            'Tidewater Snake River Terminal', 
+            'Tidewater Vancouver Terminal',
+            'TLP Management Services LLC (TMS)'
+        ]
+        for vessel_type in ['tanker','atb','barge']:
+            if vessel_type == 'barge':
+                export[vessel_type]={}
+                # get exports by oil type
+                type_description = ['TANK BARGE','TUGBOAT']
+                for oil in oil_types:
+                    export[vessel_type][oil] = df.loc[
+                    (df.TransferType == 'Cargo') &
+                    (df.ReceiverTypeDescription.isin(type_description)) & 
+                    (~df.Receiver.str.contains('ITB')) & 
+                    (~df.Receiver.str.contains('ATB')) &
+                    (df.Deliverer.isin(facility_names)) & 
+                    (df.Product.isin(oil_classification[oil])), 
+                    ['TransferQtyInGallon', 'Product']
+                ].TransferQtyInGallon.sum()
+
+            elif vessel_type == 'tanker':
+                export[vessel_type]={}
+                # get exports by oil type
+                type_description = ['TANK SHIP']
+                for oil in oil_types:
+                    export[vessel_type][oil] = df.loc[
+                        (df.TransferType == 'Cargo') &
+                        (df.ReceiverTypeDescription.isin(type_description)) &
+                        (df.Deliverer.isin(facility_names)) &
+                        (df.Product.isin(oil_classification[oil])),
+                        ['TransferQtyInGallon', 'Product']
+                    ].TransferQtyInGallon.sum()
+
+            elif vessel_type == 'atb':
+                export[vessel_type]={}
+                # get exports by oil type
+                type_description = ['TANK BARGE','TUGBOAT']  
+                for oil in oil_types:
+                    export[vessel_type][oil] = df.loc[
+                        (df.TransferType == 'Cargo') &
+                        (df.ReceiverTypeDescription.isin(type_description)) &
+                        (df.Receiver.str.contains('ITB') | 
+                         df.Receiver.str.contains('ATB')) & 
+                        (df.Deliverer.isin(facility_names))&
+                        (df.Product.isin(oil_classification[oil])),
+                        ['TransferQtyInGallon', 'Product']
+                    ].TransferQtyInGallon.sum()
+
+    return export
