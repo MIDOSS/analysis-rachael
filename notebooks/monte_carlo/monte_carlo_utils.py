@@ -591,7 +591,7 @@ def get_DOE_barges(DOE_xls,direction='combined',facilities='selected',transfer_t
             importexport_df.reset_index(inplace=True)
             return importexport_df
                                                 
-def get_montecarlo_oilexport(vessel, monte_carlo_csv):
+def get_montecarlo_oil_byfac(vessel, monte_carlo_csv):
     
     # VERIFY THIS LIST IS SAME AS IN OIL_ATTRIBUTION.YAML 
     # AND GET FACILITY NAMES FROM THERE
@@ -634,28 +634,107 @@ def get_montecarlo_oilexport(vessel, monte_carlo_csv):
         oil_template_names, 
         oil_types
     )
-     # query dataframe for infromation on oil export types by vessel
-#     spill_capacity = mcdf.loc[
-#         (mcdf.vessel_type == vessel) &
-#         (mcdf.fuel_cargo == 'cargo') &
-#         ((mcdf.vessel_origin == 'US') | 
-#          (mcdf.vessel_origin.isin(facility_names_mc))),
-#         ['cargo_capacity', 'vessel_origin', 'Lagrangian_template']
-#     ]
-    spill_capacity = mcdf.loc[
+    # ~~~~~ EXPORTS ~~~~~
+    # query dataframe for infromation on oil export types by vessel
+    export_capacity = mcdf.loc[
         (mcdf.vessel_type == vessel) &
         (mcdf.fuel_cargo == 'cargo') &
         (mcdf.vessel_origin.isin(facility_names_mc)),
         ['cargo_capacity', 'vessel_origin', 'Lagrangian_template']
     ]
     # add up oil capacities by vessel and oil types
-    total_capacity = (
-        spill_capacity.groupby(
+    montecarlo_export_byoil = (
+        export_capacity.groupby(
             'Lagrangian_template'
         ).cargo_capacity.sum()
     )
-    return total_capacity
-            
+    # ~~~~~ IMPORTS ~~~~~
+    # query dataframe for infromation on oil export types by vessel
+    import_capacity = mcdf.loc[
+        (mcdf.vessel_type == vessel) &
+        (mcdf.fuel_cargo == 'cargo') &
+        (mcdf.vessel_dest.isin(facility_names_mc)),
+        ['cargo_capacity', 'vessel_dest', 'Lagrangian_template']
+    ]
+    # add up oil capacities by vessel and oil types
+    montecarlo_import_byoil = (
+        import_capacity.groupby(
+            'Lagrangian_template'
+        ).cargo_capacity.sum()
+    )
+    return montecarlo_export_byoil, montecarlo_import_byoil
+
+def get_montecarlo_oil(vessel, monte_carlo_csv):
+    """
+    Same as get_montecarlo_oil_byfac but generalized to return quantities of 
+    oil by oil type for all US attribution (inclusive of US general and facilities)
+    
+    INPUTS:
+    - vessel ['string']: ['atb','barge','tanker']
+    - monte_carlo_csv['Path' or 'string']: Path and file name for csv file
+    """
+    
+    # VERIFY THIS LIST IS SAME AS IN OIL_ATTRIBUTION.YAML 
+    # AND GET FACILITY NAMES FROM THERE
+    # list of facility names to query monte-carlo csv file, with:
+    # 1) Marathon Anacortes Refinery (formerly Tesoro) instead of Andeavor 
+    #    Anacortes Refinery (formerly Tesoro) 
+    # 2) Maxum Petroleum - Harbor Island Terminal instead of 
+    #    Maxum (Rainer Petroleum)
+    origin_dest_names = [ 
+        'BP Cherry Point Refinery', 'Shell Puget Sound Refinery',
+        'Tidewater Snake River Terminal', 
+        'SeaPort Sound Terminal', 'Tesoro Vancouver Terminal',
+        'Phillips 66 Ferndale Refinery', 'Phillips 66 Tacoma Terminal', 
+        'Marathon Anacortes Refinery (formerly Tesoro)',
+        'Tesoro Port Angeles Terminal','U.S. Oil & Refining',
+        'Naval Air Station Whidbey Island (NASWI)',
+        'NAVSUP Manchester', 'Alon Asphalt Company (Paramount Petroleum)', 
+        'Kinder Morgan Liquids Terminal - Harbor Island',
+        'Tesoro Pasco Terminal', 'REG Grays Harbor, LLC', 
+        'Tidewater Vancouver Terminal',
+        'TLP Management Services LLC (TMS)',
+        'US'
+    ]
+    oil_template_names = [
+        'Lagrangian_akns.dat','Lagrangian_bunker.dat',
+         'Lagrangian_diesel.dat','Lagrangian_gas.dat',
+         'Lagrangian_jet.dat','Lagrangian_dilbit.dat',
+         'Lagrangian_other.dat'
+    ]
+    oil_types = [
+        'ANS','Bunker-C',
+        'Diesel','Gasoline',
+        'Jet Fuel', 'Dilbit', 
+        'Other'
+    ]
+    
+    # open montecarlo spills file
+    mcdf = pandas.read_csv(monte_carlo_csv)
+    # replace Lagrangian template file names with oil type tags
+    mcdf['Lagrangian_template'] = mcdf['Lagrangian_template'].replace(
+        oil_template_names, 
+        oil_types
+    )
+
+    # query dataframe for infromation on oil capacities by types and vessel
+    mc_capacity = mcdf.loc[
+        (mcdf.vessel_type == vessel) &
+        (mcdf.fuel_cargo == 'cargo') &
+        (mcdf.vessel_origin.isin(origin_dest_names) | 
+         mcdf.vessel_dest.isin(origin_dest_names) ),
+        ['cargo_capacity', 'vessel_origin', 'vessel_dest', 'Lagrangian_template']
+    ]
+    # add up oil capacities by vessel and oil types
+    mc_capacity_byoil = (
+        mc_capacity.groupby(
+            'Lagrangian_template'
+        ).cargo_capacity.sum()
+    )
+    
+    return mc_capacity_byoil
+
+
 def get_DOE_df(DOE_xls):
     # Import columns are: (G) Deliverer, (H) Receiver, (O) Region, (P) Product, 
     #                     (Q) Quantity in Gallons, (R) Transfer Type (oiling, Cargo, or Other)', 
@@ -724,15 +803,10 @@ def get_DOE_oilclassification(DOE_xls):
             
 def get_DOE_exports(DOE_xls, facilities='selected'):
     """
-    Returns number of transfers to/from WA marine terminals used in our study
+    Returns total gallons exported by vessel type and oil classification 
+    to/from WA marine terminals used in our study
     DOE_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
-    marine_terminals [string list]: list of US marine terminals to include
-    direction [string]: 'import','export','combined', where:
-        'import' means from vessel to marine terminal
-        'export' means from marine terminal to vessel
-        'combined' means both import and export transfers
-    facilities [string]: 'all' or 'selected', 
-    transfer_type [string]: 'cargo'
+    facilities [string]: 'all' or 'selected'
     """
     # convert inputs to lower-case
     #transfer_type = transfer_type.lower()
@@ -831,3 +905,302 @@ def get_DOE_exports(DOE_xls, facilities='selected'):
                     ].TransferQtyInGallon.sum()
 
     return export
+
+def get_DOE_quantity_byfac(DOE_xls, facilities='selected'):
+    """
+    Returns total gallons of combined imports and exports 
+    by vessel type and oil classification to/from WA marine terminals 
+    used in our study.
+    
+    DOE_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
+    facilities [string]: 'all' or 'selected'
+    """
+    
+    # convert inputs to lower-case
+    #transfer_type = transfer_type.lower()
+    facilities = facilities.lower() 
+    
+    # Import Department of Ecology data: 
+    df = get_DOE_df(DOE_xls)
+    
+    # get list of oils grouped by our monte_carlo oil types
+    oil_types = [
+        'akns', 'bunker', 'dilbit', 
+        'jet', 'diesel', 'gas', 'other'
+    ]
+    # names of oil groupings that we want for our output/graphics
+    oil_types_graphics = [
+        'ANS', 'Bunker-C', 'Dilbit',
+        'Jet Fuel', 'Diesel', 'Gasoline',
+        'Other'
+    ]
+    oil_classification = get_DOE_oilclassification(DOE_xls)
+    
+    #  SELECTED FACILITIES
+    exports={}
+    imports={}
+    combined={}
+    if facilities == 'selected':
+        
+        # The following list includes facilities used in Casey's origin/destination 
+        # analysis with names matching the Dept. of Ecology (DOE) database.  
+        # For example, the shapefile "Maxum Petroleum - Harbor Island Terminal" is 
+        # labeled as 'Maxum (Rainer Petroleum)' in the DOE database.  I use the 
+        # Ecology language here and will need to translate to Shapefile speak
+
+        # If facilities are used in output to compare with monte-carlo transfers
+        # then some terminals will need to be grouped, as they are in the monte carlo. 
+        # Terminal groupings in the voyage joins are: (1)
+        # 'Maxum (Rainer Petroleum)' and 'Shell Oil LP Seattle Distribution Terminal' 
+        # are represented in
+        #  ==>'Kinder Morgan Liquids Terminal - Harbor Island', and 
+        # (2) 'Nustar Energy Tacoma' => 'Phillips 66 Tacoma Terminal'
+        facility_names = [ 
+            'Alon Asphalt Company (Paramount Petroleum)',
+            'Andeavor Anacortes Refinery (formerly Tesoro)',
+            'BP Cherry Point Refinery', 
+            'Kinder Morgan Liquids Terminal - Harbor Island' ,  
+            'Maxum (Rainer Petroleum)',
+            'Naval Air Station Whidbey Island (NASWI)',
+            'NAVSUP Manchester',
+            'Nustar Energy Tacoma',
+            'Phillips 66 Ferndale Refinery', 
+            'Phillips 66 Tacoma Terminal',      
+            'SeaPort Sound Terminal', 
+            'Shell Oil LP Seattle Distribution Terminal',
+            'Shell Puget Sound Refinery', 
+            'Tesoro Port Angeles Terminal','U.S. Oil & Refining',        
+            'Tesoro Pasco Terminal', 'REG Grays Harbor, LLC', 
+            'Tesoro Vancouver Terminal',
+            'Tidewater Snake River Terminal', 
+            'Tidewater Vancouver Terminal',
+            'TLP Management Services LLC (TMS)'
+        ]
+        for vessel_type in ['atb','barge','tanker']:
+            exports[vessel_type]={}
+            imports[vessel_type]={}
+            combined[vessel_type]={}
+            if vessel_type == 'barge':
+                print('Tallying barge quantities')
+                # get transfer quantities by oil type
+                type_description = ['TANK BARGE','TUGBOAT']
+                for oil in oil_types:
+                    # exports
+                    exports[vessel_type][oil] = df.loc[
+                        (df.TransferType == 'Cargo') &
+                        (df.ReceiverTypeDescription.isin(type_description)) & 
+                        (~df.Receiver.str.contains('ITB')) & 
+                        (~df.Receiver.str.contains('ATB')) &
+                        (df.Deliverer.isin(facility_names)) & 
+                        (df.Product.isin(oil_classification[oil])), 
+                        ['TransferQtyInGallon', 'Product']
+                    ].TransferQtyInGallon.sum()
+                    # imports
+                    imports[vessel_type][oil] = df.loc[
+                        (df.TransferType == 'Cargo') &
+                        (df.DelivererTypeDescription.isin(type_description)) & 
+                        (~df.Deliverer.str.contains('ITB')) & 
+                        (~df.Deliverer.str.contains('ATB')) &
+                        (df.Receiver.isin(facility_names)) & 
+                        (df.Product.isin(oil_classification[oil])), 
+                        ['TransferQtyInGallon', 'Product']
+                    ].TransferQtyInGallon.sum()
+
+            elif vessel_type == 'tanker':
+                print('Tallying tanker quantities')
+                # get transfer quantities by oil type
+                type_description = ['TANK SHIP']
+                for oil in oil_types:
+                    # exports
+                    exports[vessel_type][oil] = df.loc[
+                        (df.TransferType == 'Cargo') &
+                        (df.ReceiverTypeDescription.isin(type_description)) &
+                        (df.Deliverer.isin(facility_names)) &
+                        (df.Product.isin(oil_classification[oil])),
+                        ['TransferQtyInGallon', 'Product']
+                    ].TransferQtyInGallon.sum()
+                    # imports
+                    imports[vessel_type][oil] = df.loc[
+                        (df.TransferType == 'Cargo') &
+                        (df.DelivererTypeDescription.isin(type_description)) &
+                        (df.Receiver.isin(facility_names)) &
+                        (df.Product.isin(oil_classification[oil])),
+                        ['TransferQtyInGallon', 'Product']
+                    ].TransferQtyInGallon.sum()
+
+            elif vessel_type == 'atb': 
+                print('Tallying atb quantities')
+                # get transfer quantities by oil type
+                type_description = ['TANK BARGE','TUGBOAT']  
+                for oil in oil_types:
+                    # exports
+                    exports[vessel_type][oil] = df.loc[
+                        (df.TransferType == 'Cargo') &
+                        (df.ReceiverTypeDescription.isin(type_description)) &
+                        (df.Receiver.str.contains('ITB') | 
+                         df.Receiver.str.contains('ATB')) & 
+                        (df.Deliverer.isin(facility_names))&
+                        (df.Product.isin(oil_classification[oil])),
+                        ['TransferQtyInGallon', 'Product']
+                    ].TransferQtyInGallon.sum()
+                    # imports
+                    imports[vessel_type][oil] = df.loc[
+                        (df.TransferType == 'Cargo') &
+                        (df.DelivererTypeDescription.isin(type_description)) &
+                        (df.Deliverer.str.contains('ITB') | 
+                         df.Deliverer.str.contains('ATB')) & 
+                        (df.Receiver.isin(facility_names))&
+                        (df.Product.isin(oil_classification[oil])),
+                        ['TransferQtyInGallon', 'Product']
+                    ].TransferQtyInGallon.sum()
+            
+            # combine imports and exports and convert oil type names to 
+            # those we wish to use for graphics/presentations
+            # The name change mostly matters for AKNS -> ANS.
+            for idx,oil in enumerate(oil_types):                                              
+                
+                # convert names
+                exports[vessel_type][oil_types_graphics[idx]] = (
+                    exports[vessel_type][oil]
+                )
+                imports[vessel_type][oil_types_graphics[idx]] = (
+                    imports[vessel_type][oil]
+                )
+        
+                # remove monte-carlo names
+                exports[vessel_type].pop(oil)
+                imports[vessel_type].pop(oil)
+                
+                # combine imports and exports
+                combined[vessel_type][oil_types_graphics[idx]] = (
+                    imports[vessel_type][oil_types_graphics[idx]] + \
+                    exports[vessel_type][oil_types_graphics[idx]]
+                )
+                
+    return exports, imports, combined
+
+def get_DOE_quantity(DOE_xls):
+    """
+    Returns total gallons of all WA transfers by vessel type and oil classification .
+    
+    DOE_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
+    facilities [string]: 'all' or 'selected'
+    """
+    
+    # Import Department of Ecology data: 
+    df = get_DOE_df(DOE_xls)
+    
+    # get list of oils grouped by our monte_carlo oil types
+    oil_types = [
+        'akns', 'bunker', 'dilbit', 
+        'jet', 'diesel', 'gas', 'other'
+    ]
+    # names of oil groupings that we want for our output/graphics
+    oil_types_graphics = [
+        'ANS', 'Bunker-C', 'Dilbit',
+        'Jet Fuel', 'Diesel', 'Gasoline',
+        'Other'
+    ]
+    oil_classification = get_DOE_oilclassification(DOE_xls)
+    
+    #  SELECTED FACILITIES
+    imports={}
+    exports={}
+    combined={}
+
+    for vessel_type in ['atb','barge','tanker']:
+        combined[vessel_type]={}
+        imports[vessel_type]={}
+        exports[vessel_type]={}
+        if vessel_type == 'barge':
+            print('Tallying barge quantities')
+            # get transfer quantities by oil type
+            type_description = ['TANK BARGE','TUGBOAT']
+            for oil in oil_types:
+                # exports
+                exports[vessel_type][oil] = df.loc[
+                    (df.TransferType == 'Cargo') &
+                    (df.ReceiverTypeDescription.isin(type_description)) & 
+                    (~df.Receiver.str.contains('ITB')) & 
+                    (~df.Receiver.str.contains('ATB')) & 
+                    (df.Product.isin(oil_classification[oil])), 
+                    ['TransferQtyInGallon', 'Product']
+                ].TransferQtyInGallon.sum()
+                # imports
+                imports[vessel_type][oil] = df.loc[
+                    (df.TransferType == 'Cargo') &
+                    (df.DelivererTypeDescription.isin(type_description)) & 
+                    (~df.Deliverer.str.contains('ITB')) & 
+                    (~df.Deliverer.str.contains('ATB')) & 
+                    (df.Product.isin(oil_classification[oil])), 
+                    ['TransferQtyInGallon', 'Product']
+                ].TransferQtyInGallon.sum()
+
+        elif vessel_type == 'tanker':
+            print('Tallying tanker quantities')
+            # get transfer quantities by oil type
+            type_description = ['TANK SHIP']
+            for oil in oil_types:
+                # exports
+                exports[vessel_type][oil] = df.loc[
+                    (df.TransferType == 'Cargo') &
+                    (df.ReceiverTypeDescription.isin(type_description)) &
+                    (df.Product.isin(oil_classification[oil])),
+                    ['TransferQtyInGallon', 'Product']
+                ].TransferQtyInGallon.sum()
+                # imports
+                imports[vessel_type][oil] = df.loc[
+                    (df.TransferType == 'Cargo') &
+                    (df.DelivererTypeDescription.isin(type_description)) &
+                    (df.Product.isin(oil_classification[oil])),
+                    ['TransferQtyInGallon', 'Product']
+                ].TransferQtyInGallon.sum()
+
+        elif vessel_type == 'atb': 
+            print('Tallying atb quantities')
+            # get transfer quantities by oil type
+            type_description = ['TANK BARGE','TUGBOAT']  
+            for oil in oil_types:
+                # exports
+                exports[vessel_type][oil] = df.loc[
+                    (df.TransferType == 'Cargo') &
+                    (df.ReceiverTypeDescription.isin(type_description)) &
+                    (df.Receiver.str.contains('ITB') | 
+                     df.Receiver.str.contains('ATB')) &
+                    (df.Product.isin(oil_classification[oil])),
+                    ['TransferQtyInGallon', 'Product']
+                ].TransferQtyInGallon.sum()
+                # imports
+                imports[vessel_type][oil] = df.loc[
+                    (df.TransferType == 'Cargo') &
+                    (df.DelivererTypeDescription.isin(type_description)) &
+                    (df.Deliverer.str.contains('ITB') | 
+                     df.Deliverer.str.contains('ATB')) &
+                    (df.Product.isin(oil_classification[oil])),
+                    ['TransferQtyInGallon', 'Product']
+                ].TransferQtyInGallon.sum()
+
+        # combine imports and exports and convert oil type names to 
+        # those we wish to use for graphics/presentations
+        # The name change mostly matters for AKNS -> ANS.
+        for idx,oil in enumerate(oil_types):                                              
+
+            # convert names
+            exports[vessel_type][oil_types_graphics[idx]] = (
+                exports[vessel_type][oil]
+            )
+            imports[vessel_type][oil_types_graphics[idx]] = (
+                imports[vessel_type][oil]
+            )
+
+            # remove monte-carlo names
+            exports[vessel_type].pop(oil)
+            imports[vessel_type].pop(oil)
+
+            # combine imports and exports
+            combined[vessel_type][oil_types_graphics[idx]] = (
+                imports[vessel_type][oil_types_graphics[idx]] + \
+                exports[vessel_type][oil_types_graphics[idx]]
+            )
+                
+    return exports, imports, combined
