@@ -193,6 +193,69 @@ def get_oil_type_cargo_generic_US(yaml_file, ship_type, random_generator):
                 
             return fuel_type
 
+def get_DOE_df(DOE_xls, group='no'):
+    """
+    group: Specificies whether or not terminals ought to be re-named to 
+     the names used in our monte carlo grouping
+    """
+    # Import columns are: (G) Deliverer, (H) Receiver, (O) Region, (P) Product, 
+    #                     (Q) Quantity in Gallons, (R) Transfer Type (oiling, Cargo, or Other)', 
+    #                     (w) DelivererTypeDescription, (x) ReceiverTypeDescription 
+    
+    # define floating point precision for transfer quanitities
+    precision = 5
+    
+    # read in data
+    df = pandas.read_excel(
+        DOE_xls,
+        sheet_name='Vessel Oil Transfer', 
+        usecols="G,H,P,Q,R,W,X"
+    )
+
+    # convert to float (though I'm not sure if this is still needed)
+    df.TransferQtyInGallon = (
+        df.TransferQtyInGallon.astype(float).round(precision)
+    )
+
+    # Housekeeping: Force one name per marine transfer site
+    df = df.replace(
+        to_replace = "US Oil Tacoma ",
+        value = "U.S. Oil & Refining"
+    )
+    df = df.replace(
+        to_replace = "TLP",
+        value = "TLP Management Services LLC (TMS)"
+    )
+    # Housekeeping: Convert DOE terminal names to the names
+    #  used in our monte-carlo, if different. 
+    df = df.replace(
+        to_replace = "Maxum (Rainer Petroleum)",
+        value = "Maxum Petroleum - Harbor Island Terminal"
+    )
+    df = df.replace(
+        to_replace = "Andeavor Anacortes Refinery (formerly Tesoro)",
+        value = "Marathon Anacortes Refinery (formerly Tesoro)"
+    )
+    
+    # Consolidate (if selected by group='yes'):
+    # Apply terminal groupings used in our monte-carlo by
+    # renaming terminals to the names used in our
+    # origin-destination attribution
+    if group == 'yes':
+        df = df.replace(
+            to_replace = "Maxum Petroleum - Harbor Island Terminal",
+            value = "Kinder Morgan Liquids Terminal - Harbor Island"
+        )
+        df = df.replace(
+            to_replace = "Shell Oil LP Seattle Distribution Terminal",
+            value = "Kinder Morgan Liquids Terminal - Harbor Island"
+        )
+        df = df.replace(
+            to_replace = "Nustar Energy Tacoma",
+            value = "Phillips 66 Tacoma Terminal"
+        )
+    return df
+
 def get_oil_classification(DOE_transfer_xlsx):
     """ Returns the list of all the names in the DOE database that are 
         attributed to our oil types.  
@@ -266,6 +329,10 @@ def get_oil_classification(DOE_transfer_xlsx):
 
 def get_DOE_barges(DOE_xls,direction='combined',facilities='selected',transfer_type = 'cargo_fuel'):
     """
+    THIS CODE HAS A LOT OF REDUNDANCY. I PLAN TO UPDATE BY USING 
+    COMBINED INPUT/OUTPUT TO RETURN EITHER IMPORT OR OUTPUT, IF SELECTED
+    
+    ALSO CHANGE NAME TO GET_DOE_BARGES_TRANSFERS TO MATCH ATB FUNCTION
     Returns number of transfers to/from WA marine terminals used in our study
     DOE_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
     marine_terminals [string list]: list of US marine terminals to include
@@ -276,16 +343,13 @@ def get_DOE_barges(DOE_xls,direction='combined',facilities='selected',transfer_t
     facilities [string]: 'all' or 'selected', 
     transfer_type [string]: 'fuel','cargo','cargo_fuel'
     """
-    # Import columns are: 
-    #   (G) Deliverer, (H) Receiver, (P) Product, 
-    #   (R) Transfer Type (Fueling, Cargo, or Other)', 
-    #   (w) DelivererTypeDescription, (x) ReceiverTypeDescription 
-    #2018
-    DOE_df = pandas.read_excel(
-        DOE_xls,
-        sheet_name='Vessel Oil Transfer', 
-        usecols="G,H,P,R,W,X"
+    
+    # load DOE data
+    DOE_df = get_DOE_df(
+        DOE_xls, 
+        group = 'yes'
     )
+    
     # convert inputs to lower-case
     direction = direction.lower()
     transfer_type = transfer_type.lower()
@@ -300,37 +364,26 @@ def get_DOE_barges(DOE_xls,direction='combined',facilities='selected',transfer_t
     #  SELECTED FACILITIES
     if facilities == 'selected':
         
-        # The following list includes facilities used in Casey's origin/destination 
-        # analysis with names matching the Dept. of Ecology (DOE) database.  
-        # For example, the shapefile "Maxum Petroleum - Harbor Island Terminal" is 
-        # labeled as 'Maxum (Rainer Petroleum)' in the DOE database.  I use the 
-        # Ecology language here and will need to translate to Shapefile speak
-
-        # If facilities are used in output to compare with monte-carlo transfers
-        # then some terminals will need to be grouped, as they are in the monte carlo. 
-        # Terminal groupings in the voyage joins are: (1)
-        # 'Maxum (Rainer Petroleum)' and 'Shell Oil LP Seattle Distribution Terminal' 
-        # are represented in
-        #  ==>'Kinder Morgan Liquids Terminal - Harbor Island', and 
-        # (2) 'Nustar Energy Tacoma' => 'Phillips 66 Tacoma Terminal'
+        # This list was copied from oil_attribution.yaml on 07/02/21
+        # Eventually will update to read in from oil_attribution
         facility_names = [ 
-            'Alon Asphalt Company (Paramount Petroleum)',
-            'Andeavor Anacortes Refinery (formerly Tesoro)',
             'BP Cherry Point Refinery', 
-            'Kinder Morgan Liquids Terminal - Harbor Island' ,  
-            'Maxum (Rainer Petroleum)',
-            'Naval Air Station Whidbey Island (NASWI)',
-            'NAVSUP Manchester',
-            'Nustar Energy Tacoma',
-            'Phillips 66 Ferndale Refinery', 
-            'Phillips 66 Tacoma Terminal',      
-            'SeaPort Sound Terminal', 
-            'Shell Oil LP Seattle Distribution Terminal',
             'Shell Puget Sound Refinery', 
-            'Tesoro Port Angeles Terminal','U.S. Oil & Refining',        
-            'Tesoro Pasco Terminal', 'REG Grays Harbor, LLC', 
-            'Tesoro Vancouver Terminal',
             'Tidewater Snake River Terminal', 
+            'SeaPort Sound Terminal', 
+            'Tesoro Vancouver Terminal',
+            'Phillips 66 Ferndale Refinery', 
+            'Phillips 66 Tacoma Terminal', 
+            'Marathon Anacortes Refinery (formerly Tesoro)',
+            'Tesoro Port Angeles Terminal',
+            'U.S. Oil & Refining',
+            'Naval Air Station Whidbey Island (NASWI)',
+            'NAVSUP Manchester', 
+            'Alon Asphalt Company (Paramount Petroleum)', 
+            'Kinder Morgan Liquids Terminal - Harbor Island',
+            'Nustar Energy Vancouver',
+            'Tesoro Pasco Terminal', 
+            'REG Grays Harbor, LLC', 
             'Tidewater Vancouver Terminal',
             'TLP Management Services LLC (TMS)'
         ]
@@ -590,7 +643,176 @@ def get_DOE_barges(DOE_xls,direction='combined',facilities='selected',transfer_t
             importexport_df = import_df.append(export_df)
             importexport_df.reset_index(inplace=True)
             return importexport_df
-                                                
+
+def get_DOE_atb_transfers(DOE_xls,transfer_type = 'cargo',facilities='selected'):
+    """
+    Returns number of transfers to/from WA marine terminals used in our study
+    DOE_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
+    direction [string]: 'import','export','combined', where:
+        'import' means from vessel to marine terminal
+        'export' means from marine terminal to vessel
+        'combined' means both import and export transfers
+    facilities [string]: 'all' or 'selected', 
+    """
+
+    # load DOE data
+    DOE_df = get_DOE_df(
+        DOE_xls, 
+        group = 'yes'
+    )
+
+    # convert inputs to lower-case
+    transfer_type = transfer_type.lower()
+    facilities = facilities.lower()
+
+    if transfer_type not in ['fuel', 'cargo', 'cargo_fuel']:
+        raise ValueError('transfer_type options: fuel,cargo or cargo_fuel.')
+
+    #  SELECTED FACILITIES
+    if facilities == 'selected':
+
+        # This list was copied from oil_attribution.yaml on 07/02/21
+        # Eventually will update to read in from oil_attribution
+        facility_names = [ 
+            'BP Cherry Point Refinery', 
+            'Shell Puget Sound Refinery', 
+            'Tidewater Snake River Terminal', 
+            'SeaPort Sound Terminal', 
+            'Tesoro Vancouver Terminal',
+            'Phillips 66 Ferndale Refinery', 
+            'Phillips 66 Tacoma Terminal', 
+            'Marathon Anacortes Refinery (formerly Tesoro)',
+            'Tesoro Port Angeles Terminal',
+            'U.S. Oil & Refining',
+            'Naval Air Station Whidbey Island (NASWI)',
+            'NAVSUP Manchester', 
+            'Alon Asphalt Company (Paramount Petroleum)', 
+            'Kinder Morgan Liquids Terminal - Harbor Island',
+            'Nustar Energy Vancouver',
+            'Tesoro Pasco Terminal', 
+            'REG Grays Harbor, LLC', 
+            'Tidewater Vancouver Terminal',
+            'TLP Management Services LLC (TMS)'
+        ]
+        #import
+        if transfer_type == 'cargo':
+            print('cargo')
+            import_df = DOE_df.loc[
+                (DOE_df.Receiver.isin(facility_names)) &
+                (DOE_df.TransferType == 'Cargo') &   
+                (DOE_df.Deliverer.str.contains('ITB') | 
+                 DOE_df.Deliverer.str.contains('ATB')),
+            ]
+
+        elif transfer_type == 'fuel':
+            print('fuel')
+            import_df = DOE_df.loc[
+                (DOE_df.Receiver.isin(facility_names)) &
+                (DOE_df.TransferType == 'Fueling') &  
+                (DOE_df.Deliverer.str.contains('ITB') | 
+                 DOE_df.Deliverer.str.contains('ATB')),
+            ]
+
+        elif transfer_type == 'cargo_fuel':
+            print('cargo_fuel')
+            import_df = DOE_df.loc[
+                (DOE_df.Receiver.isin(facility_names)) &
+                (DOE_df.Deliverer.str.contains('ITB') | 
+                 DOE_df.Deliverer.str.contains('ATB')),
+            ]
+        import_count = import_df['Deliverer'].count()
+        print(f'{import_count} {transfer_type}'
+              ' transfers to monte carlo terminals')
+        #export
+        if transfer_type == 'cargo':
+            print('cargo')
+            export_df = DOE_df.loc[
+                (DOE_df.Deliverer.isin(facility_names)) &
+                (DOE_df.TransferType == 'Cargo') &
+                (DOE_df.Receiver.str.contains('ITB') | 
+                 DOE_df.Receiver.str.contains('ATB')),
+            ]
+        elif transfer_type == 'fuel':
+            print('fuel')
+            export_df = DOE_df.loc[
+                (DOE_df.Deliverer.isin(facility_names)) &
+                (DOE_df.TransferType == 'Fueling') &
+                (DOE_df.Receiver.str.contains('ITB') | 
+                 DOE_df.Receiver.str.contains('ATB')),
+            ]
+        elif transfer_type == 'cargo_fuel':
+            print('cargo_fuel')
+            export_df = DOE_df.loc[
+                (DOE_df.Deliverer.isin(facility_names)) &
+                (DOE_df.Receiver.str.contains('ITB') | 
+                 DOE_df.Receiver.str.contains('ATB')),
+            ]
+        export_count = export_df['Deliverer'].count()
+        print(f'{export_count} {transfer_type}'
+              ' transfers from monte carlo terminals')
+        #combine import and export
+        importexport_df = import_df.append(export_df)
+        importexport_df.reset_index(inplace=True)
+        count = importexport_df['Deliverer'].count()
+        return count
+
+    elif facilities == 'all':
+        #import
+        if transfer_type == 'cargo':
+            print('cargo')
+            import_df = DOE_df.loc[
+                (DOE_df.TransferType == 'Cargo') & 
+                (DOE_df.Deliverer.str.contains('ITB') |
+                 DOE_df.Deliverer.str.contains('ATB')),
+            ]
+
+        elif transfer_type == 'fuel':
+            print('fuel')
+            import_df = DOE_df.loc[
+                (DOE_df.TransferType == 'Fueling') & 
+                (DOE_df.Deliverer.str.contains('ITB') |
+                 DOE_df.Deliverer.str.contains('ATB')),
+            ]
+
+        elif transfer_type == 'cargo_fuel':
+            print('cargo_fuel')
+            import_df = DOE_df.loc[
+                (DOE_df.Deliverer.str.contains('ITB') | 
+                 DOE_df.Deliverer.str.contains('ATB')),
+            ]
+        import_count = import_df['Deliverer'].count()
+        print(f'{import_count} {transfer_type}'
+              ' transfers from all sources')
+        #export
+        if transfer_type == 'cargo':
+            print('cargo')
+            export_df = DOE_df.loc[
+                (DOE_df.TransferType == 'Cargo') &
+                (DOE_df.Receiver.str.contains('ITB') | 
+                 DOE_df.Receiver.str.contains('ATB')),
+            ]
+        elif transfer_type == 'fuel':
+            print('fuel')
+            export_df = DOE_df.loc[
+                (DOE_df.TransferType == 'Fueling') &
+                (DOE_df.Receiver.str.contains('ITB') |
+                 DOE_df.Receiver.str.contains('ATB')),
+            ]
+        elif transfer_type == 'cargo_fuel':
+            print('cargo_fuel')
+            export_df = DOE_df.loc[
+                (DOE_df.Receiver.str.contains('ITB') | 
+                 DOE_df.Receiver.str.contains('ATB')),
+            ]
+        export_count = export_df['Deliverer'].count()
+        print(f'{export_count} {transfer_type}'
+              ' transfers from all sources')
+        #combine import and export
+        importexport_df = import_df.append(export_df)
+        importexport_df.reset_index(inplace=True)
+        count = importexport_df['Deliverer'].count()
+        return count
+        
 def get_montecarlo_oil_byfac(vessel, monte_carlo_csv):
     
     # VERIFY THIS LIST IS SAME AS IN OIL_ATTRIBUTION.YAML 
@@ -733,35 +955,6 @@ def get_montecarlo_oil(vessel, monte_carlo_csv):
     )
     
     return mc_capacity_byoil
-
-
-def get_DOE_df(DOE_xls):
-    # Import columns are: (G) Deliverer, (H) Receiver, (O) Region, (P) Product, 
-    #                     (Q) Quantity in Gallons, (R) Transfer Type (oiling, Cargo, or Other)', 
-    #                     (w) DelivererTypeDescription, (x) ReceiverTypeDescription 
-    
-    precision = 5
-    
-    df = pandas.read_excel(
-        DOE_xls,
-        sheet_name='Vessel Oil Transfer', 
-        usecols="G,H,P,Q,R,W,X"
-    )
-
-    df.TransferQtyInGallon = (
-        df.TransferQtyInGallon.astype(float).round(precision)
-    )
-
-    # housekeeping: Force one name per marine transfer site
-    df = df.replace(
-        to_replace = "US Oil Tacoma ",
-        value = "U.S. Oil & Refining"
-    )
-    df = df.replace(
-        to_replace = "TLP",
-        value = "TLP Management Services LLC (TMS)"
-    )
-    return df
             
 def get_DOE_oilclassification(DOE_xls):
     # identify all names of oils in DOE database that are attributed to our oil types
