@@ -1,3 +1,9 @@
+### TO DO: 
+# - Compare get_oil_classification and get_DOE_oilclassification and combine into one
+# - Add or tidy-up function information in help tags
+# - Consider adding function to convert oil type names
+# - Update get_DOE_barges method to remove all the redundancies and make less if-fy
+
 import numpy 
 import yaml
 import pathlib
@@ -193,14 +199,52 @@ def get_oil_type_cargo_generic_US(yaml_file, ship_type, random_generator):
                 
             return fuel_type
 
-def get_DOE_df(DOE_xls, group='no'):
+def assign_facility_region(facilities_xlsx):
+    """
+    Loads the facilities excel spreadsheet and returns a dataframe with 
+    that identifies the region the facility is in
+    """
+    # Facility information 
+    facdf = pandas.read_excel(
+        facilities_xlsx,
+        sheet_name = 'Washington',
+        usecols="B,D,J,K"
+    )
+    # define latitude bins
+    lat_partition = [46.9, 48, 48.15, 48.3, 48.7]
+
+    # define conditions used to bin facilities by latitude
+    conditions = [
+        (facdf.DockLatNumber < lat_partition[0]),
+        (facdf.DockLatNumber >= lat_partition[0]) & 
+         (facdf.DockLatNumber < lat_partition[1]),
+        (facdf.DockLatNumber >= lat_partition[1]) & 
+        (facdf.DockLatNumber < lat_partition[2]),
+        (facdf.DockLatNumber >= lat_partition[2]) & 
+        (facdf.DockLatNumber < lat_partition[3]),
+        (facdf.DockLatNumber >= lat_partition[3]) & 
+        (facdf.DockLatNumber < lat_partition[4]),
+        (facdf.DockLatNumber >= lat_partition[4])
+    ]
+
+    # regional tags
+    values = ['south','puget','portangeles','naswi','anacortes','north']
+
+    # create a new column and assign values to it using 
+    # defined conditions on latitudes
+    facdf['Region'] = numpy.select(conditions, values)
+
+    return facdf
+
+def get_DOE_df(DOE_xls, fac_xls, group='no'):
     """
     group: Specificies whether or not terminals ought to be re-named to 
      the names used in our monte carlo grouping
     """
-    # Import columns are: (G) Deliverer, (H) Receiver, (O) Region, (P) Product, 
-    #                     (Q) Quantity in Gallons, (R) Transfer Type (oiling, Cargo, or Other)', 
-    #                     (w) DelivererTypeDescription, (x) ReceiverTypeDescription 
+    # Import columns are: (G) Deliverer, (H) Receiver, (O) Region, 
+    # (P) Product, (Q) Quantity in Gallons, (R) Transfer Type 
+    # (oiling, Cargo, or Other)', (w) DelivererTypeDescription, 
+    # (x) ReceiverTypeDescription 
     
     # define floating point precision for transfer quanitities
     precision = 5
@@ -253,6 +297,22 @@ def get_DOE_df(DOE_xls, group='no'):
         df = df.replace(
             to_replace = "Nustar Energy Tacoma",
             value = "Phillips 66 Tacoma Terminal"
+        )
+    
+    # Create a new "Regions" column to assing region tag, using 
+    # 'not attributed' to define transfers at locations not included 
+    # in our evaluation
+    df['Region'] = 'not attributed'
+    # Load facility information
+    facdf = assign_facility_region(fac_xls)
+    # Find locations with transfers in our facility list and 
+    # assign region tag.
+    for idx,facility in enumerate(facdf['FacilityName']): 
+        df['Region'] = numpy.where(
+            (df['Deliverer'] == facility) |
+            (df['Receiver'] == facility), # identify transfer location
+            facdf['Region'][idx],            # assign region to transfer
+            df['Region']                  # or keep the NA attribution
         )
     return df
 
@@ -327,7 +387,7 @@ def get_oil_classification(DOE_transfer_xlsx):
 
     return oil_classification
 
-def get_DOE_barges(DOE_xls,direction='combined',facilities='selected',transfer_type = 'cargo_fuel'):
+def get_DOE_barges(DOE_xls,fac_xls, direction='combined',facilities='selected',transfer_type = 'cargo_fuel'):
     """
     THIS CODE HAS A LOT OF REDUNDANCY. I PLAN TO UPDATE BY USING 
     COMBINED INPUT/OUTPUT TO RETURN EITHER IMPORT OR OUTPUT, IF SELECTED
@@ -343,10 +403,12 @@ def get_DOE_barges(DOE_xls,direction='combined',facilities='selected',transfer_t
     facilities [string]: 'all' or 'selected', 
     transfer_type [string]: 'fuel','cargo','cargo_fuel'
     """
+    print('this code note yet tests with fac_xls as input')
     
     # load DOE data
     DOE_df = get_DOE_df(
         DOE_xls, 
+        fac_xls,
         group = 'yes'
     )
     
@@ -644,7 +706,7 @@ def get_DOE_barges(DOE_xls,direction='combined',facilities='selected',transfer_t
             importexport_df.reset_index(inplace=True)
             return importexport_df
 
-def get_DOE_atb_transfers(DOE_xls,transfer_type = 'cargo',facilities='selected'):
+def get_DOE_atb_transfers(DOE_xls,fac_xls,transfer_type = 'cargo',facilities='selected'):
     """
     Returns number of transfers to/from WA marine terminals used in our study
     DOE_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
@@ -654,10 +716,11 @@ def get_DOE_atb_transfers(DOE_xls,transfer_type = 'cargo',facilities='selected')
         'combined' means both import and export transfers
     facilities [string]: 'all' or 'selected', 
     """
-
+    print('this code note yet tests with fac_xls as input')
     # load DOE data
     DOE_df = get_DOE_df(
         DOE_xls, 
+        fac_xls,
         group = 'yes'
     )
 
@@ -956,7 +1019,7 @@ def get_montecarlo_oil(vessel, monte_carlo_csv):
     
     return mc_capacity_byoil
             
-def get_DOE_oilclassification(DOE_xls):
+def get_DOE_oilclassification(DOE_xls, fac_xls):
     # identify all names of oils in DOE database that are attributed to our oil types
     oil_types    = [
         'akns', 'bunker', 'dilbit', 
@@ -966,7 +1029,9 @@ def get_DOE_oilclassification(DOE_xls):
     for oil in oil_types:
         oil_classification[oil] = []
 
-    df = get_DOE_df(DOE_xls)
+    print('this code note yet tests with fac_xls as input')
+    
+    df = get_DOE_df(DOE_xls,fac_xls)
     [nrows,ncols] = df.shape
     for row in range(nrows):
         if 'CRUDE' in df.Product[row] and df.Product[row] not in oil_classification['akns']:
@@ -994,7 +1059,7 @@ def get_DOE_oilclassification(DOE_xls):
             oil_classification['other'].append(df.Product[row])
     return oil_classification            
             
-def get_DOE_exports(DOE_xls, facilities='selected'):
+def get_DOE_exports(DOE_xls, fac_xls, facilities='selected'):
     """
     Returns total gallons exported by vessel type and oil classification 
     to/from WA marine terminals used in our study
@@ -1005,15 +1070,16 @@ def get_DOE_exports(DOE_xls, facilities='selected'):
     #transfer_type = transfer_type.lower()
     facilities = facilities.lower() 
     
+    print('this code note yet tests with fac_xls as input')
     # Import Department of Ecology data: 
-    df = get_DOE_df(DOE_xls)
+    df = get_DOE_df(DOE_xls,fac_xls)
     
     # get list of oils grouped by our monte_carlo oil types
     oil_types = [
         'akns', 'bunker', 'dilbit', 
         'jet', 'diesel', 'gas', 'other'
     ]
-    oil_classification = get_DOE_oilclassification(DOE_xls)
+    oil_classification = get_DOE_oilclassification(DOE_xls, fac_xls)
     
     #  SELECTED FACILITIES
     export={}
@@ -1099,7 +1165,7 @@ def get_DOE_exports(DOE_xls, facilities='selected'):
 
     return export
 
-def get_DOE_quantity_byfac(DOE_xls, facilities='selected'):
+def get_DOE_quantity_byfac(DOE_xls, fac_xls, facilities='selected'):
     """
     Returns total gallons of combined imports and exports 
     by vessel type and oil classification to/from WA marine terminals 
@@ -1112,9 +1178,10 @@ def get_DOE_quantity_byfac(DOE_xls, facilities='selected'):
     # convert inputs to lower-case
     #transfer_type = transfer_type.lower()
     facilities = facilities.lower() 
-    
+      
     # Import Department of Ecology data: 
-    df = get_DOE_df(DOE_xls)
+    print('this code note yet tests with fac_xls as input')
+    df = get_DOE_df(DOE_xls, fac_xls)
     
     # get list of oils grouped by our monte_carlo oil types
     oil_types = [
@@ -1127,7 +1194,7 @@ def get_DOE_quantity_byfac(DOE_xls, facilities='selected'):
         'Jet Fuel', 'Diesel', 'Gasoline',
         'Other'
     ]
-    oil_classification = get_DOE_oilclassification(DOE_xls)
+    oil_classification = get_DOE_oilclassification(DOE_xls, fac_xls)
     
     #  SELECTED FACILITIES
     exports={}
@@ -1272,7 +1339,7 @@ def get_DOE_quantity_byfac(DOE_xls, facilities='selected'):
                 
     return exports, imports, combined
 
-def get_DOE_quantity(DOE_xls):
+def get_DOE_quantity(DOE_xls, fac_xls):
     """
     Returns total gallons of all WA transfers by vessel type and oil classification .
     
@@ -1281,7 +1348,7 @@ def get_DOE_quantity(DOE_xls):
     """
     
     # Import Department of Ecology data: 
-    df = get_DOE_df(DOE_xls)
+    df = get_DOE_df(DOE_xls, fac_xls)
     
     # get list of oils grouped by our monte_carlo oil types
     oil_types = [
@@ -1294,7 +1361,7 @@ def get_DOE_quantity(DOE_xls):
         'Jet Fuel', 'Diesel', 'Gasoline',
         'Other'
     ]
-    oil_classification = get_DOE_oilclassification(DOE_xls)
+    oil_classification = get_DOE_oilclassification(DOE_xls, fac_xls)
     
     #  SELECTED FACILITIES
     imports={}
@@ -1317,7 +1384,7 @@ def get_DOE_quantity(DOE_xls):
                     (~df.Receiver.str.contains('ITB')) & 
                     (~df.Receiver.str.contains('ATB')) & 
                     (df.Product.isin(oil_classification[oil])), 
-                    ['TransferQtyInGallon', 'Product']
+                    ['TransferQtyInGallon', 'Product', 'Region']
                 ].TransferQtyInGallon.sum()
                 # imports
                 imports[vessel_type][oil] = df.loc[
@@ -1326,7 +1393,7 @@ def get_DOE_quantity(DOE_xls):
                     (~df.Deliverer.str.contains('ITB')) & 
                     (~df.Deliverer.str.contains('ATB')) & 
                     (df.Product.isin(oil_classification[oil])), 
-                    ['TransferQtyInGallon', 'Product']
+                    ['TransferQtyInGallon', 'Product', 'Region']
                 ].TransferQtyInGallon.sum()
 
         elif vessel_type == 'tanker':
@@ -1339,14 +1406,14 @@ def get_DOE_quantity(DOE_xls):
                     (df.TransferType == 'Cargo') &
                     (df.ReceiverTypeDescription.isin(type_description)) &
                     (df.Product.isin(oil_classification[oil])),
-                    ['TransferQtyInGallon', 'Product']
+                    ['TransferQtyInGallon', 'Product', 'Region']
                 ].TransferQtyInGallon.sum()
                 # imports
                 imports[vessel_type][oil] = df.loc[
                     (df.TransferType == 'Cargo') &
                     (df.DelivererTypeDescription.isin(type_description)) &
                     (df.Product.isin(oil_classification[oil])),
-                    ['TransferQtyInGallon', 'Product']
+                    ['TransferQtyInGallon', 'Product', 'Region']
                 ].TransferQtyInGallon.sum()
 
         elif vessel_type == 'atb': 
@@ -1361,7 +1428,7 @@ def get_DOE_quantity(DOE_xls):
                     (df.Receiver.str.contains('ITB') | 
                      df.Receiver.str.contains('ATB')) &
                     (df.Product.isin(oil_classification[oil])),
-                    ['TransferQtyInGallon', 'Product']
+                    ['TransferQtyInGallon', 'Product', 'Region']
                 ].TransferQtyInGallon.sum()
                 # imports
                 imports[vessel_type][oil] = df.loc[
@@ -1370,7 +1437,7 @@ def get_DOE_quantity(DOE_xls):
                     (df.Deliverer.str.contains('ITB') | 
                      df.Deliverer.str.contains('ATB')) &
                     (df.Product.isin(oil_classification[oil])),
-                    ['TransferQtyInGallon', 'Product']
+                    ['TransferQtyInGallon', 'Product', 'Region']
                 ].TransferQtyInGallon.sum()
 
         # combine imports and exports and convert oil type names to 
