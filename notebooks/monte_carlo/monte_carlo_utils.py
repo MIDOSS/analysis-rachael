@@ -238,7 +238,7 @@ def assign_facility_region(facilities_xlsx):
 
 def get_DOE_df(DOE_xls, fac_xls, group='no'):
     """
-    group: Specificies whether or not terminals ought to be re-named to 
+    group['yes','no']: Specificies whether or not terminals ought to be re-named to 
      the names used in our monte carlo grouping
     """
     # Import columns are: (G) Deliverer, (H) Receiver, (O) Region, 
@@ -298,22 +298,63 @@ def get_DOE_df(DOE_xls, fac_xls, group='no'):
             to_replace = "Nustar Energy Tacoma",
             value = "Phillips 66 Tacoma Terminal"
         )
-    
+
     # Create a new "Regions" column to assing region tag, using 
     # 'not attributed' to define transfers at locations not included 
     # in our evaluation
-    df['Region'] = 'not attributed'
+    df['ImportRegion'] = 'not attributed'
+    df['ExportRegion'] = 'not attributed'
     # Load facility information
     facdf = assign_facility_region(fac_xls)
     # Find locations with transfers in our facility list and 
     # assign region tag.
     for idx,facility in enumerate(facdf['FacilityName']): 
-        df['Region'] = numpy.where(
-            (df['Deliverer'] == facility) |
+        df['ImportRegion'] = numpy.where(
             (df['Receiver'] == facility), # identify transfer location
-            facdf['Region'][idx],            # assign region to transfer
-            df['Region']                  # or keep the NA attribution
+            facdf['Region'][idx],         # assign region to transfer
+            df['ImportRegion']            # or keep the NA attribution
         )
+        df['ExportRegion'] = numpy.where(
+            (df['Deliverer'] == facility), # identify transfer location
+            facdf['Region'][idx],          # assign region to transfer
+            df['ExportRegion']             # or keep the NA attribution
+        )
+    return df
+
+def rename_DOE_df(DOE_df):
+    """
+    Reads in DOE dataframe with original 'Product' names and converts
+    them to the names we use in our monte-carlo
+    """
+    
+    # read in monte-carlo oil classifications
+    oil_classification = get_DOE_oilclassification(
+        DOE_xls, 
+        fac_xls
+    )
+
+    # Rename oil types to match our in-house naming convention
+    for oil_mc in oil_classification.keys():
+        for oil_doe in oil_classification[oil_mc]:
+            df['Product'] = df['Product'].replace(oil_doe, oil_mc)
+    # Now convert from our in-house names to our presentation names
+    conditions = [
+        (df['Product']=='akns') &
+        (df['Product']=='bunker') &
+        (df['Product']=='dilbit') &
+        (df['Product']=='jet') &
+        (df['Product']=='diesel') &
+        (df['Product']=='gas') &
+        (df['Product']=='other') 
+    ]
+    # regional tags
+    new_values = [
+        'ANS' ,'Bunker-C','Dilbit','Jet Fuel','Diesel','Gasoline','Other'
+    ]
+    # create a new column and assign values to it using 
+    # defined conditions on latitudes
+    df['Product'] = numpy.select(conditions, new_values)
+
     return df
 
 def get_oil_classification(DOE_transfer_xlsx):
@@ -403,7 +444,7 @@ def get_DOE_barges(DOE_xls,fac_xls, direction='combined',facilities='selected',t
     facilities [string]: 'all' or 'selected', 
     transfer_type [string]: 'fuel','cargo','cargo_fuel'
     """
-    print('this code note yet tests with fac_xls as input')
+    print('get_DOE_barges: not yet tested with fac_xls as input')
     
     # load DOE data
     DOE_df = get_DOE_df(
@@ -716,7 +757,7 @@ def get_DOE_atb_transfers(DOE_xls,fac_xls,transfer_type = 'cargo',facilities='se
         'combined' means both import and export transfers
     facilities [string]: 'all' or 'selected', 
     """
-    print('this code note yet tests with fac_xls as input')
+    print('this code not yet tested with fac_xls as input')
     # load DOE data
     DOE_df = get_DOE_df(
         DOE_xls, 
@@ -876,29 +917,22 @@ def get_DOE_atb_transfers(DOE_xls,fac_xls,transfer_type = 'cargo',facilities='se
         count = importexport_df['Deliverer'].count()
         return count
         
-def get_montecarlo_oil_byfac(vessel, monte_carlo_csv):
+def get_montecarlo_oil_byvessel(vessel, monte_carlo_csv):
     
-    # VERIFY THIS LIST IS SAME AS IN OIL_ATTRIBUTION.YAML 
-    # AND GET FACILITY NAMES FROM THERE
-    # list of facility names to query monte-carlo csv file, with:
-    # 1) Marathon Anacortes Refinery (formerly Tesoro) instead of Andeavor 
-    #    Anacortes Refinery (formerly Tesoro) 
-    # 2) Maxum Petroleum - Harbor Island Terminal instead of 
-    #    Maxum (Rainer Petroleum)
-    facility_names_mc = [ 
-        'BP Cherry Point Refinery', 'Shell Puget Sound Refinery',
-        'Tidewater Snake River Terminal', 
-        'SeaPort Sound Terminal', 'Tesoro Vancouver Terminal',
-        'Phillips 66 Ferndale Refinery', 'Phillips 66 Tacoma Terminal', 
-        'Marathon Anacortes Refinery (formerly Tesoro)',
-        'Tesoro Port Angeles Terminal','U.S. Oil & Refining',
-        'Naval Air Station Whidbey Island (NASWI)',
-        'NAVSUP Manchester', 'Alon Asphalt Company (Paramount Petroleum)', 
-        'Kinder Morgan Liquids Terminal - Harbor Island',
-        'Tesoro Pasco Terminal', 'REG Grays Harbor, LLC', 
-        'Tidewater Vancouver Terminal',
-        'TLP Management Services LLC (TMS)'
-    ]
+    # Currently use hard-coded file location for oil_attribution.yaml
+    # This won't work for distribution and will need to be fixed. 
+    
+    # Oil Attribution file location
+    oil_attribution_file = (
+        '/Users/rmueller/Data/MIDOSS/marine_transport_data/'
+        'oil_attribution.yaml'
+    )
+    # Load oil Attribution File
+    with open(oil_attribution_file) as file:
+            oil_attrs = yaml.load(file, Loader=yaml.Loader)
+    # Read in facility names
+    facility_names_mc = oil_attrs['categories']['US_origin_destination']
+    
     oil_template_names = [
         'Lagrangian_akns.dat','Lagrangian_bunker.dat',
          'Lagrangian_diesel.dat','Lagrangian_gas.dat',
@@ -920,7 +954,7 @@ def get_montecarlo_oil_byfac(vessel, monte_carlo_csv):
         oil_types
     )
     # ~~~~~ EXPORTS ~~~~~
-    # query dataframe for infromation on oil export types by vessel
+    # query dataframe for information on oil export types by vessel
     export_capacity = mcdf.loc[
         (mcdf.vessel_type == vessel) &
         (mcdf.fuel_cargo == 'cargo') &
@@ -934,7 +968,7 @@ def get_montecarlo_oil_byfac(vessel, monte_carlo_csv):
         ).cargo_capacity.sum()
     )
     # ~~~~~ IMPORTS ~~~~~
-    # query dataframe for infromation on oil export types by vessel
+    # query dataframe for information on oil export types by vessel
     import_capacity = mcdf.loc[
         (mcdf.vessel_type == vessel) &
         (mcdf.fuel_cargo == 'cargo') &
@@ -947,7 +981,24 @@ def get_montecarlo_oil_byfac(vessel, monte_carlo_csv):
             'Lagrangian_template'
         ).cargo_capacity.sum()
     )
-    return montecarlo_export_byoil, montecarlo_import_byoil
+    
+    # ~~~~~ COMBINED ~~~~~
+    # query dataframe for information on imports & exports by vessel
+    # and oil types
+    net_capacity = mcdf.loc[
+        (mcdf.vessel_type == vessel) &
+        (mcdf.fuel_cargo == 'cargo') &
+        (mcdf.vessel_dest.isin(facility_names_mc) | 
+         mcdf.vessel_origin.isin(facility_names_mc)),
+        ['cargo_capacity', 'vessel_dest', 'Lagrangian_template']
+    ]
+    # add up oil capacities by vessel and oil types
+    montecarlo_byoil = (
+        net_capacity.groupby(
+            'Lagrangian_template'
+        ).cargo_capacity.sum()
+    )
+    return montecarlo_export_byoil, montecarlo_import_byoil, montecarlo_byoil
 
 def get_montecarlo_oil(vessel, monte_carlo_csv):
     """
@@ -1021,6 +1072,8 @@ def get_montecarlo_oil(vessel, monte_carlo_csv):
             
 def get_DOE_oilclassification(DOE_xls, fac_xls):
     # identify all names of oils in DOE database that are attributed to our oil types
+    print('get_DOE_oilclassification: not yet tested with fac_xls as input')
+    
     oil_types    = [
         'akns', 'bunker', 'dilbit', 
         'jet', 'diesel', 'gas', 'other'
@@ -1029,7 +1082,6 @@ def get_DOE_oilclassification(DOE_xls, fac_xls):
     for oil in oil_types:
         oil_classification[oil] = []
 
-    print('this code note yet tests with fac_xls as input')
     
     df = get_DOE_df(DOE_xls,fac_xls)
     [nrows,ncols] = df.shape
@@ -1070,7 +1122,7 @@ def get_DOE_exports(DOE_xls, fac_xls, facilities='selected'):
     #transfer_type = transfer_type.lower()
     facilities = facilities.lower() 
     
-    print('this code note yet tests with fac_xls as input')
+    print('get_DOE_exports: not yet tested with fac_xls as input')
     # Import Department of Ecology data: 
     df = get_DOE_df(DOE_xls,fac_xls)
     
@@ -1180,7 +1232,7 @@ def get_DOE_quantity_byfac(DOE_xls, fac_xls, facilities='selected'):
     facilities = facilities.lower() 
       
     # Import Department of Ecology data: 
-    print('this code note yet tests with fac_xls as input')
+    print('get_DOE_quantity_byfac: not yet tested with fac_xls as input')
     df = get_DOE_df(DOE_xls, fac_xls)
     
     # get list of oils grouped by our monte_carlo oil types
