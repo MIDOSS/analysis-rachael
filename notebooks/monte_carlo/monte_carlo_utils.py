@@ -321,7 +321,7 @@ def get_DOE_df(DOE_xls, fac_xls, group='no'):
         )
     return df
 
-def rename_DOE_df(DOE_df, DOE_xls):
+def rename_DOE_df_oils(DOE_df, DOE_xls):
     """
     Reads in DOE dataframe with original 'Product' names and converts
     them to the names we use in our monte-carlo
@@ -331,6 +331,10 @@ def rename_DOE_df(DOE_df, DOE_xls):
     DOE_xls: The original DOE oil transfer spreadsheet, the same as is
         read into get_DOE_df
     """
+    # I'm sure there is a better way of allowing name flaxibilitye
+    # and preventing unnecessary memory hogging, but...I'm choosing
+    # ease and efficiency right now....
+    df = DOE_df.copy()
     
     # read in monte-carlo oil classifications
     oil_classification = get_DOE_oilclassification(DOE_xls)
@@ -341,12 +345,12 @@ def rename_DOE_df(DOE_df, DOE_xls):
             df['Product'] = df['Product'].replace(oil_doe, oil_mc)
     # Now convert from our in-house names to our presentation names
     conditions = [
-        (df['Product']=='akns') &
-        (df['Product']=='bunker') &
-        (df['Product']=='dilbit') &
-        (df['Product']=='jet') &
-        (df['Product']=='diesel') &
-        (df['Product']=='gas') &
+        (df['Product']=='akns'), 
+        (df['Product']=='bunker'),
+        (df['Product']=='dilbit'),
+        (df['Product']=='jet'),
+        (df['Product']=='diesel'),
+        (df['Product']=='gas'),
         (df['Product']=='other') 
     ]
     # regional tags
@@ -354,9 +358,9 @@ def rename_DOE_df(DOE_df, DOE_xls):
         'ANS' ,'Bunker-C','Dilbit','Jet Fuel','Diesel','Gasoline','Other'
     ]
     # create a new column and assign values to it using 
-    # defined conditions on latitudes
+    # defined conditions on oil types
     df['Product'] = numpy.select(conditions, new_values)
-
+    
     return df
 
 def get_oil_classification(DOE_transfer_xlsx):
@@ -1074,26 +1078,31 @@ def get_montecarlo_oil(vessel, monte_carlo_csv):
             
 def get_DOE_oilclassification(DOE_xls):
     """
+    PURPOSE: To identify all the names of oils in DOE database that we attribute 
+        to our oil type classifications. 
     DOE_xls: Path to DOE spreadsheet (MuellerTrans4-30-20.xlsx, for our study) 
-    """
-    # identify all names of oils in DOE database that are attributed to our oil types
-    print('get_DOE_oilclassification: not yet tested with fac_xls as input')
     
+    TO DO: 
+        Replace for-loop with more pythonic dataframe query method
+    """
+    
+    # list names of oil classifications used in our study
     oil_types    = [
         'akns', 'bunker', 'dilbit', 
         'jet', 'diesel', 'gas', 'other'
     ]
+    # initialize output
     oil_classification = {}
     for oil in oil_types:
         oil_classification[oil] = []
-
     # read in data
     df = pandas.read_excel(
         DOE_xls,
         sheet_name='Vessel Oil Transfer', 
         usecols="G,H,P,Q,R,W,X"
     )
-    
+    # Loop through data and identify names of oils in the DOE database that 
+    # we classify as being in one of our oil-type categories.
     [nrows,ncols] = df.shape
     for row in range(nrows):
         if 'CRUDE' in df.Product[row] and df.Product[row] not in oil_classification['akns']:
