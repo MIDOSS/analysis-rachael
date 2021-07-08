@@ -321,17 +321,19 @@ def get_DOE_df(DOE_xls, fac_xls, group='no'):
         )
     return df
 
-def rename_DOE_df(DOE_df):
+def rename_DOE_df(DOE_df, DOE_xls):
     """
     Reads in DOE dataframe with original 'Product' names and converts
     them to the names we use in our monte-carlo
+    
+    DOE_df: Department of Ecolody data in DataFrame format, 
+        as in output from get_DOE_df 
+    DOE_xls: The original DOE oil transfer spreadsheet, the same as is
+        read into get_DOE_df
     """
     
     # read in monte-carlo oil classifications
-    oil_classification = get_DOE_oilclassification(
-        DOE_xls, 
-        fac_xls
-    )
+    oil_classification = get_DOE_oilclassification(DOE_xls)
 
     # Rename oil types to match our in-house naming convention
     for oil_mc in oil_classification.keys():
@@ -1070,7 +1072,10 @@ def get_montecarlo_oil(vessel, monte_carlo_csv):
     
     return mc_capacity_byoil
             
-def get_DOE_oilclassification(DOE_xls, fac_xls):
+def get_DOE_oilclassification(DOE_xls):
+    """
+    DOE_xls: Path to DOE spreadsheet (MuellerTrans4-30-20.xlsx, for our study) 
+    """
     # identify all names of oils in DOE database that are attributed to our oil types
     print('get_DOE_oilclassification: not yet tested with fac_xls as input')
     
@@ -1082,8 +1087,13 @@ def get_DOE_oilclassification(DOE_xls, fac_xls):
     for oil in oil_types:
         oil_classification[oil] = []
 
+    # read in data
+    df = pandas.read_excel(
+        DOE_xls,
+        sheet_name='Vessel Oil Transfer', 
+        usecols="G,H,P,Q,R,W,X"
+    )
     
-    df = get_DOE_df(DOE_xls,fac_xls)
     [nrows,ncols] = df.shape
     for row in range(nrows):
         if 'CRUDE' in df.Product[row] and df.Product[row] not in oil_classification['akns']:
@@ -1131,7 +1141,7 @@ def get_DOE_exports(DOE_xls, fac_xls, facilities='selected'):
         'akns', 'bunker', 'dilbit', 
         'jet', 'diesel', 'gas', 'other'
     ]
-    oil_classification = get_DOE_oilclassification(DOE_xls, fac_xls)
+    oil_classification = get_DOE_oilclassification(DOE_xls)
     
     #  SELECTED FACILITIES
     export={}
@@ -1246,7 +1256,7 @@ def get_DOE_quantity_byfac(DOE_xls, fac_xls, facilities='selected'):
         'Jet Fuel', 'Diesel', 'Gasoline',
         'Other'
     ]
-    oil_classification = get_DOE_oilclassification(DOE_xls, fac_xls)
+    oil_classification = get_DOE_oilclassification(DOE_xls)
     
     #  SELECTED FACILITIES
     exports={}
@@ -1413,7 +1423,7 @@ def get_DOE_quantity(DOE_xls, fac_xls):
         'Jet Fuel', 'Diesel', 'Gasoline',
         'Other'
     ]
-    oil_classification = get_DOE_oilclassification(DOE_xls, fac_xls)
+    oil_classification = get_DOE_oilclassification(DOE_xls)
     
     #  SELECTED FACILITIES
     imports={}
