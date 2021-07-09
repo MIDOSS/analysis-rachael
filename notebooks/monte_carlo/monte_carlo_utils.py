@@ -199,6 +199,131 @@ def get_oil_type_cargo_generic_US(yaml_file, ship_type, random_generator):
                 
             return fuel_type
 
+
+def get_montecarlo_oil_byregion(monte_carlo_csv, oil_attribution_file, fac_xls,
+                                direction = 'export', vessel='tanker'):
+    """
+    PURPOSE: Return dataframe of monte carlo attributions to facilities by 
+        import, export, combined and vessel-type
+        
+    INPUTS:
+        directions['import','export','combined']
+        vessel['tanker','atb','barge']
+        
+    OUTPUT:
+        capacities DataFrame.  For import or export, this dataframe has a Region 
+        attribution based on the location of the facility.  For combined, the 
+        Region attribution is based on the location of the spill (as a US facility
+        can be both an origin or a destination with conflicting region).
+        
+    TODO: 
+         - Update method for attributing spill region so it's by mask 
+           rather than by latitude
+    
+    """    
+    # open montecarlo spills file
+    mcdf = get_montecarlo_df(monte_carlo_csv)
+    # Load oil Attribution File
+    with open(oil_attribution_file) as file:
+            oil_attrs = yaml.load(file, Loader=yaml.Loader)
+    # Read in facility names
+    facility_names_mc = oil_attrs['categories']['US_origin_destination']  
+    # Load facility information
+    facdf = assign_facility_region(fac_xls)
+    # Add region based on spill location
+    mcdf = assign_spill_region(mcdf)
+    
+    # ~~~~~ COMBINED ~~~~~
+    # query dataframe for information on imports & exports by vessel
+    # and oil types
+    if direction == 'import':
+        capacities = mcdf.loc[
+            (mcdf.fuel_cargo == 'cargo') &
+            (mcdf.vessel_type == vessel) &
+            (mcdf.vessel_dest.isin(facility_names_mc)),
+            ['cargo_capacity', 'vessel_dest', 'oil_type']
+        ]
+        # Create a new "Regions" column to assing region tag, using 
+        # 'not attributed' to define transfers at locations not included 
+        # in our evaluation
+        capacities['ImportRegion'] = 'not attributed'
+        # Find locations with transfers in our facility list and 
+        # assign region tag.
+        for idx,facility in enumerate(facdf['FacilityName']): 
+            capacities['ImportRegion'] = numpy.where(
+                (capacities['vessel_dest'] == facility), # ID transfer location
+                facdf['Region'][idx],                    # assign region, or 
+                capacities['ImportRegion']# keep NA attribution
+            )
+            
+    elif direction == 'export':
+        capacities = mcdf.loc[
+            (mcdf.fuel_cargo == 'cargo') &
+            (mcdf.vessel_type == vessel) &
+            (mcdf.vessel_origin.isin(facility_names_mc)),
+            ['cargo_capacity', 'vessel_origin','oil_type', 'SpillRegion']
+        ]
+        # Create a new "Regions" column to assing region tag, using 
+        # 'not attributed' to define transfers at locations not included 
+        # in our evaluation
+        capacities['ExportRegion'] = 'not attributed'
+        # Find locations with transfers in our facility list and 
+        # assign region tag.
+        for idx,facility in enumerate(facdf['FacilityName']): 
+            capacities['ExportRegion'] = numpy.where(
+                (capacities['vessel_origin'] == facility), # ID transfer location
+                facdf['Region'][idx],                    # assign region, or 
+                capacities['ExportRegion']# keep NA attribution
+            )
+    elif direction == 'combined':
+        capacities = mcdf.loc[
+            (mcdf.fuel_cargo == 'cargo') &
+            (mcdf.vessel_type == vessel) &
+            (mcdf.vessel_dest.isin(facility_names_mc) | 
+             mcdf.vessel_origin.isin(facility_names_mc)),
+            ['cargo_capacity', 'vessel_dest', 'vessel_origin',
+             'oil_type', 'SpillRegion']
+        ]
+    else:
+        # update this error statement!
+        print('get_montecarlo_oil_byregion[ERROR]: direction can only be import, export, or combined.')
+
+    return capacities
+    
+def assign_spill_region(mc_df):
+    """
+    Reads in a monte-carlo spills DataFrame (from on file or combination of files)
+    and creates a Region attribution based on oil spill region
+    
+    TODO: Update to use region masks (Ask Ben or Tereza)
+    """
+    
+    # define latitude bins
+    lat_partition = [46.9, 48, 48.15, 48.3, 48.7]
+
+    # define conditions used to bin facilities by latitude
+    conditions = [
+        (mc_df.spill_lat < lat_partition[0]),
+        (mc_df.spill_lat >= lat_partition[0]) & 
+        (mc_df.spill_lat < lat_partition[1]),
+        (mc_df.spill_lat >= lat_partition[1]) & 
+        (mc_df.spill_lat < lat_partition[2]),
+        (mc_df.spill_lat >= lat_partition[2]) & 
+        (mc_df.spill_lat < lat_partition[3]),
+        (mc_df.spill_lat >= lat_partition[3]) & 
+        (mc_df.spill_lat < lat_partition[4]),
+        (mc_df.spill_lat >= lat_partition[4])
+    ]
+
+    # regional tags
+    values = ['south','puget','portangeles','naswi','anacortes','north']
+
+    # create a new column and assign values to it using 
+    # defined conditions on latitudes
+    mc_df['SpillRegion'] = numpy.select(conditions, values)
+
+    return mc_df
+        
 def assign_facility_region(facilities_xlsx):
     """
     Loads the facilities excel spreadsheet and returns a dataframe with 
@@ -235,6 +360,124 @@ def assign_facility_region(facilities_xlsx):
     facdf['Region'] = numpy.select(conditions, values)
 
     return facdf
+
+def get_voyages(voyage_xls, fac_xls):
+    """
+    PURPOSE: Read in voyage transfers for tankers, atbs, and barges
+        and assign region attribution to voyages
+    INPUT: 
+        voyage_xls: Path to Origin_Destination_Analysis_updated.xlsx
+        fac_xls: Path to Oil_Transfer_Facilities.xlsx
+    OUTPUT:
+        dataframe with columns for atbs, tankers, barges and region
+    """
+    # create dataframe for voyage transfers (From DOE_transfers.ipynb)
+    # read in data
+    tankers_df = pandas.read_excel(
+        voyage_xls,
+        sheet_name="VoyageCountsbyFacility_MR", 
+        usecols="M,N,O",
+        skiprows = 1
+    )
+    barge_atb_df = pandas.read_excel(
+        voyage_xls,
+        sheet_name="VoyageCountsbyFacility_MR", 
+        usecols="E,F,G,J",
+        skiprows = 1
+    )
+
+    # tidy-up column names
+    tankers_df=tankers_df.rename(
+        columns={"LOCATION.3":"LOCATION", 
+                 "TRANSFERS.3":"tanker_transfers", 
+                 "FACILITY CATEGORY.3":"CATEGORY"
+                }
+    )
+    barge_atb_df=barge_atb_df.rename(
+        columns={"LOCATION.1":"LOCATION", 
+                 "TRANSFERS.1":"atb_transfers", 
+                 "FACILITY CATEGORY.1":"CATEGORY", 
+                 "TRANSFERS.2":"barge_transfers"}
+    )
+    # extract voyage transfers from WA
+    tankers_df = tankers_df.loc[
+        tankers_df.CATEGORY == 'WA',
+        ['LOCATION','tanker_transfers']
+    ]#.set_index('LOCATION')
+    barges_df = barge_atb_df.loc[
+        barge_atb_df.CATEGORY == 'WA',
+        ['LOCATION','barge_transfers']
+    ]#.set_index('LOCATION')
+    atbs_df = barge_atb_df.loc[
+        barge_atb_df.CATEGORY == 'WA',
+        ['LOCATION','atb_transfers']
+    ]#.set_index('LOCATION')
+    # combine into one dataframe
+    voyages = pandas.merge(
+        left=tankers_df, 
+        right=barges_df,
+        on='LOCATION',
+        #left_index = True,
+        #right_index=True,
+        how='left'
+    )
+    voyages = pandas.merge(
+        left=voyages, 
+        right=atbs_df,
+        on='LOCATION',
+        #left_index = True,
+        #right_index=True,
+        how='left'
+    )    
+    # Create a new "Regions" column to assing region tag, using 
+    # 'not attributed' to define transfers at locations not included 
+    # in our evaluation
+    voyages['Region'] = 'not attributed'
+    # Load facility information
+    facdf = assign_facility_region(fac_xls)
+    # Find locations with transfers in our facility list and 
+    # assign region tag.
+    for idx,facility in enumerate(facdf['FacilityName']): 
+        voyages['Region'] = numpy.where(
+            (voyages['LOCATION'] == facility), # identify transfer location
+            facdf['Region'][idx],              # assign region to transfer
+            voyages['Region']            # or keep the NA attribution
+        )
+    voyages=voyages.set_index('LOCATION')   
+    return voyages
+
+def get_montecarlo_df(MC_csv):
+    """
+    PURPOSE: Read in monte-carlo csv file and re-name Lagrangian_template to 
+        oil_type with Lagrangian file names changed to oil-type name
+    INPUT: 
+        MC_csv[Path(to-mc-file)]
+    """
+    # define names used for Lagrangian files
+    oil_template_names = [
+        'Lagrangian_akns.dat','Lagrangian_bunker.dat',
+         'Lagrangian_diesel.dat','Lagrangian_gas.dat',
+         'Lagrangian_jet.dat','Lagrangian_dilbit.dat',
+         'Lagrangian_other.dat'
+    ]
+    # define desired, end-product names for oil-types
+    oil_types = [
+        'ANS','Bunker-C',
+        'Diesel','Gasoline',
+        'Jet Fuel', 'Dilbit', 
+        'Other'
+    ]
+    # open montecarlo spills file
+    mc_df = pandas.read_csv(MC_csv)
+    # replace Lagrangian template file names with oil type tags
+    mc_df['oil_type'] = mc_df['Lagrangian_template'].replace(
+        oil_template_names, 
+        oil_types
+    )
+    # remove Lagrangian_template column
+    mc_df = mc_df.drop(columns='Lagrangian_template')
+    
+    return mc_df
 
 def get_DOE_df(DOE_xls, fac_xls, group='no'):
     """
