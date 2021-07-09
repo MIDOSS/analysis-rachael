@@ -458,7 +458,15 @@ def get_doe_transfers(doe_xls, fac_xls):
     """
 
     # Facility information for assinging regions
-    facdf = assign_facility_region(facilities_xlsx)
+    facdf = assign_facility_region(fac_xls)
+    facility_names = facdf['FacilityName']
+    
+    # Load DOE data
+    DOEdf = get_DOE_df(
+        doe_xls, 
+        fac_xls,
+        group = 'no'
+    )
 
     # Tally transfers for imports and exports, combined below
     imports = {}
