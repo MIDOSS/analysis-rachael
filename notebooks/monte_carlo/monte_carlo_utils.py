@@ -361,7 +361,7 @@ def assign_facility_region(facilities_xlsx):
 
     return facdf
 
-def get_voyages(voyage_xls, fac_xls):
+def get_voyage_transfers(voyage_xls, fac_xls):
     """
     PURPOSE: Read in voyage transfers for tankers, atbs, and barges
         and assign region attribution to voyages
@@ -403,30 +403,26 @@ def get_voyages(voyage_xls, fac_xls):
     tankers_df = tankers_df.loc[
         tankers_df.CATEGORY == 'WA',
         ['LOCATION','tanker_transfers']
-    ]#.set_index('LOCATION')
+    ]
     barges_df = barge_atb_df.loc[
         barge_atb_df.CATEGORY == 'WA',
         ['LOCATION','barge_transfers']
-    ]#.set_index('LOCATION')
+    ]
     atbs_df = barge_atb_df.loc[
         barge_atb_df.CATEGORY == 'WA',
         ['LOCATION','atb_transfers']
-    ]#.set_index('LOCATION')
+    ]
     # combine into one dataframe
     voyages = pandas.merge(
         left=tankers_df, 
         right=barges_df,
         on='LOCATION',
-        #left_index = True,
-        #right_index=True,
         how='left'
     )
     voyages = pandas.merge(
         left=voyages, 
         right=atbs_df,
         on='LOCATION',
-        #left_index = True,
-        #right_index=True,
         how='left'
     )    
     # Create a new "Regions" column to assing region tag, using 
