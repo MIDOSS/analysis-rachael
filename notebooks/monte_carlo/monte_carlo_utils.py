@@ -437,10 +437,129 @@ def get_voyage_transfers(voyage_xls, fac_xls):
         voyages['Region'] = numpy.where(
             (voyages['LOCATION'] == facility), # identify transfer location
             facdf['Region'][idx],              # assign region to transfer
-            voyages['Region']            # or keep the NA attribution
+            voyages['Region']                  # or keep the NA attribution
         )
     voyages=voyages.set_index('LOCATION')   
     return voyages
+
+def get_doe_transfers(doe_xls, fac_xls):
+    """
+    PURPOSE: Tally transfers to/from marine terminals used in our study.
+        Currently this just tallies cargo transfers but could easily be 
+        modified to tally fuel or cargo + fuel
+    INPUTS: 
+    - doe_xls: Path to Dept. of Ecology data file, 'MuellerTrans4-30-20.xlsx'
+    - fac_xls: Path to facilities data (simply because it's used by 
+        get_DOE_df()), Oil_Transfer_Facilities.xlsx
+    OUTPUTS:
+    - Dataframe with total number of import, export and combined (import 
+        + export) Cargo transfers for each marine terminal, sorted by vessel 
+        type receiving or delivering product.  Format: df[vessel_type].
+    """
+
+    # Facility information for assinging regions
+    facdf = assign_facility_region(facilities_xlsx)
+
+    # Tally transfers for imports and exports, combined below
+    imports = {}
+    exports = {}    
+    #~~~~~~~  TANKERS ~~~~~~~~~~~~~~~~~~~~~~~
+    vessel_type = 'tanker'
+    transfer_type = 'Cargo'
+    type_description = ['TANK SHIP']
+    imports[vessel_type] = DOEdf.loc[
+        (DOEdf.TransferType == transfer_type) &
+        (DOEdf.DelivererTypeDescription.isin(type_description)) & 
+        (DOEdf.Receiver.isin(facility_names)),
+        ['Receiver', 'TransferType']
+    ].groupby('Receiver').count().rename(columns={'TransferType':'imports'})
+    imports[vessel_type].index.names=['LOCATIONS']
+
+    exports[vessel_type] = DOEdf.loc[
+        (DOEdf.TransferType == transfer_type) &
+        (DOEdf.ReceiverTypeDescription.isin(type_description)) & 
+        (DOEdf.Deliverer.isin(facility_names)),
+        ['Deliverer', 'TransferType']
+    ].groupby('Deliverer').count().rename(columns={'TransferType':'exports'})
+    exports[vessel_type].index.names=['LOCATIONS']
+
+    #~~~~~~~  ATBs ~~~~~~~~~~~~~~~~~~~~~~~
+    vessel_type = 'atb'
+    transfer_type = 'Cargo'
+    imports[vessel_type] = DOEdf.loc[
+        (DOEdf.TransferType == transfer_type) &
+        (DOEdf.Receiver.isin(facility_names)) &
+        (DOEdf.Deliverer.str.contains('ITB') | 
+         DOEdf.Deliverer.str.contains('ATB')), 
+        ['Receiver', 'TransferType']
+    ].groupby('Receiver').count().rename(columns={'TransferType':'imports'})
+    imports[vessel_type].index.names=['LOCATIONS']
+
+    exports[vessel_type] = DOEdf.loc[
+        (DOEdf.TransferType == transfer_type) &
+        (DOEdf.Deliverer.isin(facility_names)) &
+        (DOEdf.Receiver.str.contains('ITB') | 
+         DOEdf.Receiver.str.contains('ATB')), 
+        ['Deliverer', 'TransferType']
+    ].groupby('Deliverer').count().rename(columns={'TransferType':'exports'})
+    exports[vessel_type].index.names=['LOCATIONS']
+
+
+    #~~~~~~~  BARGES ~~~~~~~~~~~~~~~~~~~~~~~
+    vessel_type = 'barge'
+    transfer_type = 'Cargo'
+    type_description = ['TANK BARGE','TUGBOAT']
+    imports[vessel_type] = DOEdf.loc[
+        (DOEdf.TransferType == transfer_type) &
+        (DOEdf.DelivererTypeDescription.isin(type_description)) & 
+        (~DOEdf.Deliverer.str.contains('ITB')) & 
+        (~DOEdf.Deliverer.str.contains('ATB')) &
+        (DOEdf.Receiver.isin(facility_names)), 
+        ['Receiver', 'TransferType']
+    ].groupby('Receiver').count().rename(columns={'TransferType':'imports'})
+    imports[vessel_type].index.names=['LOCATIONS']
+
+    exports[vessel_type] = DOEdf.loc[
+        (DOEdf.TransferType == transfer_type) &
+        (DOEdf.ReceiverTypeDescription.isin(type_description)) & 
+        (~DOEdf.Receiver.str.contains('ITB')) & 
+        (~DOEdf.Receiver.str.contains('ATB')) &
+        (DOEdf.Deliverer.isin(facility_names)), 
+        ['Deliverer', 'TransferType']
+    ].groupby('Deliverer').count().rename(columns={'TransferType':'exports'})
+    exports[vessel_type].index.names=['LOCATIONS']
+
+    doe={}
+    for vessel in ['tanker','atb','barge']:
+        doe[vessel] = pandas.DataFrame(0,index=facility_names, columns={'combined'})
+        doe[vessel].index.name='LOCATIONS'
+        doe[vessel] = pandas.merge(
+            left=doe[vessel], 
+            right=exports[vessel],
+            left_index = True,
+            right_index=True,
+            how='left'
+        ).fillna(0)
+        doe[vessel] = pandas.merge(
+            left=doe[vessel], 
+            right=imports[vessel],
+            left_index = True,
+            right_index=True,
+            how='left'
+        ).fillna(0)
+        doe[vessel]['combined'] = (doe[vessel]['imports'] + 
+                                   doe[vessel]['exports'])
+    
+    # Now assign regions to dataframe for each vessel "spreadsheet"
+    for vessel in ['tanker','atb','barge']:
+        doe[vessel]['Region'] = 'not attributed'
+        for idx,facility in enumerate(facdf['FacilityName']): 
+            doe[vessel]['Region'] = numpy.where(
+                (doe[vessel].index == facility), # identify transfer location
+                facdf['Region'][idx],            # assign region to transfer
+                doe[vessel]['Region']            # or keep the NA attribution
+            )
+    return doe
 
 def get_montecarlo_df(MC_csv):
     """
