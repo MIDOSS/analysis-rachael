@@ -299,7 +299,7 @@ def assign_spill_region(mc_df):
     """
     
     # define latitude bins
-    lat_partition = [46.9, 48, 48.15, 48.3, 48.7]
+    lat_partition = [46.9, 48.3, 48.7]
 
     # define conditions used to bin facilities by latitude
     conditions = [
@@ -308,15 +308,11 @@ def assign_spill_region(mc_df):
         (mc_df.spill_lat < lat_partition[1]),
         (mc_df.spill_lat >= lat_partition[1]) & 
         (mc_df.spill_lat < lat_partition[2]),
-        (mc_df.spill_lat >= lat_partition[2]) & 
-        (mc_df.spill_lat < lat_partition[3]),
-        (mc_df.spill_lat >= lat_partition[3]) & 
-        (mc_df.spill_lat < lat_partition[4]),
-        (mc_df.spill_lat >= lat_partition[4])
+        (mc_df.spill_lat >= lat_partition[2])
     ]
 
     # regional tags
-    values = ['south','puget','portangeles','naswi','anacortes','north']
+    values = ['Columbia River','Puget Sound','Anacortes','Whatcom']
 
     # create a new column and assign values to it using 
     # defined conditions on latitudes
@@ -335,26 +331,22 @@ def assign_facility_region(facilities_xlsx):
         sheet_name = 'Washington',
         usecols="B,D,J,K"
     )
+
     # define latitude bins
-    lat_partition = [46.9, 48, 48.15, 48.3, 48.7]
+    lat_partition = [46.9, 48.3, 48.7]
 
     # define conditions used to bin facilities by latitude
     conditions = [
         (facdf.DockLatNumber < lat_partition[0]),
         (facdf.DockLatNumber >= lat_partition[0]) & 
-         (facdf.DockLatNumber < lat_partition[1]),
+        (facdf.DockLatNumber < lat_partition[1]),
         (facdf.DockLatNumber >= lat_partition[1]) & 
         (facdf.DockLatNumber < lat_partition[2]),
-        (facdf.DockLatNumber >= lat_partition[2]) & 
-        (facdf.DockLatNumber < lat_partition[3]),
-        (facdf.DockLatNumber >= lat_partition[3]) & 
-        (facdf.DockLatNumber < lat_partition[4]),
-        (facdf.DockLatNumber >= lat_partition[4])
+        (facdf.DockLatNumber >= lat_partition[2])
     ]
 
     # regional tags
-    values = ['south','puget','portangeles','naswi','anacortes','north']
-
+    values = ['Columbia River','Puget Sound','Anacortes','Whatcom County']
     # create a new column and assign values to it using 
     # defined conditions on latitudes
     facdf['Region'] = numpy.select(conditions, values)
