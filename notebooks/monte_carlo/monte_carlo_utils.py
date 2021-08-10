@@ -594,12 +594,125 @@ def get_montecarlo_df(MC_csv):
     
     return mc_df
 
+def get_DOE_atb(DOE_xls, fac_xls, transfer_type = 'cargo', facilities='selected'):
+    """
+    Returns transfer data for ATBs.
+    DOE_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
+    facilities_xls[Path obj. or string]: Path(to spreadsheet with facilities information)
+    transfer_type [string]: 'fuel', 'cargo', 'cargo_fuel'
+    facilities [string]: 'all' or 'selected', 
+    """
+    # load DOE data
+    DOE_df = get_DOE_df(
+        DOE_xls, 
+        fac_xls,
+        group = 'yes'
+    )
+
+    # convert inputs to lower-case
+    transfer_type = transfer_type.lower()
+    facilities = facilities.lower()
+
+    if transfer_type not in ['fuel', 'cargo', 'cargo_fuel']:
+        raise ValueError('transfer_type options: fuel,cargo or cargo_fuel.')
+
+    #  SELECTED FACILITIES
+    if facilities == 'selected':
+
+        # Facility information 
+        facdf = pandas.read_excel(
+            fac_xls,
+            sheet_name = 'Washington',
+            usecols="D"
+        )
+        # This list was copied from oil_attribution.yaml on 07/02/21
+        # Eventually will update to read in from oil_attribution
+        facility_names = facdf['FacilityDOEName']
+        
+        if transfer_type == 'cargo':
+            import_df = DOE_df.loc[
+                (DOE_df.Receiver.isin(facility_names)) &
+                (DOE_df.TransferType == 'Cargo') &   
+                (DOE_df.Deliverer.str.contains('ITB') | 
+                 DOE_df.Deliverer.str.contains('ATB')),
+            ]
+            export_df = DOE_df.loc[
+                (DOE_df.Deliverer.isin(facility_names)) &
+                (DOE_df.TransferType == 'Cargo') &
+                (DOE_df.Receiver.str.contains('ITB') | 
+                 DOE_df.Receiver.str.contains('ATB')),
+            ]
+
+        elif transfer_type == 'fuel':
+            import_df = DOE_df.loc[
+                (DOE_df.Receiver.isin(facility_names)) &
+                (DOE_df.TransferType == 'Fueling') &  
+                (DOE_df.Deliverer.str.contains('ITB') | 
+                 DOE_df.Deliverer.str.contains('ATB')),
+            ]
+            export_df = DOE_df.loc[
+                (DOE_df.Deliverer.isin(facility_names)) &
+                (DOE_df.TransferType == 'Fueling') &
+                (DOE_df.Receiver.str.contains('ITB') | 
+                 DOE_df.Receiver.str.contains('ATB')),
+            ]
+
+        elif transfer_type == 'cargo_fuel':
+            import_df = DOE_df.loc[
+                (DOE_df.Receiver.isin(facility_names)) &
+                (DOE_df.Deliverer.str.contains('ITB') | 
+                 DOE_df.Deliverer.str.contains('ATB')),
+            ]
+            export_df = DOE_df.loc[
+                (DOE_df.Deliverer.isin(facility_names)) &
+                (DOE_df.Receiver.str.contains('ITB') | 
+                 DOE_df.Receiver.str.contains('ATB')),
+            ]         
+        
+    elif facilities == 'all':
+        if transfer_type == 'cargo':
+            import_df = DOE_df.loc[
+                (DOE_df.TransferType == 'Cargo') & 
+                (DOE_df.Deliverer.str.contains('ITB') |
+                 DOE_df.Deliverer.str.contains('ATB')),
+            ]
+            export_df = DOE_df.loc[
+                (DOE_df.TransferType == 'Cargo') &
+                (DOE_df.Receiver.str.contains('ITB') | 
+                 DOE_df.Receiver.str.contains('ATB')),
+            ]
+
+        elif transfer_type == 'fuel':
+            import_df = DOE_df.loc[
+                (DOE_df.TransferType == 'Fueling') & 
+                (DOE_df.Deliverer.str.contains('ITB') |
+                 DOE_df.Deliverer.str.contains('ATB')),
+            ]
+            export_df = DOE_df.loc[
+                (DOE_df.TransferType == 'Fueling') &
+                (DOE_df.Receiver.str.contains('ITB') |
+                 DOE_df.Receiver.str.contains('ATB')),
+            ]
+
+        elif transfer_type == 'cargo_fuel':
+            import_df = DOE_df.loc[
+                (DOE_df.Deliverer.str.contains('ITB') | 
+                 DOE_df.Deliverer.str.contains('ATB')),
+            ]
+            export_df = DOE_df.loc[
+                (DOE_df.Receiver.str.contains('ITB') | 
+                 DOE_df.Receiver.str.contains('ATB')),
+            ]           
+        
+    return import_df, export_df
+
 def get_DOE_df(DOE_xls, fac_xls, group='no'):
     """
     group['yes','no']: Specificies whether or not terminals ought to be re-named to 
      the names used in our monte carlo grouping
     """
-    # Import columns are: (G) Deliverer, (H) Receiver, (O) Region, 
+    # Import columns are: (A) AndID, (E) StartDateTime, (G) Deliverer, 
+    # (H) Receiver, (O) Region, 
     # (P) Product, (Q) Quantity in Gallons, (R) Transfer Type 
     # (oiling, Cargo, or Other)', (w) DelivererTypeDescription, 
     # (x) ReceiverTypeDescription 
@@ -611,7 +724,7 @@ def get_DOE_df(DOE_xls, fac_xls, group='no'):
     df = pandas.read_excel(
         DOE_xls,
         sheet_name='Vessel Oil Transfer', 
-        usecols="G,H,P,Q,R,W,X"
+        usecols="A,E,G,H,P,Q,R,W,X"
     )
 
     # convert to float (though I'm not sure if this is still needed)
@@ -1111,6 +1224,8 @@ def get_DOE_barges(DOE_xls,fac_xls, direction='combined',facilities='selected',t
             importexport_df.reset_index(inplace=True)
             return importexport_df
 
+        
+        
 def get_DOE_atb_transfers(DOE_xls,fac_xls,transfer_type = 'cargo',facilities='selected'):
     """
     Returns number of transfers to/from WA marine terminals used in our study
@@ -1120,6 +1235,8 @@ def get_DOE_atb_transfers(DOE_xls,fac_xls,transfer_type = 'cargo',facilities='se
         'export' means from marine terminal to vessel
         'combined' means both import and export transfers
     facilities [string]: 'all' or 'selected', 
+    
+    TO-DO: Update to count transfers with the same AntID as one
     """
     print('this code not yet tested with fac_xls as input')
     # load DOE data
