@@ -1,4 +1,4 @@
-name: monte_carlo
+name: monte-carlo
 
 channels:
  - conda-forge
@@ -22,5 +22,7 @@ dependencies:
  - jupyterlab
  - geopandas
  - Cartopy
+ - dask
+ - haversine
 
 prefix: /Users/rmueller/Projects/MIDOSS/analysis-rachael/env/monte_carlo.yaml
