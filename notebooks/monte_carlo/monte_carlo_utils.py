@@ -1,13 +1,8 @@
-### TO DO: 
-# - Compare get_oil_classification and get_DOE_oilclassification and combine into one
-# - Add or tidy-up function information in help tags
-# - Consider adding function to convert oil type names
-# - Update get_DOE_barges method to remove all the redundancies and make less if-fy
-
 import numpy 
 import yaml
 import pathlib
 import pandas
+import geopandas as gpd
 from decimal import *
 
 def decimal_divide(numerator, denominator, precision):
@@ -129,6 +124,30 @@ def clamp(n, minn, maxn):
     else:
         return n
     
+def concat_shp(ship_type, shapefile_path):
+    """
+      INPUT: 
+          - ship_type ["tanker", "barge", "atb", etc]: 
+            MIDOSS-name for ship type (see oil_attribution.yaml for list)
+          - shapefile_path [Path]: e.g., on Salish,
+            Path('/data/MIDOSS/shapefiles/') 
+      OUTPUT: 
+          - dataframe of all 2018 ship tracks for given ship_type
+    """
+    for months in range(1,13):
+        # set file location and name
+        shapefile = shapefile_path/f'{ship_type}_2018_{months:02d}.shp'
+        # import shapefile using geopandas
+        monthly_shp = gpd.read_file(shapefile)
+        if months == 1:
+            print(f'creating {ship_type} shapefile for 2018, starting with January data')
+            allTracks = monthly_shp
+        else:
+            print(f'Concatenating {ship_type} data from month {months}')
+            allTracks = gpd.GeoDataFrame(
+                pandas.concat([allTracks, monthly_shp])
+            )
+    return allTracks
 
 def get_oil_type_cargo(yaml_file, facility, ship_type, random_generator):
     """ Returns oil for cargo attribution based on facility and vessel
