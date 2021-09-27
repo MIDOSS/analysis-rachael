@@ -149,6 +149,91 @@ def concat_shp(ship_type, shapefile_path):
             )
     return allTracks
 
+def get_doe_tanker_byvessel(vessels,doe_xls_path,fac_xls_path):
+    """
+        Inputs:
+            - vessels [list]: List of vessel names, e.g.["AMERICAN FREEDOM","PELICAN STATE"]
+            - doe_xls_path [path]: Location and name of DOE data spreadsheet
+            - fac_xls_path [path]: Location and name of facilities transfer spreadsheet
+        Outputs:
+            - cargo_transfers [dataframe]: 2018 cargo transfers to/from the vessels and 
+               the marine terminals used in this study, in liters.  Transfers are grouped by AntID
+    """
+    # conversion factor
+    gal2liter = 3.78541
+    # load dept. of ecology data
+    DOEdf = get_DOE_df(
+        doe_xls_path, 
+        fac_xls_path,
+        group = 'no'
+    )
+    # extract tanker cargo transfers
+    if isinstance(vessels, list):
+        cargo_transfers = DOEdf.loc[
+            (DOEdf.TransferType == 'Cargo') &
+            (DOEdf.Deliverer.isin(vessels) |
+             DOEdf.Receiver.isin(vessels)),
+            ['TransferQtyInGallon', 'Deliverer','Receiver','StartDateTime','AntID']
+        ].groupby('AntID').agg(
+            {'TransferQtyInGallon':'sum',
+             'Deliverer':'first', 
+             'Receiver':'first',
+             'StartDateTime':'first'}
+            ).sort_values(by='TransferQtyInGallon',ascending=False)
+    else: # if a string
+         cargo_transfers = DOEdf.loc[
+            (DOEdf.TransferType == 'Cargo') &
+            (DOEdf.Deliverer.str.contains(vessels) |
+             DOEdf.Receiver.str.contains(vessels)),
+            ['TransferQtyInGallon', 'Deliverer','Receiver','StartDateTime','AntID']
+        ].groupby('AntID').agg(
+            {'TransferQtyInGallon':'sum',
+             'Deliverer':'first', 
+             'Receiver':'first',
+             'StartDateTime':'first'}
+            ).sort_values(by='TransferQtyInGallon',ascending=False)
+    # convert to liters
+    cargo_transfers['TransferQtyInGallon'] = gal2liter*cargo_transfers['TransferQtyInGallon']
+    cargo_transfers=cargo_transfers.rename(
+        columns={"TransferQtyInGallon":"TransferQtyInLiters"}
+    ).reset_index()
+
+    return cargo_transfers
+
+def split_doe_transfers(doe_df):
+    """
+    split dataframe of DOE transfers into two-way transfers (import and export) and one-way transfers
+    """
+    one_way=pandas.DataFrame({})
+    two_way=pandas.DataFrame({})
+    count = 0
+    idx_taken = 0
+    # order transfers by time
+    doe_df = doe_df.sort_values(by='StartDateTime').reset_index(drop=True)
+    # categorize transfers
+    for idx,deliverer in enumerate(doe_df['Deliverer']):
+        if idx != doe_df['Deliverer'].shape[0]-1:
+            if ((doe_df['Deliverer'][idx] == doe_df['Receiver'][idx+1]) &
+                (doe_df['Deliverer'][idx+1] == doe_df['Receiver'][idx])):
+                # count number of cases where there is a delivery both ways
+                count += 1
+                two_way = two_way.append(doe_df.iloc[[idx]])
+                idx_taken = 1
+            else:
+                if idx_taken:
+                    two_way = two_way.append(doe_df.iloc[[idx]])
+                    idx_taken = 0
+                else:
+                    one_way = one_way.append(doe_df.iloc[[idx]])
+                    idx_taken = 0
+        else:
+            # categorize the last entry by comparing with the end - 1 values
+            if ((doe_df['Deliverer'][idx] == doe_df['Receiver'][idx-1]) &
+                (doe_df['Deliverer'][idx-1] == doe_df['Receiver'][idx])):
+                count += 1
+                two_way = two_way.append(doe_df.iloc[[idx]])
+    return one_way, two_way
+
 def get_oil_type_cargo(yaml_file, facility, ship_type, random_generator):
     """ Returns oil for cargo attribution based on facility and vessel
         by querying information in input yaml_file

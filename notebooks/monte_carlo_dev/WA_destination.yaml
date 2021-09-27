@@ -1,0 +1,1871 @@
+Alon Asphalt Company (Paramount Petroleum):
+  atb:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  barge:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.8316288168141519
+      number_of_transfers: 95
+      total_gallons: 114729593.0
+    diesel:
+      fraction_of_total: 0.10844194096519141
+      number_of_transfers: 28
+      total_gallons: 14960400.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.05992924222065674
+      number_of_transfers: 18
+      total_gallons: 8267700.0
+  tanker:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.4927536231884058
+      number_of_transfers: 1
+      total_gallons: 1428000.0
+    diesel:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.5072463768115942
+      number_of_transfers: 1
+      total_gallons: 1470000.0
+Andeavor Anacortes Refinery (formerly Tesoro):
+  atb:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  barge:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 1.0
+      number_of_transfers: 2
+      total_gallons: 2940000.0
+    diesel:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  tanker:
+    akns:
+      fraction_of_total: 0.5982464289320694
+      number_of_transfers: 24
+      total_gallons: 340240530.0
+    bunker:
+      fraction_of_total: 0.009600342151974365
+      number_of_transfers: 3
+      total_gallons: 5460000.0
+    diesel:
+      fraction_of_total: 0.09201699373092383
+      number_of_transfers: 22
+      total_gallons: 52332800.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.11948733539918864
+      number_of_transfers: 14
+      total_gallons: 67956000.0
+    jet:
+      fraction_of_total: 0.018905289160811058
+      number_of_transfers: 3
+      total_gallons: 10752000.0
+    other:
+      fraction_of_total: 0.16174361062503273
+      number_of_transfers: 42
+      total_gallons: 91988400.0
+BP Cherry Point Refinery:
+  atb:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.22891589248583583
+      number_of_transfers: 1
+      total_gallons: 2520000.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.5837355258388813
+      number_of_transfers: 3
+      total_gallons: 6426000.0
+    jet:
+      fraction_of_total: 0.05556933290093665
+      number_of_transfers: 1
+      total_gallons: 611730.0
+    other:
+      fraction_of_total: 0.13177924877434616
+      number_of_transfers: 23
+      total_gallons: 1450680.0
+  barge:
+    akns:
+      fraction_of_total: 0.4583333333333333
+      number_of_transfers: 2
+      total_gallons: 6930000.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.5416666666666666
+      number_of_transfers: 3
+      total_gallons: 8190000.0
+  tanker:
+    akns:
+      fraction_of_total: 0.8371278273033612
+      number_of_transfers: 103
+      total_gallons: 1648883966.0
+    bunker:
+      fraction_of_total: 0.037747656400314585
+      number_of_transfers: 6
+      total_gallons: 74351256.0
+    diesel:
+      fraction_of_total: 0.012808868737749411
+      number_of_transfers: 5
+      total_gallons: 25229526.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.034041205807256426
+      number_of_transfers: 10
+      total_gallons: 67050690.0
+    jet:
+      fraction_of_total: 0.016982807653999593
+      number_of_transfers: 7
+      total_gallons: 33450900.0
+    other:
+      fraction_of_total: 0.06129163409731874
+      number_of_transfers: 14
+      total_gallons: 120725640.0
+Kinder Morgan Liquids Terminal - Harbor Island:
+  atb:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.7228360957642725
+      number_of_transfers: 24
+      total_gallons: 32970000.0
+    diesel:
+      fraction_of_total: 0.1850828729281768
+      number_of_transfers: 8
+      total_gallons: 8442000.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.09208103130755065
+      number_of_transfers: 3
+      total_gallons: 4200000.0
+  barge:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.8410029498525073
+      number_of_transfers: 49
+      total_gallons: 47896800.0
+    diesel:
+      fraction_of_total: 0.05980825958702065
+      number_of_transfers: 9
+      total_gallons: 3406200.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.01696165191740413
+      number_of_transfers: 3
+      total_gallons: 966000.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.08222713864306784
+      number_of_transfers: 11
+      total_gallons: 4683000.0
+  tanker:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+Maxum (Rainer Petroleum):
+  atb:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  barge:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  tanker:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 1.0
+      number_of_transfers: 2
+      total_gallons: 28000.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+NAVSUP Manchester:
+  atb:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.45454545454545453
+      number_of_transfers: 1
+      total_gallons: 4200000.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.5454545454545454
+      number_of_transfers: 1
+      total_gallons: 5040000.0
+    other:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  barge:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.37673006518439145
+      number_of_transfers: 5
+      total_gallons: 843800.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.6098758817751585
+      number_of_transfers: 5
+      total_gallons: 1366000.0
+    other:
+      fraction_of_total: 0.01339405304045004
+      number_of_transfers: 1
+      total_gallons: 30000.0
+  tanker:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 1.0
+      number_of_transfers: 1
+      total_gallons: 9240000.0
+    other:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+Naval Air Station Whidbey Island (NASWI):
+  atb:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  barge:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 1.0
+      number_of_transfers: 55
+      total_gallons: 29595000.0
+    other:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  tanker:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+Nustar Energy Tacoma:
+  atb:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 1.0
+      number_of_transfers: 1
+      total_gallons: 3360000.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  barge:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  tanker:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+Phillips 66 Ferndale Refinery:
+  atb:
+    akns:
+      fraction_of_total: 0.3791469194312796
+      number_of_transfers: 1
+      total_gallons: 3360000.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.14691943127962084
+      number_of_transfers: 1
+      total_gallons: 1302000.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.47393364928909953
+      number_of_transfers: 3
+      total_gallons: 4200000.0
+  barge:
+    akns:
+      fraction_of_total: 0.4376930998970134
+      number_of_transfers: 1
+      total_gallons: 3570000.0
+    bunker:
+      fraction_of_total: 0.11328527291452112
+      number_of_transfers: 1
+      total_gallons: 924000.0
+    diesel:
+      fraction_of_total: 0.042224510813594233
+      number_of_transfers: 1
+      total_gallons: 344400.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.40679711637487126
+      number_of_transfers: 3
+      total_gallons: 3318000.0
+  tanker:
+    akns:
+      fraction_of_total: 1.0
+      number_of_transfers: 45
+      total_gallons: 560490000.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+Phillips 66 Tacoma Terminal:
+  atb:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.15463917525773196
+      number_of_transfers: 1
+      total_gallons: 840000.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.845360824742268
+      number_of_transfers: 4
+      total_gallons: 4592000.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  barge:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.03856475566641655
+      number_of_transfers: 5
+      total_gallons: 3423000.0
+    diesel:
+      fraction_of_total: 0.20323389642608478
+      number_of_transfers: 46
+      total_gallons: 18039000.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.7582013479074987
+      number_of_transfers: 93
+      total_gallons: 67297800.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  tanker:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+REG Grays Harbor, LLC:
+  atb:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  barge:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  tanker:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 1.0
+      number_of_transfers: 4
+      total_gallons: 17814201.0
+SeaPort Sound Terminal:
+  atb:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.25714642366745727
+      number_of_transfers: 15
+      total_gallons: 25956000.0
+    diesel:
+      fraction_of_total: 0.07323263845545708
+      number_of_transfers: 7
+      total_gallons: 7392000.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.5855698414679815
+      number_of_transfers: 36
+      total_gallons: 59106600.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.08405109640910415
+      number_of_transfers: 6
+      total_gallons: 8484000.0
+  barge:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.8958206512108331
+      number_of_transfers: 48
+      total_gallons: 66162848.0
+    diesel:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.07062813929920594
+      number_of_transfers: 2
+      total_gallons: 5216400.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.03355120948996096
+      number_of_transfers: 4
+      total_gallons: 2478000.0
+  tanker:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 1.0
+      number_of_transfers: 1
+      total_gallons: 352019.0
+Shell Oil LP Seattle Distribution Terminal:
+  atb:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 1.0
+      number_of_transfers: 3
+      total_gallons: 4242000.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  barge:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  tanker:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+Shell Puget Sound Refinery:
+  atb:
+    akns:
+      fraction_of_total: 0.21822592860769185
+      number_of_transfers: 2
+      total_gallons: 11012610.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.006033973350644595
+      number_of_transfers: 1
+      total_gallons: 304500.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.2039691060564447
+      number_of_transfers: 15
+      total_gallons: 10293150.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.5717709919852189
+      number_of_transfers: 11
+      total_gallons: 28854000.0
+  barge:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 1.0
+      number_of_transfers: 2
+      total_gallons: 6636000.0
+  tanker:
+    akns:
+      fraction_of_total: 0.9932799866928754
+      number_of_transfers: 95
+      total_gallons: 1253949942.0
+    bunker:
+      fraction_of_total: 0.00022323551879855356
+      number_of_transfers: 1
+      total_gallons: 281820.0
+    diesel:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.006496777788326012
+      number_of_transfers: 1
+      total_gallons: 8201750.0
+TLP Management Services LLC (TMS):
+  atb:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 1.0
+      number_of_transfers: 1
+      total_gallons: 3360000.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  barge:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  tanker:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 1.0
+      number_of_transfers: 1
+      total_gallons: 5040000.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+Tesoro Pasco Terminal:
+  atb:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  barge:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.17379969337965864
+      number_of_transfers: 19
+      total_gallons: 16992696.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.5668861363867096
+      number_of_transfers: 52
+      total_gallons: 55425436.0
+    jet:
+      fraction_of_total: 0.25931417023363174
+      number_of_transfers: 28
+      total_gallons: 25353594.0
+    other:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  tanker:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+Tesoro Port Angeles Terminal:
+  atb:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  barge:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.8724194391519909
+      number_of_transfers: 25
+      total_gallons: 21151996.0
+    diesel:
+      fraction_of_total: 0.1145883059642204
+      number_of_transfers: 14
+      total_gallons: 2778218.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.01299225488378861
+      number_of_transfers: 3
+      total_gallons: 315000.0
+  tanker:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+Tesoro Vancouver Terminal:
+  atb:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  barge:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  tanker:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 1.0
+      number_of_transfers: 1
+      total_gallons: 4200000.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+Tidewater Snake River Terminal:
+  atb:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  barge:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.4372867428704794
+      number_of_transfers: 73
+      total_gallons: 76938876.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.531415095349795
+      number_of_transfers: 85
+      total_gallons: 93500388.0
+    jet:
+      fraction_of_total: 0.005251609737739384
+      number_of_transfers: 1
+      total_gallons: 924000.0
+    other:
+      fraction_of_total: 0.02604655204198614
+      number_of_transfers: 5
+      total_gallons: 4582788.0
+  tanker:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 1.0
+      number_of_transfers: 1
+      total_gallons: 1603140.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+Tidewater Vancouver Terminal:
+  atb:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  barge:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+  tanker:
+    akns:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    dilbit:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0
+      number_of_transfers: 0
+      total_gallons: 0.0
+U.S. Oil & Refining:
+  atb:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0584144645340751
+      number_of_transfers: 1
+      total_gallons: 1764000.0
+    diesel:
+      fraction_of_total: 0.5146036161335188
+      number_of_transfers: 10
+      total_gallons: 15540000.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.3226703755215577
+      number_of_transfers: 7
+      total_gallons: 9744000.0
+    jet:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    other:
+      fraction_of_total: 0.1043115438108484
+      number_of_transfers: 3
+      total_gallons: 3150000.0
+  barge:
+    akns:
+      fraction_of_total: 0.7531827919138295
+      number_of_transfers: 6
+      total_gallons: 19950000.0
+    bunker:
+      fraction_of_total: 0.000475694394892945
+      number_of_transfers: 1
+      total_gallons: 12600.0
+    diesel:
+      fraction_of_total: 0.1509536879793612
+      number_of_transfers: 5
+      total_gallons: 3998400.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0005660763299226045
+      number_of_transfers: 1
+      total_gallons: 14994.0
+    jet:
+      fraction_of_total: 0.026956015710600214
+      number_of_transfers: 1
+      total_gallons: 714000.0
+    other:
+      fraction_of_total: 0.06786573367139359
+      number_of_transfers: 3
+      total_gallons: 1797600.0
+  tanker:
+    akns:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    bunker:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    diesel:
+      fraction_of_total: 0.47478991596638653
+      number_of_transfers: 2
+      total_gallons: 4746000.0
+    dilbit:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    gas:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+    jet:
+      fraction_of_total: 0.5252100840336135
+      number_of_transfers: 1
+      total_gallons: 5250000.0
+    other:
+      fraction_of_total: 0.0
+      number_of_transfers: 0
+      total_gallons: 0.0
+names:
+- BP Cherry Point Refinery
+- Shell Puget Sound Refinery
+- Shell Oil LP Seattle Distribution Terminal
+- Maxum (Rainer Petroleum)
+- Tidewater Snake River Terminal
+- Nustar Energy Tacoma
+- SeaPort Sound Terminal
+- Tesoro Vancouver Terminal
+- Phillips 66 Ferndale Refinery
+- Phillips 66 Tacoma Terminal
+- Andeavor Anacortes Refinery (formerly Tesoro)
+- Tesoro Port Angeles Terminal
+- U.S. Oil & Refining
+- Naval Air Station Whidbey Island (NASWI)
+- NAVSUP Manchester
+- Alon Asphalt Company (Paramount Petroleum)
+- Kinder Morgan Liquids Terminal - Harbor Island
+- Nustar Energy Tacoma
+- Tesoro Pasco Terminal
+- REG Grays Harbor, LLC
+- Tidewater Vancouver Terminal
+- TLP Management Services LLC (TMS)
