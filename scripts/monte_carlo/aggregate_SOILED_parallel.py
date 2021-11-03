@@ -373,7 +373,7 @@ def main(yaml_file, oil_type, first, last, output_folder):
         run_paths[oil_type][first:last], 
         surface_threshold)
     #------------------------------------------------------------
-    # Save output netcdf and a .csv file containing list of runs
+    # Save output netcdf files
     #------------------------------------------------------------
     beaching.to_netcdf(aggregated_beaching_nc, engine='h5netcdf')
     surface.to_netcdf(aggregated_surface_nc, engine='h5netcdf')
