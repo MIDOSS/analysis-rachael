@@ -41,6 +41,7 @@ python3 -m pip install -r /home/rmueller/projects/def-allen/rmueller/graham-pyth
 ```
 """
 import os
+import sys
 import pathlib
 import yaml
 import numpy
@@ -51,62 +52,6 @@ from glob import glob
 import time
 import dask
 
-
-def get_MOHID_netcdf_filenames(results_dir, output_dir):
-    """Get lists of filepaths and filenames for netcdf files of model output, 
-    grouped by oil types. NOTE: jet and gas are run as diesel; other is run 
-    as bunker.  
-    
-    :param str results_dir: File path for root directory of run sets. 
-    On Graham, the filepath is `/scratch/dlatorne/MIDOSS/runs/monte-carlo`
-    
-    :param str output_dir: File path for storing MOHID_results_locations_{date}.yaml,
-    which contains file paths for completed runs, sorted by oil type.  
-    
-    :return: Dataframe of file paths and names, sorted by oil types, namely: 
-    akns, bunker, dilbit, jet, diesel, gas and other.  Note: jet and gas are 
-    run as diesel; other is run as bunker.  
-    :rtype: :py:class:`pandas.DataFrame`
-    """
-    oil_types = [
-        'akns', 
-        'bunker', 
-        'dilbit', 
-        'jet', 
-        'diesel', 
-        'gas', 
-        'other'
-    ]
-    # get list of runsets
-    runsets = sorted(glob(os.path.join(results_dir,"near-BP_*")))
-    # get list of runs within each runset
-    runs = []
-    for runset in runsets:
-        runs.extend(sorted(
-            glob(os.path.join(runset,'results','near-BP_*')))[:])        
-    # get complete list of netcdf files
-    netcdf_files = []
-    for run in runs:
-        netcdf_files.extend(sorted(
-            glob(os.path.join(run,'Lagrangian*.nc')))[:])
-    # sort filenames by oil type.  
-    file_boolean = {}
-    files = {}
-    files['all'] = []
-    for oil in oil_types:
-        file_boolean[oil] = [oil in file for file in netcdf_files]
-        files[oil]=[file for i,file in enumerate(netcdf_files) \
-            if file_boolean[oil][i]]
-        files['all'].extend(files[oil])
-    
-    # write filenames to .yaml with timestamp in filename
-    now = datetime.now()
-    dt_string = now.strftime("%d%m%Y_%H:%M:%S")
-    out_f = output_dir+f'/MOHID_results_locations_{dt_string}.yaml'
-    with open(out_f, 'w') as output_yaml:
-        documents = yaml.safe_dump(files, output_yaml)
-    
-    return files
 
 def aggregate_SOILED_beaching(run_list, beach_threshold=15e-3, time_threshold=0.2):
     """I still need to add a header here :-) """
@@ -197,7 +142,7 @@ def aggregate_SOILED_beaching(run_list, beach_threshold=15e-3, time_threshold=0.
         input_file=run_list[run]
         if os.path.isfile(input_file):
             files.append(input_file.split('/')[-1])
-            with xarray.open_mfdataset(input_file, parallel=True) as ds:
+            with xarray.open_dataset(input_file) as ds:
                 #~~~ Beaching ~~~
                 dt=ds.Beaching_Time-ds.Beaching_Time.min()
                 # Beaching time (converted from ns to hours)
@@ -339,26 +284,14 @@ def aggregate_SOILED_surface(run_list, surface_threshold=3e-3, time_threshold=0.
             files.append(input_file.split('/')[-1])
             with xarray.open_dataset(input_file) as ds:
                 initial_spill_time = ds.Oil_Arrival_Time.min()
-                #~~~ Surface ~~~
+                # Select surface volume
                 vol3d=ds.OilWaterColumnOilVol_3D.isel({'grid_z': 39})
-                # Surface presence masks 
-                # sfcmask3d=xarray.DataArray(
-                #     data=numpy.ones_like(ds.Thickness_2D, dtype=int),
-                #     coords=ds.Thickness_2D.coords,
-                #     dims=ds.Thickness_2D.dims,
-                # )
+                # Identify surface presence, over threshold
                 sfcmask2d=xarray.DataArray(
                     data=numpy.ones_like(ds.Oil_Arrival_Time, dtype=int),
                     coords=ds.Oil_Arrival_Time.coords,
                     dims=ds.Oil_Arrival_Time.dims,
                 )
-                # Locations of surface oiling > threshold
-                # sfcmask3d_threshold=sfcmask3d.where(
-                #     vol3d>surface_threshold
-                # )
-                # sfcmask2d_threshold = sfcmask2d.where(
-                #     vol3d.max(dim='time')>surface_threshold
-                # )
                 MOHID_In.SurfacePresence[run,:,:]=sfcmask2d.where(
                     vol3d.max(dim='time',skipna=True)>surface_threshold
                 )
@@ -405,79 +338,54 @@ def aggregate_SOILED_surface(run_list, surface_threshold=3e-3, time_threshold=0.
     
     return SurfaceOut
 
-#------------------------------------------------------------
-# Aggregate! 
-#------------------------------------------------------------
-##  THE FOLLOWING COULD EVENTUALLY BE PASSED IN AS VARIABLES
-#------------------------------------------------------------
-startTime = time.time()
-input_netcdf_dir=pathlib.Path('/scratch/dlatorne/MIDOSS/runs/monte-carlo')
-output_netcdf_dir=pathlib.Path('/scratch/rmueller/MIDOSS/Results') 
-yaml_file=pathlib.Path(
-     '/home/rmueller/projects/def-allen/rmueller/MIDOSS/Visualization',
-     'MOHID_results_locations_07102021_15:52:22.yaml')
-group_runs = 10
-ngroups = 1   
-#------------------------------------------------------------
-# Global variables
-#------------------------------------------------------------
-oil_types = ['akns', 'bunker', 'dilbit', 'jet', 'diesel', 'gas', 'other']
-# Specify surface level for depth slice
-zlevel = 39
-slc = {'grid_z': zlevel}
-ny,nx = 896, 396
-x, y = numpy.arange(0,nx), numpy.arange(0,ny)
-# create threshold for surface and beach volume in m3
-surface_threshold = 3e-3
-beach_threshold = 15e-3
-#------------------------------------------------------------
-# Load yaml file name with list of output netcdf files to aggregate
-#------------------------------------------------------------
-with yaml_file.open("rt") as f:
-    run_paths = yaml.safe_load(f)   
-n_iter={}
-for oil in oil_types:
-    n_iter[oil]=max(1,len(run_paths[oil])/group_runs)
-#------------------------------------------------------------
-# Iterate through oil types and aggregate SOILED model output
-# in batches of "group_runs" number of files
-#------------------------------------------------------------
-for oil in oil_types: # loop through oils
-    this_iter = 1
-    print(f'*** {oil} (Number of iterations: {n_iter[oil]}) ***')
-    # loop through specified number of groups
-    while (this_iter <= ngroups) & (n_iter[oil]>=this_iter): 
-        print(f'Iteration: {this_iter} ')
-        first = (this_iter-1) * group_runs 
-        last = this_iter*group_runs - 1
-        #sys.stdout.write(f'{oil}_{this_iter}_of_{n_iter[oil]}, files{first}-{last}\n')
-        print(f'{oil}_{this_iter}_of_{n_iter[oil]}, files{first}-{last}\n')
-
-        #------------------------------------------------------------
-        # Define output netcdf name
-        aggregated_beaching_nc = output_netcdf_dir / f'beaching_{oil}_runset{this_iter}.nc'
-        aggregated_surface_nc = output_netcdf_dir / f'surface_{oil}_runset{this_iter}.nc'
-        aggregated_csv = output_netcdf_dir / f'{oil}_runset{this_iter}_filenames.csv'
-        #------------------------------------------------------------
-        # # Aggregate model output 
-        # beaching,surface = aggregate_SOILED(
-        #     run_paths[oil][first:last], 
-        #     surface_threshold=3e-3, 
-        #     beach_threshold=15e-3)
-         # Aggregate beaching model output 
-        beaching = aggregate_SOILED_beaching(
-            run_paths[oil][first:last], 
-            beach_threshold=15e-3)
-         # Aggregate surface model output 
-        surface = aggregate_SOILED_surface(
-            run_paths[oil][first:last], 
-            surface_threshold=3e-3)
-        # Save output netcdf and a .csv file containing list of runs
-        beaching.to_netcdf(aggregated_beaching_nc, engine='h5netcdf')
-        surface.to_netcdf(aggregated_surface_nc, engine='h5netcdf')
-        #numpy.savetxt(aggregated_csv, files, delimiter =", ", fmt ='% s')
-        this_iter += 1
+def main(yaml_file, oil_type, first, last, output_folder):
+    startTime = time.time()
+    print(f'{oil_type}, files{first}-{last}\n')
+    #------------------------------------------------------------
+    # Global/fixed variables
+    #------------------------------------------------------------
+    # Specify surface level for depth slice
+    input_netcdf_dir=pathlib.Path('/scratch/dlatorne/MIDOSS/runs/monte-carlo')
+    output_netcdf_dir=pathlib.Path('/scratch/rmueller/MIDOSS/Results',output_folder) 
+    # create threshold for surface and beach volume in m3
+    surface_threshold = 3e-3
+    beach_threshold = 15e-3
+    #------------------------------------------------------------
+    # Load yaml file name with list of output netcdf files to aggregate
+    #------------------------------------------------------------
+    with yaml_file.open("rt") as f:
+        run_paths = yaml.safe_load(f)   
+    #------------------------------------------------------------
+    # Define output netcdf name
+    #------------------------------------------------------------
+    aggregated_beaching_nc = output_netcdf_dir / f'beaching_{oil_type}_{first}-{last}.nc'
+    aggregated_surface_nc = output_netcdf_dir / f'surface_{oil_type}_{first}-{last}.nc'    
+    #------------------------------------------------------------
+    # Aggregate beaching model output 
+    #------------------------------------------------------------
+    beaching = aggregate_SOILED_beaching(
+        run_paths[oil_type][first:last], 
+        beach_threshold)
+    #------------------------------------------------------------
+    # Aggregate surface model output 
+    #------------------------------------------------------------
+    surface = aggregate_SOILED_surface(
+        run_paths[oil_type][first:last], 
+        surface_threshold)
+    #------------------------------------------------------------
+    # Save output netcdf and a .csv file containing list of runs
+    #------------------------------------------------------------
+    beaching.to_netcdf(aggregated_beaching_nc, engine='h5netcdf')
+    surface.to_netcdf(aggregated_surface_nc, engine='h5netcdf')
+   
     executionTime = (time.time() - startTime)
-    print(f'Execution time in minutes for {oil}: {executionTime/60:.2f}')
+    print(f'Execution time in minutes for {oil_type}_{first}-{last}: {executionTime/60:.2f}')
 
-
+if __name__ == "__main__":
+    args = sys.argv[1:]
+    yaml_file = pathlib.Path(args[0])
+    oil_type = args[1]
+    start = int(args[2])
+    end = int(args[3])
+    folder_name = args[4]
+    main(yaml_file, oil_type, start, end, folder_name)
