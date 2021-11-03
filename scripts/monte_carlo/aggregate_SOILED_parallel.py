@@ -18,9 +18,9 @@ WW3, HRDPS and MOHID models.
 
 The monte carlo runs were completed on Compute Canada's supercomputer, `Graham` and this code is intended to be used on that system.  It requires initialization of a Virtual Environment.  See `/home/rmueller/projects/def-allen/rmueller/graham-python-env.txt`.
 
-First initiate a compute node.  The following allocation is setup to support the use of dask parrallized computing. The design of Graham is to support multiple simultaneous parallel jobs of up to 1024 cores in a fully non-blocking manner.  Nodes range from having 16-64 cores (see [documentation](https://docs.computecanada.ca/wiki/Graham)). `ntasks` correspond to CPU cores, with `cpus-per-task` representing nodes.  The following setup is for 2 CPUs running 16 cores each for a total of 32 CPU cores. 
+First initiate a compute node.  The performance of this code isn't significantly enhanced by more computing power than the following.
 ```
-salloc --time=1:00:00 --ntasks=16 --cpus-per-task=2 --mem-per-cpu=1024M --account=rrg-allen
+salloc --time=1:00:00 --ntasks=1 --cpus-per-task=2 --mem-per-cpu=1024M --account=rrg-allen
 ```
 Activate `VENV` with:
 ```
