@@ -197,7 +197,7 @@ def aggregate_SOILED_beaching(run_list, beach_threshold=15e-3, time_threshold=0.
     BeachingOut['BeachPresence_72h_to_168h']=MOHID_In['BeachPresence_72h_to_168h'].sum(
         dim='nspills', skipna=True)
     
-    return BeachingOut
+    return BeachingOut, MOHID_In
 
 def aggregate_SOILED_surface(run_list, surface_threshold=3e-3, time_threshold=0.2):
     """I still need to add a header here :-) """
@@ -315,6 +315,8 @@ def aggregate_SOILED_surface(run_list, surface_threshold=3e-3, time_threshold=0.
                 MOHID_In.SurfaceVolumeMax[run,:,:]=numpy.log(
                     vol3d.where(vol3d>surface_threshold)).max(
                     dim="time",skipna=True)
+        else:
+            print(f'Missing: {input_file} ')
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Flatten MOHID output into 2D arrays by 
     # taking minimum of spill values or adding across spill values 
@@ -336,7 +338,7 @@ def aggregate_SOILED_surface(run_list, surface_threshold=3e-3, time_threshold=0.
     SurfaceOut['SurfaceVolume_MaxSum']=MOHID_In.SurfaceVolumeMax.sum(
         dim='nspills', skipna=True)
     
-    return SurfaceOut
+    return SurfaceOut, MOHID_In
 
 def main(yaml_file, oil_type, first, last, output_folder):
     startTime = time.time()
@@ -359,24 +361,28 @@ def main(yaml_file, oil_type, first, last, output_folder):
     # Define output netcdf name
     #------------------------------------------------------------
     aggregated_beaching_nc = output_netcdf_dir / f'beaching_{oil_type}_{first}-{last}.nc'
+    beaching_runs_nc= output_netcdf_dir / f'beachingRuns_{oil_type}_{first}-{last}.nc'
     aggregated_surface_nc = output_netcdf_dir / f'surface_{oil_type}_{first}-{last}.nc'    
+    surface_runs_nc = output_netcdf_dir / f'surfaceRuns_{oil_type}_{first}-{last}.nc'
     #------------------------------------------------------------
     # Aggregate beaching model output 
     #------------------------------------------------------------
-    beaching = aggregate_SOILED_beaching(
+    beaching,beaching_runs = aggregate_SOILED_beaching(
         run_paths[oil_type][first:last], 
         beach_threshold)
     #------------------------------------------------------------
     # Aggregate surface model output 
     #------------------------------------------------------------
-    surface = aggregate_SOILED_surface(
+    surface,surface_runs = aggregate_SOILED_surface(
         run_paths[oil_type][first:last], 
         surface_threshold)
     #------------------------------------------------------------
     # Save output netcdf and a .csv file containing list of runs
     #------------------------------------------------------------
     beaching.to_netcdf(aggregated_beaching_nc, engine='h5netcdf')
+    beaching_runs.to_netcdf(beaching_runs_nc, engine='h5netcdf')
     surface.to_netcdf(aggregated_surface_nc, engine='h5netcdf')
+    surface_runs.to_netcdf(surface_runs_nc, engine='h5netcdf')
    
     executionTime = (time.time() - startTime)
     print(f'Execution time in minutes for {oil_type}_{first}-{last}: {executionTime/60:.2f}')
