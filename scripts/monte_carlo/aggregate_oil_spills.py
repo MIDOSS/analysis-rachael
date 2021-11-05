@@ -53,8 +53,8 @@ import time
 import dask
 
 
-def aggregate_SOILED_beaching(run_list, beach_threshold=15e-3, time_threshold=0.2):
-    """I still need to add a header here :-) """
+def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
+    sfc_vol_threshold=3e-3, sfc_conc_threshold=0, sfc_diss_threshold=0):
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # dimensions, constants, and dictionaries
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -80,7 +80,15 @@ def aggregate_SOILED_beaching(run_list, beach_threshold=15e-3, time_threshold=0.
             BeachPresence=(dims, numpy.zeros((nruns,ny,nx),dtype=int)),
             BeachPresence_24h=(dims, numpy.zeros((nruns,ny,nx),dtype=int)),
             BeachPresence_24h_to_72h=(dims, numpy.zeros((nruns,ny,nx),dtype=int)),
-            BeachPresence_72h_to_168h=(dims, numpy.zeros((nruns,ny,nx),dtype=int))),
+            BeachPresence_72h_to_168h=(dims, numpy.zeros((nruns,ny,nx),dtype=int)),
+            SurfacePresence=(dims, numpy.zeros((nruns,ny,nx),dtype=int)),
+            SurfaceVolumeSum=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
+            SurfaceVolumeMax=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
+            SurfaceVolumeSum_24h=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
+            SurfaceVolumeSum_24h_to_72h=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
+            SurfaceVolumeSum_72h_to_168h=(dims, numpy.zeros((nruns,ny,nx),dtype=float))),
+            # SurfaceDissolutionSum=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
+            #SurfaceConcentrationSum=(dims, numpy.zeros((nruns,ny,nx),dtype=float))),
         coords=dict(
             grid_y=range(ny),
             grid_x=range(nx))
@@ -142,6 +150,65 @@ def aggregate_SOILED_beaching(run_list, beach_threshold=15e-3, time_threshold=0.
             BeachVolume_threshold=beach_threshold,
             BeachVolume_threshold_units="m3",),
     )
+    SurfaceOut=xarray.Dataset(
+        data_vars=dict(
+            SurfacePresence=(dims, numpy.zeros((ny,nx),dtype=int),
+                {"units":"",
+                 "description":("An integer value 0<n<=N_spills representing the "
+                    "number out of N_spills where oil presence is above the "
+                    "SurfaceVolume_threshold"),
+                 "flag_values":'0,1',
+                 "flag_meaning":'oil absent, oil present'}),
+            SurfaceVolume_SumSum=(dims, numpy.zeros((ny,nx),dtype=float),
+                {"units":"m3",
+                 "description":("Time-integrated values of the "
+                    "natural log of surface volume, summed across" 
+                    "different spill scenarios.")}),
+            # SurfaceConcentration_SumSum=(dims, numpy.zeros((ny,nx),dtype=float),
+            #     {"units":"Kg/m3",
+            #      "description":("Time-integrated values of the "
+            #         "natural log of surface-level concentration, summed across" 
+            #         "different spill scenarios.")}),
+            # # SurfaceDissolution_SumSum=(dims, numpy.zeros((ny,nx),dtype=float),
+            #     {"units":"Kg/m3",
+            #      "description":("Time-integrated values of the "
+            #         "natural log of surface-level dissolved oil, summed across" 
+            #         "different spill scenarios.")}),
+            SurfaceVolume_SumSum_24h=(dims, numpy.zeros((ny,nx),dtype=float),
+                {"units":"m3",
+                 "description":("Time-integrated values over the first "
+                    "24-hrs after spill scenario of the "
+                    "natural log of surface volume, summed across" 
+                    "different spill scenarios.")}),
+            SurfaceVolume_SumSum_24h_to_72h=(dims, numpy.zeros((ny,nx),dtype=float),
+                {"units":"m3",
+                 "description":("Time-integrated values between 24 and 72 "
+                    "hours after spill scenario of the "
+                    "natural log of surface volume, summed across" 
+                    "different spill scenarios.")}),
+            SurfaceVolume_SumSum_72h_to_168h=(dims, numpy.zeros((ny,nx),dtype=float),
+                {"units":"m3",
+                 "description":("Time-integrated values between 72 and 168 "
+                    "hours after spill scenario of the "
+                    "natural log surface volume, summed across" 
+                    "different spill scenarios.")}),
+            SurfaceVolume_MaxSum=(dims, numpy.zeros((ny,nx),dtype=float),
+                {"units":"m3",
+                 "description":("Sum of the natural log surface "
+                      "volume across different spills where each spill "
+                      "instance is represented by the maximum value across "
+                      "time of the surface spill volume.")})),
+        coords=dict(
+            grid_y=range(ny),
+            grid_x=range(nx)),
+        attrs=dict(
+            SfcVolume_threshold=sfc_vol_threshold,
+            # SfcConcentration_threshold=sfc_conc_threshold,
+            # SfcDissolution_threshold=sfc_diss_threshold,
+            SfcVolume_threshold_units="m3"),
+            # SfcConcentration_threshold_units="Kg/m3",
+            # SfcDissolution_threshold_units="Kg/m3"),
+        )
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # loop through runs and aggregate beaching information
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -185,140 +252,13 @@ def aggregate_SOILED_beaching(run_list, beach_threshold=15e-3, time_threshold=0.
                         numpy.logical_and(dt>=three_days, dt<seven_days),
                         0)
                 )
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Flatten MOHID output into 2D arrays by 
-    # taking minimum of spill values or adding across spill values 
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    nspills=len(files)
-    # Beaching xarray for output netcdf
-    # By default, .sum() only skips missing values for float dtypes 
-    # but it seems to function for timedelta64[ns]
-    # keeping `skipna=True` in code for clarity purposes only
-    BeachingOut.attrs['Filenames']=files
-    BeachingOut.attrs['N_spills']=nspills
-    BeachingOut['MinBeachTime']=MOHID_In['BeachTime'].where(
-        MOHID_In.BeachTime>time_threshold).min(dim='nspills', skipna=True)
-    BeachingOut['MeanBeachTime']=MOHID_In['BeachTime'].mean(dim='nspills', skipna=True)
-    BeachingOut['TotalBeachVolume']=MOHID_In['BeachVolume'].sum(
-        dim='nspills', skipna=True)
-    BeachingOut['BeachPresence']=MOHID_In['BeachPresence'].sum(
-        dim='nspills', skipna=True)
-    BeachingOut['BeachPresence_24h']=MOHID_In['BeachPresence_24h'].sum(
-        dim='nspills', skipna=True)
-    BeachingOut['BeachPresence_24h_to_72h']=MOHID_In['BeachPresence_24h_to_72h'].sum(
-        dim='nspills', skipna=True)
-    BeachingOut['BeachPresence_72h_to_168h']=MOHID_In['BeachPresence_72h_to_168h'].sum(
-        dim='nspills', skipna=True)
-    
-    return BeachingOut
-
-def aggregate_SOILED_surface(run_list, sfc_vol_threshold=3e-3, time_threshold=0.2,
-    sfc_conc_threshold=0, sfc_diss_threshold=0):
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # dimensions, constants, and dictionaries
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    nruns=len(run_list)
-    ny,nx=896, 396
-    x, y=numpy.arange(0,nx), numpy.arange(0,ny) 
-    # define time thresholds
-    one_day=numpy.timedelta64(24,'h')
-    three_days=numpy.timedelta64(48,'h')
-    seven_days=numpy.timedelta64(168,'h')
-    # conversion constants
-    nanosecond_to_hour = 1e-9/3600
-    # Dictionary for organizing run information
-    files=[]
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Create xarrays for aggregating surface presence
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    
-    dims=('nspills','grid_y','grid_x')
-    MOHID_In=xarray.Dataset(
-        data_vars=dict(
-            SurfacePresence=(dims, numpy.zeros((nruns,ny,nx),dtype=int)),
-            SurfaceVolumeSum=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
-            SurfaceVolumeMax=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
-            SurfaceVolumeSum_24h=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
-            SurfaceVolumeSum_24h_to_72h=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
-            SurfaceVolumeSum_72h_to_168h=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
-            # SurfaceDissolutionSum=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
-            SurfaceConcentrationSum=(dims, numpy.zeros((nruns,ny,nx),dtype=float))),
-            
-        coords=dict(
-            grid_y=range(ny),
-            grid_x=range(nx))
-         )
-    dims=('grid_y','grid_x')
-    SurfaceOut=xarray.Dataset(
-        data_vars=dict(
-            SurfacePresence=(dims, numpy.zeros((ny,nx),dtype=int),
-                {"units":"",
-                 "description":("An integer value 0<n<=N_spills representing the "
-                    "number out of N_spills where oil presence is above the "
-                    "SurfaceVolume_threshold"),
-                 "flag_values":'0,1',
-                 "flag_meaning":'oil absent, oil present'}),
-            SurfaceVolume_SumSum=(dims, numpy.zeros((ny,nx),dtype=float),
-                {"units":"m3",
-                 "description":("Time-integrated values of the "
-                    "natural log of surface volume, summed across" 
-                    "different spill scenarios.")}),
-            SurfaceConcentration_SumSum=(dims, numpy.zeros((ny,nx),dtype=float),
-                {"units":"Kg/m3",
-                 "description":("Time-integrated values of the "
-                    "natural log of surface-level concentration, summed across" 
-                    "different spill scenarios.")}),
-            # SurfaceDissolution_SumSum=(dims, numpy.zeros((ny,nx),dtype=float),
-            #     {"units":"Kg/m3",
-            #      "description":("Time-integrated values of the "
-            #         "natural log of surface-level dissolved oil, summed across" 
-            #         "different spill scenarios.")}),
-            SurfaceVolume_SumSum_24h=(dims, numpy.zeros((ny,nx),dtype=float),
-                {"units":"m3",
-                 "description":("Time-integrated values over the first "
-                    "24-hrs after spill scenario of the "
-                    "natural log of surface volume, summed across" 
-                    "different spill scenarios.")}),
-            SurfaceVolume_SumSum_24h_to_72h=(dims, numpy.zeros((ny,nx),dtype=float),
-                {"units":"m3",
-                 "description":("Time-integrated values between 24 and 72 "
-                    "hours after spill scenario of the "
-                    "natural log of surface volume, summed across" 
-                    "different spill scenarios.")}),
-            SurfaceVolume_SumSum_72h_to_168h=(dims, numpy.zeros((ny,nx),dtype=float),
-                {"units":"m3",
-                 "description":("Time-integrated values between 72 and 168 "
-                    "hours after spill scenario of the "
-                    "natural log surface volume, summed across" 
-                    "different spill scenarios.")}),
-            SurfaceVolume_MaxSum=(dims, numpy.zeros((ny,nx),dtype=float),
-                {"units":"m3",
-                 "description":("Sum of the natural log surface "
-                      "volume across different spills where each spill "
-                      "instance is represented by the maximum value across "
-                      "time of the surface spill volume.")})),
-        coords=dict(
-            grid_y=range(ny),
-            grid_x=range(nx)),
-        attrs=dict(
-            SfcVolume_threshold=sfc_vol_threshold,
-            SfcConcentration_threshold=sfc_conc_threshold,
-            SfcDissolution_threshold=sfc_diss_threshold,
-            SfcVolume_threshold_units="m3",
-            SfcConcentration_threshold_units="Kg/m3",
-            SfcDissolution_threshold_units="Kg/m3"),
-        )
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # loop through runs and aggregate surface information
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    for run in range(nruns):
-        input_file=run_list[run]
-        if os.path.isfile(input_file):
-            files.append(input_file)
-            with xarray.open_dataset(input_file, engine='h5netcdf') as ds:
+                # ~~~~~~~~~~~~~~
+                # Surface Values
+                # ~~~~~~~~~~~~~~
                 initial_spill_time = ds.Oil_Arrival_Time.min()
                 # Select surface volume, concentration and dissolution
                 vol3d=ds.OilWaterColumnOilVol_3D.isel({'grid_z': 39})
-                conc3d=ds.OilConcentration_3D.isel({'grid_z': 39})
+                # conc3d=ds.OilConcentration_3D.isel({'grid_z': 39})
                 # diss3d=ds.Dissolution_3D.isel({'grid_z': 39})
                 # Identify surface presence, over threshold
                 sfcmask2d=xarray.DataArray(
@@ -349,19 +289,36 @@ def aggregate_SOILED_surface(run_list, sfc_vol_threshold=3e-3, time_threshold=0.
                 MOHID_In.SurfaceVolumeMax[run,:,:]=numpy.log(
                     vol3d.where(vol3d>sfc_vol_threshold)).max(
                     dim="time",skipna=True)
-                MOHID_In.SurfaceConcentrationSum[run,:,:]=numpy.log(
-                    conc3d.where(conc3d>sfc_conc_threshold)).max(
-                    dim="time",skipna=True)
+                # MOHID_In.SurfaceConcentrationSum[run,:,:]=numpy.log(
+                #     conc3d.where(conc3d>sfc_conc_threshold)).max(
+                #     dim="time",skipna=True)
                 # MOHID_In.SurfaceDissolutionSum[run,:,:]=numpy.log(
                 #     diss3d.where(diss3d>sfc_diss_threshold)).max(
                 #     dim="time",skipna=True)
-        else:
-            print(f'Missing: {input_file} ')
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Flatten MOHID output into 2D arrays by 
     # taking minimum of spill values or adding across spill values 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     nspills=len(files)
+    # Beaching xarray for output netcdf
+    # By default, .sum() only skips missing values for float dtypes 
+    # but it seems to function for timedelta64[ns]
+    # keeping `skipna=True` in code for clarity purposes only
+    BeachingOut.attrs['Filenames']=files
+    BeachingOut.attrs['N_spills']=nspills
+    BeachingOut['MinBeachTime']=MOHID_In['BeachTime'].where(
+        MOHID_In.BeachTime>time_threshold).min(dim='nspills', skipna=True)
+    BeachingOut['MeanBeachTime']=MOHID_In['BeachTime'].mean(dim='nspills', skipna=True)
+    BeachingOut['TotalBeachVolume']=MOHID_In['BeachVolume'].sum(
+        dim='nspills', skipna=True)
+    BeachingOut['BeachPresence']=MOHID_In['BeachPresence'].sum(
+        dim='nspills', skipna=True)
+    BeachingOut['BeachPresence_24h']=MOHID_In['BeachPresence_24h'].sum(
+        dim='nspills', skipna=True)
+    BeachingOut['BeachPresence_24h_to_72h']=MOHID_In['BeachPresence_24h_to_72h'].sum(
+        dim='nspills', skipna=True)
+    BeachingOut['BeachPresence_72h_to_168h']=MOHID_In['BeachPresence_72h_to_168h'].sum(
+        dim='nspills', skipna=True)
     # Surface oiling xarray for output netcdf
     SurfaceOut.attrs['Filenames']=files
     SurfaceOut.attrs['N_spills']=nspills
@@ -377,12 +334,181 @@ def aggregate_SOILED_surface(run_list, sfc_vol_threshold=3e-3, time_threshold=0.
         dim='nspills', skipna=True)
     SurfaceOut['SurfaceVolume_MaxSum']=MOHID_In.SurfaceVolumeMax.sum(
         dim='nspills', skipna=True)
-    SurfaceOut['SurfaceConcentration_SumSum']=MOHID_In.SurfaceConcentrationSum.sum(
-        dim='nspills', skipna=True)
-    # SurfaceOut['SurfaceDissolution_SumSum']=MOHID_In.SurfaceDissolutionSum.sum(
+    # SurfaceOut['SurfaceConcentration_SumSum']=MOHID_In.SurfaceConcentrationSum.sum(
     #     dim='nspills', skipna=True)
+    return BeachingOut, SurfaceOut
+
+# def aggregate_SOILED_surface(run_list, sfc_vol_threshold=3e-3, time_threshold=0.2,
+#     sfc_conc_threshold=0, sfc_diss_threshold=0):
+#     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#     # dimensions, constants, and dictionaries
+#     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#     nruns=len(run_list)
+#     ny,nx=896, 396
+#     x, y=numpy.arange(0,nx), numpy.arange(0,ny) 
+#     # define time thresholds
+#     one_day=numpy.timedelta64(24,'h')
+#     three_days=numpy.timedelta64(48,'h')
+#     seven_days=numpy.timedelta64(168,'h')
+#     # conversion constants
+#     nanosecond_to_hour = 1e-9/3600
+#     # Dictionary for organizing run information
+#     files=[]
+#     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#     # Create xarrays for aggregating surface presence
+#     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    
+#     dims=('nspills','grid_y','grid_x')
+#     MOHID_In=xarray.Dataset(
+#         data_vars=dict(
+#             SurfacePresence=(dims, numpy.zeros((nruns,ny,nx),dtype=int)),
+#             SurfaceVolumeSum=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
+#             SurfaceVolumeMax=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
+#             SurfaceVolumeSum_24h=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
+#             SurfaceVolumeSum_24h_to_72h=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
+#             SurfaceVolumeSum_72h_to_168h=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
+#             # SurfaceDissolutionSum=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
+#             SurfaceConcentrationSum=(dims, numpy.zeros((nruns,ny,nx),dtype=float))),
+            
+#         coords=dict(
+#             grid_y=range(ny),
+#             grid_x=range(nx))
+#          )
+#     dims=('grid_y','grid_x')
+#     SurfaceOut=xarray.Dataset(
+#         data_vars=dict(
+#             SurfacePresence=(dims, numpy.zeros((ny,nx),dtype=int),
+#                 {"units":"",
+#                  "description":("An integer value 0<n<=N_spills representing the "
+#                     "number out of N_spills where oil presence is above the "
+#                     "SurfaceVolume_threshold"),
+#                  "flag_values":'0,1',
+#                  "flag_meaning":'oil absent, oil present'}),
+#             SurfaceVolume_SumSum=(dims, numpy.zeros((ny,nx),dtype=float),
+#                 {"units":"m3",
+#                  "description":("Time-integrated values of the "
+#                     "natural log of surface volume, summed across" 
+#                     "different spill scenarios.")}),
+#             SurfaceConcentration_SumSum=(dims, numpy.zeros((ny,nx),dtype=float),
+#                 {"units":"Kg/m3",
+#                  "description":("Time-integrated values of the "
+#                     "natural log of surface-level concentration, summed across" 
+#                     "different spill scenarios.")}),
+#             # SurfaceDissolution_SumSum=(dims, numpy.zeros((ny,nx),dtype=float),
+#             #     {"units":"Kg/m3",
+#             #      "description":("Time-integrated values of the "
+#             #         "natural log of surface-level dissolved oil, summed across" 
+#             #         "different spill scenarios.")}),
+#             SurfaceVolume_SumSum_24h=(dims, numpy.zeros((ny,nx),dtype=float),
+#                 {"units":"m3",
+#                  "description":("Time-integrated values over the first "
+#                     "24-hrs after spill scenario of the "
+#                     "natural log of surface volume, summed across" 
+#                     "different spill scenarios.")}),
+#             SurfaceVolume_SumSum_24h_to_72h=(dims, numpy.zeros((ny,nx),dtype=float),
+#                 {"units":"m3",
+#                  "description":("Time-integrated values between 24 and 72 "
+#                     "hours after spill scenario of the "
+#                     "natural log of surface volume, summed across" 
+#                     "different spill scenarios.")}),
+#             SurfaceVolume_SumSum_72h_to_168h=(dims, numpy.zeros((ny,nx),dtype=float),
+#                 {"units":"m3",
+#                  "description":("Time-integrated values between 72 and 168 "
+#                     "hours after spill scenario of the "
+#                     "natural log surface volume, summed across" 
+#                     "different spill scenarios.")}),
+#             SurfaceVolume_MaxSum=(dims, numpy.zeros((ny,nx),dtype=float),
+#                 {"units":"m3",
+#                  "description":("Sum of the natural log surface "
+#                       "volume across different spills where each spill "
+#                       "instance is represented by the maximum value across "
+#                       "time of the surface spill volume.")})),
+#         coords=dict(
+#             grid_y=range(ny),
+#             grid_x=range(nx)),
+#         attrs=dict(
+#             SfcVolume_threshold=sfc_vol_threshold,
+#             SfcConcentration_threshold=sfc_conc_threshold,
+#             SfcDissolution_threshold=sfc_diss_threshold,
+#             SfcVolume_threshold_units="m3",
+#             SfcConcentration_threshold_units="Kg/m3",
+#             SfcDissolution_threshold_units="Kg/m3"),
+#         )
+#     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#     # loop through runs and aggregate surface information
+#     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#     for run in range(nruns):
+#         input_file=run_list[run]
+#         if os.path.isfile(input_file):
+#             files.append(input_file)
+#             with xarray.open_dataset(input_file, engine='h5netcdf') as ds:
+#                 initial_spill_time = ds.Oil_Arrival_Time.min()
+#                 # Select surface volume, concentration and dissolution
+#                 vol3d=ds.OilWaterColumnOilVol_3D.isel({'grid_z': 39})
+#                 conc3d=ds.OilConcentration_3D.isel({'grid_z': 39})
+#                 # diss3d=ds.Dissolution_3D.isel({'grid_z': 39})
+#                 # Identify surface presence, over threshold
+#                 sfcmask2d=xarray.DataArray(
+#                     data=numpy.ones_like(ds.Oil_Arrival_Time, dtype=int),
+#                     coords=ds.Oil_Arrival_Time.coords,
+#                     dims=ds.Oil_Arrival_Time.dims,
+#                 )
+#                 MOHID_In.SurfacePresence[run,:,:]=sfcmask2d.where(
+#                     vol3d.max(dim='time',skipna=True)>sfc_vol_threshold,
+#                     0
+#                 )
+#                 # Integrated surface volume over time where oiling>threshold
+#                 MOHID_In.SurfaceVolumeSum[run,:,:]=numpy.log(
+#                     vol3d.where(vol3d>sfc_vol_threshold)).sum(
+#                     dim="time",skipna=True)
+#                 MOHID_In.SurfaceVolumeSum_24h[run,:,:]=numpy.log(
+#                     vol3d.where(vol3d>sfc_vol_threshold)).loc[
+#                     dict(time=slice(initial_spill_time,initial_spill_time+one_day))
+#                     ].sum(dim="time",skipna=True)
+#                 MOHID_In.SurfaceVolumeSum_24h_to_72h[run,:,:]=numpy.log(
+#                     vol3d.where(vol3d>sfc_vol_threshold)).loc[dict(time=slice(
+#                     initial_spill_time+one_day,initial_spill_time+three_days))
+#                     ].sum(dim="time",skipna=True)
+#                 MOHID_In.SurfaceVolumeSum_72h_to_168h[run,:,:]=numpy.log(
+#                     vol3d.where(vol3d>sfc_vol_threshold)).loc[dict(time=slice(
+#                     initial_spill_time+three_days,initial_spill_time+seven_days))
+#                     ].sum(dim="time",skipna=True)
+#                 MOHID_In.SurfaceVolumeMax[run,:,:]=numpy.log(
+#                     vol3d.where(vol3d>sfc_vol_threshold)).max(
+#                     dim="time",skipna=True)
+#                 MOHID_In.SurfaceConcentrationSum[run,:,:]=numpy.log(
+#                     conc3d.where(conc3d>sfc_conc_threshold)).max(
+#                     dim="time",skipna=True)
+#                 # MOHID_In.SurfaceDissolutionSum[run,:,:]=numpy.log(
+#                 #     diss3d.where(diss3d>sfc_diss_threshold)).max(
+#                 #     dim="time",skipna=True)
+#         else:
+#             print(f'Missing: {input_file} ')
+#     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#     # Flatten MOHID output into 2D arrays by 
+#     # taking minimum of spill values or adding across spill values 
+#     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#     nspills=len(files)
+#     # Surface oiling xarray for output netcdf
+#     SurfaceOut.attrs['Filenames']=files
+#     SurfaceOut.attrs['N_spills']=nspills
+#     SurfaceOut['SurfacePresence']=MOHID_In.SurfacePresence.sum(
+#         dim='nspills', skipna=True) 
+#     SurfaceOut['SurfaceVolume_SumSum']=MOHID_In.SurfaceVolumeSum.sum(
+#         dim='nspills', skipna=True)    
+#     SurfaceOut['SurfaceVolume_SumSum_24h']=MOHID_In.SurfaceVolumeSum_24h.sum(
+#         dim='nspills', skipna=True)
+#     SurfaceOut['SurfaceVolume_SumSum_24h_to_72h']=MOHID_In.SurfaceVolumeSum_24h_to_72h.sum(
+#         dim='nspills', skipna=True)
+#     SurfaceOut['SurfaceVolume_SumSum_72h_to_168h']=MOHID_In.SurfaceVolumeSum_72h_to_168h.sum(
+#         dim='nspills', skipna=True)
+#     SurfaceOut['SurfaceVolume_MaxSum']=MOHID_In.SurfaceVolumeMax.sum(
+#         dim='nspills', skipna=True)
+#     SurfaceOut['SurfaceConcentration_SumSum']=MOHID_In.SurfaceConcentrationSum.sum(
+#         dim='nspills', skipna=True)
+#     # SurfaceOut['SurfaceDissolution_SumSum']=MOHID_In.SurfaceDissolutionSum.sum(
+#     #     dim='nspills', skipna=True)
     
-    return SurfaceOut
+#     return SurfaceOut
 
 def main(yaml_file, oil_type, first, last, output_folder):
     """Aggregate surface and beaching output from SOILED
@@ -423,30 +549,17 @@ def main(yaml_file, oil_type, first, last, output_folder):
     # Define output netcdf name
     #------------------------------------------------------------
     aggregated_beaching_nc = output_netcdf_dir / f'beaching_{oil_type}_{first}-{last}.nc'
-    #beaching_runs_nc= output_netcdf_dir / f'beachingRuns_{oil_type}_{first}-{last}.nc'
     aggregated_surface_nc = output_netcdf_dir / f'surface_{oil_type}_{first}-{last}.nc'    
-    #surface_runs_nc = output_netcdf_dir / f'surfaceRuns_{oil_type}_{first}-{last}.nc'
     #------------------------------------------------------------
-    # Aggregate beaching model output 
+    # Aggregate beaching and surface model output 
     #------------------------------------------------------------
-    beaching = aggregate_SOILED_beaching(
-        run_paths[oil_type][first:last], 
-        beach_threshold)
-    #------------------------------------------------------------
-    # Aggregate surface model output 
-    #------------------------------------------------------------
-    surface = aggregate_SOILED_surface(
-        run_paths[oil_type][first:last], 
-        surface_threshold)
+    beaching,surface = aggregate_SOILED(
+        run_paths[oil_type][first:last])
     #------------------------------------------------------------
     # Save output netcdf files
     #------------------------------------------------------------
-    # fillval = {'_FillValue':0}
-    # encoding = {var: fillval for var in beaching.data_vars}
     beaching.to_netcdf(aggregated_beaching_nc, engine='h5netcdf')
-    #beaching_runs.to_netcdf(beaching_runs_nc, engine='h5netcdf')
     surface.to_netcdf(aggregated_surface_nc, engine='h5netcdf')
-    #surface_runs.to_netcdf(surface_runs_nc, engine='h5netcdf')
    
     executionTime = (time.time() - startTime)
     print(f'Execution time in minutes for {oil_type}_{first}-{last}: {executionTime/60:.2f}')
