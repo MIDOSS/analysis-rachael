@@ -105,24 +105,32 @@ def aggregate_SOILED_beaching(run_list, beach_threshold=15e-3, time_threshold=0.
                     "volume>BeachVolume_threshold in any given, individual "
                     "run")}),
             BeachPresence=(dims, numpy.zeros((ny,nx),dtype=int),
-                {"units":"none",
-                "description":("An integer value 0<n<=N_spills representing the "
+                {"units":"",
+                 "flag_values":"0,1",
+                 "flag_meaning":"oil absent, oil present",
+                 "description":("An integer value 0<n<=N_spills representing the "
                     "number out of N_spills where oil presence on beaches is "
                     "above the BeachVolume_threshold")}),
             BeachPresence_24h=(dims, numpy.zeros((ny,nx),dtype=int),
-                {"units":"none",
+                {"units":"",
+                 "flag_values":"0,1",
+                 "flag_meaning":"oil absent, oil present",
                  "description":("An integer value 0<n<=N_spills representing the "
                     " number of N_spills where oil presence on beaches is above "
                     "the BeachVolume_threshold and within the first 24 hours "
                     "of spill")}),
             BeachPresence_24h_to_72h=(dims, numpy.zeros((ny,nx),dtype=int),
-                {"units":"none",
+                {"units":"",
+                 "flag_values":"0,1",
+                 "flag_meaning":"oil absent, oil present",
                  "description":("An integer value 0<n<=N_spills representing the "
                     "number of N_spills where oil presence on beaches is above "
                     "the BeachVolume_threshold and within [24,72) hours "
                     "after spill")}),
             BeachPresence_72h_to_168h=(dims, numpy.zeros((ny,nx),dtype=int),
                 {"units":"none",
+                 "flag_values":"0,1",
+                 "flag_meaning":"oil absent, oil present",
                  "description":("An integer value 0<n<=N_spills representing the "
                     "number of N_spills where oil presence on beaches is above "
                     "the BeachVolume_threshold and within [72,168) hours "
@@ -132,8 +140,7 @@ def aggregate_SOILED_beaching(run_list, beach_threshold=15e-3, time_threshold=0.
             grid_x=range(nx)), 
         attrs=dict(
             BeachVolume_threshold=beach_threshold,
-            BeachVolume_threshold_units="m3",
-        )
+            BeachVolume_threshold_units="m3",),
     )
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # loop through runs and aggregate beaching information
@@ -141,8 +148,8 @@ def aggregate_SOILED_beaching(run_list, beach_threshold=15e-3, time_threshold=0.
     for run in range(nruns):
         input_file=run_list[run]
         if os.path.isfile(input_file):
-            files.append(input_file.split('/')[-1])
-            with xarray.open_dataset(input_file) as ds:
+            files.append(input_file)
+            with xarray.open_dataset(input_file, engine='h5netcdf') as ds:
                 #~~~ Beaching ~~~
                 dt=ds.Beaching_Time-ds.Beaching_Time.min()
                 # Beaching time (converted from ns to hours)
@@ -161,16 +168,22 @@ def aggregate_SOILED_beaching(run_list, beach_threshold=15e-3, time_threshold=0.
                 )       
                 # Presence above threshold
                 MOHID_In.BeachPresence[run,:,:]=dtmask.where(
-                    ds.Beaching_Volume>beach_threshold)
+                    ds.Beaching_Volume>beach_threshold,
+                    0)
                 MOHID_In.BeachPresence_24h[run,:,:]=(
-                    MOHID_In.BeachPresence[run,:,:].where(dt<one_day)) 
+                    MOHID_In.BeachPresence[run,:,:].where(
+                       dt<one_day,
+                       0)
+                ) 
                 MOHID_In.BeachPresence_24h_to_72h[run,:,:]=(
                     MOHID_In.BeachPresence[run,:,:].where(
-                    numpy.logical_and(dt>=one_day, dt<three_days))
+                        numpy.logical_and(dt>=one_day, dt<three_days),
+                        0)
                 )
                 MOHID_In.BeachPresence_72h_to_168h[run,:,:]=(
                     MOHID_In.BeachPresence[run,:,:].where(
-                    numpy.logical_and(dt>=three_days, dt<seven_days))
+                        numpy.logical_and(dt>=three_days, dt<seven_days),
+                        0)
                 )
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Flatten MOHID output into 2D arrays by 
@@ -197,7 +210,7 @@ def aggregate_SOILED_beaching(run_list, beach_threshold=15e-3, time_threshold=0.
     BeachingOut['BeachPresence_72h_to_168h']=MOHID_In['BeachPresence_72h_to_168h'].sum(
         dim='nspills', skipna=True)
     
-    return BeachingOut, MOHID_In
+    return BeachingOut
 
 def aggregate_SOILED_surface(run_list, surface_threshold=3e-3, time_threshold=0.2):
     """I still need to add a header here :-) """
@@ -235,10 +248,12 @@ def aggregate_SOILED_surface(run_list, surface_threshold=3e-3, time_threshold=0.
     SurfaceOut=xarray.Dataset(
         data_vars=dict(
             SurfacePresence=(dims, numpy.zeros((ny,nx),dtype=int),
-                {"units":"none",
+                {"units":"",
                  "description":("An integer value 0<n<=N_spills representing the "
                     "number out of N_spills where oil presence is above the "
-                    "SurfaceVolume_threshold")}),
+                    "SurfaceVolume_threshold"),
+                 "flag_values":'0,1',
+                 "flag_meaning":'oil absent, oil present'}),
             SurfaceVolume_SumSum=(dims, numpy.zeros((ny,nx),dtype=float),
                 {"units":"m3",
                  "description":("Time-integrated values of the "
@@ -281,8 +296,8 @@ def aggregate_SOILED_surface(run_list, surface_threshold=3e-3, time_threshold=0.
     for run in range(nruns):
         input_file=run_list[run]
         if os.path.isfile(input_file):
-            files.append(input_file.split('/')[-1])
-            with xarray.open_dataset(input_file) as ds:
+            files.append(input_file)
+            with xarray.open_dataset(input_file, engine='h5netcdf') as ds:
                 initial_spill_time = ds.Oil_Arrival_Time.min()
                 # Select surface volume
                 vol3d=ds.OilWaterColumnOilVol_3D.isel({'grid_z': 39})
@@ -293,7 +308,8 @@ def aggregate_SOILED_surface(run_list, surface_threshold=3e-3, time_threshold=0.
                     dims=ds.Oil_Arrival_Time.dims,
                 )
                 MOHID_In.SurfacePresence[run,:,:]=sfcmask2d.where(
-                    vol3d.max(dim='time',skipna=True)>surface_threshold
+                    vol3d.max(dim='time',skipna=True)>surface_threshold,
+                    0
                 )
                 # Integrated surface volume over time where oiling>threshold
                 MOHID_In.SurfaceVolumeSum[run,:,:]=numpy.log(
@@ -338,9 +354,27 @@ def aggregate_SOILED_surface(run_list, surface_threshold=3e-3, time_threshold=0.
     SurfaceOut['SurfaceVolume_MaxSum']=MOHID_In.SurfaceVolumeMax.sum(
         dim='nspills', skipna=True)
     
-    return SurfaceOut, MOHID_In
+    return SurfaceOut
 
 def main(yaml_file, oil_type, first, last, output_folder):
+    """Aggregate surface and beaching output from SOILED
+    :param yaml_file: Directory path to yaml file the contains a dictionary 
+         of output netcdf paths organized by oil types 
+         (created with `get_SOILED_netcdf_filenames` in 
+         `create_SOILED_runlist.ipynb`.)
+    :type yaml_file: :py:class:`pathlib.Path`
+    :param oil_type: oil type label 
+         ('akns', 'bunker', 'dilbit', 'jet', 'diesel', 'gas', 'other')
+    :type oil_type: :py:class:`str`
+    :param first: array index of the first file in yaml_file[oil_type] 
+       to process as part of this batch of runs of [first, last) files
+    :type first: :py:class:`int`
+    :param last: array index of the last file in yaml_file[oil_type] 
+       to process as part of this batch of runs of [first, last) files
+    :type last: :py:class:`int`
+    :param output_folder: directory to place output netcdf
+    :type output_folder: :py:class:`pathlib.Path`
+    """
     startTime = time.time()
     print(f'{oil_type}, files{first}-{last}\n')
     #------------------------------------------------------------
@@ -361,28 +395,30 @@ def main(yaml_file, oil_type, first, last, output_folder):
     # Define output netcdf name
     #------------------------------------------------------------
     aggregated_beaching_nc = output_netcdf_dir / f'beaching_{oil_type}_{first}-{last}.nc'
-    beaching_runs_nc= output_netcdf_dir / f'beachingRuns_{oil_type}_{first}-{last}.nc'
+    #beaching_runs_nc= output_netcdf_dir / f'beachingRuns_{oil_type}_{first}-{last}.nc'
     aggregated_surface_nc = output_netcdf_dir / f'surface_{oil_type}_{first}-{last}.nc'    
-    surface_runs_nc = output_netcdf_dir / f'surfaceRuns_{oil_type}_{first}-{last}.nc'
+    #surface_runs_nc = output_netcdf_dir / f'surfaceRuns_{oil_type}_{first}-{last}.nc'
     #------------------------------------------------------------
     # Aggregate beaching model output 
     #------------------------------------------------------------
-    beaching,beaching_runs = aggregate_SOILED_beaching(
+    beaching = aggregate_SOILED_beaching(
         run_paths[oil_type][first:last], 
         beach_threshold)
     #------------------------------------------------------------
     # Aggregate surface model output 
     #------------------------------------------------------------
-    surface,surface_runs = aggregate_SOILED_surface(
+    surface = aggregate_SOILED_surface(
         run_paths[oil_type][first:last], 
         surface_threshold)
     #------------------------------------------------------------
     # Save output netcdf files
     #------------------------------------------------------------
+    # fillval = {'_FillValue':0}
+    # encoding = {var: fillval for var in beaching.data_vars}
     beaching.to_netcdf(aggregated_beaching_nc, engine='h5netcdf')
-    beaching_runs.to_netcdf(beaching_runs_nc, engine='h5netcdf')
+    #beaching_runs.to_netcdf(beaching_runs_nc, engine='h5netcdf')
     surface.to_netcdf(aggregated_surface_nc, engine='h5netcdf')
-    surface_runs.to_netcdf(surface_runs_nc, engine='h5netcdf')
+    #surface_runs.to_netcdf(surface_runs_nc, engine='h5netcdf')
    
     executionTime = (time.time() - startTime)
     print(f'Execution time in minutes for {oil_type}_{first}-{last}: {executionTime/60:.2f}')
