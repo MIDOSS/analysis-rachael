@@ -48,10 +48,14 @@ import numpy
 import xarray
 import h5netcdf
 from datetime import datetime
+from datetime import date
 from glob import glob
 import time
-import dask
 
+
+# Uncomment @profile if you want to use memory-profiler for stdout on 
+# memory usage
+@profile
 def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
     sfc_vol_threshold=3e-3, sfc_conc_threshold=0, sfc_diss_threshold=0):
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -81,12 +85,14 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
             BeachPresence_24h_to_72h=(dims, numpy.zeros((nruns,ny,nx),dtype=int)),
             BeachPresence_72h_to_168h=(dims, numpy.zeros((nruns,ny,nx),dtype=int)),
             SurfacePresence=(dims, numpy.zeros((nruns,ny,nx),dtype=int)),
+            SurfacePresence_24h=(dims, numpy.zeros((nruns,ny,nx),dtype=int)),
+            SurfacePresence_24h_to_72h=(dims, numpy.zeros((nruns,ny,nx),dtype=int)),
+            SurfacePresence_72h_to_168h=(dims, numpy.zeros((nruns,ny,nx),dtype=int)),
             SurfaceVolumeSum=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
             SurfaceVolumeMax=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
             SurfaceVolumeSum_24h=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
             SurfaceVolumeSum_24h_to_72h=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
             SurfaceVolumeSum_72h_to_168h=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
-            SurfaceDissolutionSum=(dims, numpy.zeros((nruns,ny,nx),dtype=float)),
             SurfaceConcentrationSum=(dims, numpy.zeros((nruns,ny,nx),dtype=float))),
         coords=dict(
             grid_y=range(ny),
@@ -162,7 +168,31 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
                 {"units":"",
                  "description":("An integer value 0<n<=N_spills representing the "
                     "number out of N_spills where oil presence is above the "
-                    "SurfaceVolume_threshold"),
+                    "SurfaceVolume_threshold."),
+                 "flag_values":'0,1',
+                 "flag_meaning":'oil absent, oil present'}),
+            SurfacePresence_24h=(dims, numpy.zeros((ny,nx),dtype=int),
+                {"units":"",
+                 "description":("An integer value 0<n<=N_spills representing the "
+                    "number out of N_spills where oil presence is above the "
+                    "SurfaceVolume_threshold and within first 24 hrs after initial"
+                    " spill time for individual spill scenario."),
+                 "flag_values":'0,1',
+                 "flag_meaning":'oil absent, oil present'}),
+            SurfacePresence_24h_to_72h=(dims, numpy.zeros((ny,nx),dtype=int),
+                {"units":"",
+                 "description":("An integer value 0<n<=N_spills representing "
+                    "the number out of N_spills where oil presence is above "
+                    "the SurfaceVolume_threshold and within 24-72 hrs of "
+                    "initial spill time for individual spill scenario."),
+                 "flag_values":'0,1',
+                 "flag_meaning":'oil absent, oil present'}),
+            SurfacePresence_72h_to_168h=(dims, numpy.zeros((ny,nx),dtype=int),
+                {"units":"",
+                 "description":("An integer value 0<n<=N_spills representing the "
+                    "number out of N_spills where oil presence is above the "
+                    "SurfaceVolume_threshold and within 72-168 hrs of initial "
+                    "spill time for individual spill scenario."),
                  "flag_values":'0,1',
                  "flag_meaning":'oil absent, oil present'}),
             SurfaceVolume_SumSum=(dims, numpy.zeros((ny,nx),dtype=float),
@@ -174,11 +204,6 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
                 {"units":"Kg/m3",
                  "description":("Time-integrated values of the "
                     "natural log of surface-level concentration, summed across" 
-                    "different spill scenarios.")}),
-            SurfaceDissolution_SumSum=(dims, numpy.zeros((ny,nx),dtype=float),
-                {"units":"Kg/m3",
-                 "description":("Time-integrated values of the "
-                    "natural log of surface-level dissolved oil, summed across" 
                     "different spill scenarios.")}),
             SurfaceVolume_SumSum_24h=(dims, numpy.zeros((ny,nx),dtype=float),
                 {"units":"m3",
@@ -210,10 +235,8 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
         attrs=dict(
             SfcVolume_threshold=sfc_vol_threshold,
             SfcConcentration_threshold=sfc_conc_threshold,
-            SfcDissolution_threshold=sfc_diss_threshold,
             SfcVolume_threshold_units="m3",
-            SfcConcentration_threshold_units="Kg/m3",
-            SfcDissolution_threshold_units="Kg/m3"),
+            SfcConcentration_threshold_units="Kg/m3"),
         )
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # loop through runs and aggregate beaching information
@@ -226,9 +249,9 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
                 # ~~~~~~~~~~~~~~
                 # Beaching 
                 # ~~~~~~~~~~~~~~
-                dt=ds.Beaching_Time-ds.Beaching_Time.min()
-                Beaching_Volume = ds.Beaching_Volume.where(
-                    ds.Beaching_Volume>beach_threshold, 0)
+                dt=(
+                    ds.Beaching_Time-ds.Beaching_Time.min()
+                )*nanosecond_to_hour
                 # Beaching presence masks
                 dtmask=xarray.DataArray(
                     data=numpy.ones_like(ds.Beaching_Time, dtype=int),
@@ -238,11 +261,13 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
                 # ~~~~~~~~~~~~~~
                 # Surface
                 # ~~~~~~~~~~~~~~
+                dt_sfc=(
+                    ds.Oil_Arrival_Time-ds.Oil_Arrival_Time.min()
+                )*nanosecond_to_hour
                 initial_spill_time = ds.Oil_Arrival_Time.min()
                 # Select surface volume, concentration and dissolution
                 vol3d=ds.OilWaterColumnOilVol_3D.isel({'grid_z': 39})
                 conc3d=ds.OilConcentration_3D.isel({'grid_z': 39})
-                diss3d=ds.Dissolution_3D.isel({'grid_z': 39})
                 # Identify surface presence, over threshold
                 sfcmask2d=xarray.DataArray(
                     data=numpy.ones_like(ds.Oil_Arrival_Time, dtype=int),
@@ -254,15 +279,17 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
             # Beaching 
             # ~~~~~~~~~~~~~~    
             # Beaching time (converted from ns to hours)
-            MOHID_In.BeachTime[run,:,:]=dt*nanosecond_to_hour
+            MOHID_In.BeachTime[run,:,:]=dt
             # Set time to NaT where volume is below threshold 
             MOHID_In['BeachTime']=MOHID_In.BeachTime.where(
-                Beaching_Volume>beach_threshold)
+                ds.Beaching_Volume>beach_threshold)
             # Save volume over threshold 
-            MOHID_In.BeachVolume[run,:,:]=Beaching_Volume             
+            MOHID_In.BeachVolume[run,:,:]=numpy.log(ds.Beaching_Volume.where(
+                ds.Beaching_Volume>beach_threshold
+            ))             
             # Presence above threshold
             MOHID_In.BeachPresence[run,:,:]=dtmask.where(
-                Beaching_Volume>0,
+                ds.Beaching_Volume>beach_threshold,
                 0)
             MOHID_In.BeachPresence_24h[run,:,:]=(
                 MOHID_In.BeachPresence[run,:,:].where(
@@ -286,6 +313,20 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
                 vol3d.max(dim='time',skipna=True)>sfc_vol_threshold,
                 0
             )
+            MOHID_In.SurfacePresence_24h[run,:,:]=(
+                MOHID_In.SurfacePresence[run,:,:].where(dt_sfc<one_day,0)
+            )
+            MOHID_In.SurfacePresence_24h_to_72h[run,:,:]=(
+                MOHID_In.SurfacePresence[run,:,:].where(
+                    numpy.logical_and(dt_sfc>=one_day, dt_sfc<three_days),
+                    0
+                )
+            )
+            MOHID_In.SurfacePresence_72h_to_168h[run,:,:]=(
+                MOHID_In.SurfacePresence[run,:,:].where(
+                    numpy.logical_and(dt_sfc>=three_days, dt_sfc<seven_days),
+                    0)
+            )
             # Integrated surface volume over time where oiling>threshold
             MOHID_In.SurfaceVolumeSum[run,:,:]=numpy.log(
                 vol3d.where(vol3d>sfc_vol_threshold)).sum(
@@ -308,9 +349,6 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
             MOHID_In.SurfaceConcentrationSum[run,:,:]=numpy.log(
                 conc3d.where(conc3d>sfc_conc_threshold)).max(
                 dim="time",skipna=True)
-            MOHID_In.SurfaceDissolutionSum[run,:,:]=numpy.log(
-                diss3d.where(diss3d>sfc_diss_threshold)).max(
-                dim="time",skipna=True)
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Flatten MOHID output into 2D arrays by 
     # taking minimum of spill values or adding across spill values 
@@ -322,38 +360,67 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
     # keeping `skipna=True` in code for clarity purposes only
     BeachingOut.attrs['Filenames']=files
     BeachingOut.attrs['N_spills']=nspills
+    BeachingOut.attrs['creation_date']=date.today().strftime("%B %d, %Y") 
+    BeachingOut.attrs['created_by']='Rachael D. Mueller'
+    SurfaceOut.attrs['created_with']=(
+        'https://github.com/MIDOSS/analysis-rachael/blob/'
+        'main/scripts/monte_carlo/aggregate_oil_spills.py')
+    BeachingOut.attrs['project_website']=(
+        'https://midoss-docs.readthedocs.io/en/latest/index.html'   
+    )
     BeachingOut['MinBeachTime']=MOHID_In['BeachTime'].where(
         MOHID_In.BeachTime>time_threshold).min(dim='nspills', skipna=True)
-    BeachingOut['MeanBeachTime']=MOHID_In['BeachTime'].mean(dim='nspills', skipna=True)
+    BeachingOut['MeanBeachTime']=(
+        MOHID_In['BeachTime'].mean(dim='nspills', skipna=True)
+    )
     BeachingOut['TotalBeachVolume']=MOHID_In['BeachVolume'].sum(
         dim='nspills', skipna=True)
     BeachingOut['BeachPresence']=MOHID_In['BeachPresence'].sum(
         dim='nspills', skipna=True)
     BeachingOut['BeachPresence_24h']=MOHID_In['BeachPresence_24h'].sum(
         dim='nspills', skipna=True)
-    BeachingOut['BeachPresence_24h_to_72h']=MOHID_In['BeachPresence_24h_to_72h'].sum(
-        dim='nspills', skipna=True)
-    BeachingOut['BeachPresence_72h_to_168h']=MOHID_In['BeachPresence_72h_to_168h'].sum(
-        dim='nspills', skipna=True)
+    BeachingOut['BeachPresence_24h_to_72h']=(
+        MOHID_In['BeachPresence_24h_to_72h'].sum(dim='nspills', skipna=True)
+    )
+    BeachingOut['BeachPresence_72h_to_168h']=(
+        MOHID_In['BeachPresence_72h_to_168h'].sum(dim='nspills', skipna=True)
+    )
     # Surface oiling xarray for output netcdf
     SurfaceOut.attrs['Filenames']=files
     SurfaceOut.attrs['N_spills']=nspills
-    SurfaceOut['SurfacePresence']=MOHID_In.SurfacePresence.sum(
-        dim='nspills', skipna=True) 
+    SurfaceOut.attrs['creation_date']=date.today().strftime("%B %d, %Y")  
+    SurfaceOut.attrs['created_by']='Rachael D. Mueller'
+    SurfaceOut.attrs['created_with']=(
+        'https://github.com/MIDOSS/analysis-rachael/blob/'
+        'main/scripts/monte_carlo/aggregate_oil_spills.py')
+    SurfaceOut.attrs['project_website']=(
+        'https://midoss-docs.readthedocs.io/en/latest/index.html'
+    )
+    SurfaceOut['SurfacePresence']=MOHID_In.SurfacePresence.sum(dim='nspills') 
+    SurfaceOut['SurfacePresence_24h']=(
+        MOHID_In.SurfacePresence_24h.sum(dim='nspills')
+    )
+    SurfaceOut['SurfacePresence_24h_to_72h']=(
+        MOHID_In.SurfacePresence_24h_to_72h.sum(dim='nspills')
+    )
+    SurfaceOut['SurfacePresence_72h_to_168h']=(
+        MOHID_In.SurfacePresence_72h_to_168h.sum(dim='nspills')
+    ) 
     SurfaceOut['SurfaceVolume_SumSum']=MOHID_In.SurfaceVolumeSum.sum(
         dim='nspills', skipna=True)    
     SurfaceOut['SurfaceVolume_SumSum_24h']=MOHID_In.SurfaceVolumeSum_24h.sum(
         dim='nspills', skipna=True)
-    SurfaceOut['SurfaceVolume_SumSum_24h_to_72h']=MOHID_In.SurfaceVolumeSum_24h_to_72h.sum(
-        dim='nspills', skipna=True)
-    SurfaceOut['SurfaceVolume_SumSum_72h_to_168h']=MOHID_In.SurfaceVolumeSum_72h_to_168h.sum(
-        dim='nspills', skipna=True)
+    SurfaceOut['SurfaceVolume_SumSum_24h_to_72h']=(
+        MOHID_In.SurfaceVolumeSum_24h_to_72h.sum(dim='nspills', skipna=True)
+    )
+    SurfaceOut['SurfaceVolume_SumSum_72h_to_168h']=(
+        MOHID_In.SurfaceVolumeSum_72h_to_168h.sum(dim='nspills', skipna=True)
+    )
     SurfaceOut['SurfaceVolume_MaxSum']=MOHID_In.SurfaceVolumeMax.sum(
         dim='nspills', skipna=True)
-    SurfaceOut['SurfaceConcentration_SumSum']=MOHID_In.SurfaceConcentrationSum.sum(
-        dim='nspills', skipna=True)
-    SurfaceOut['SurfaceDissolution_SumSum']=MOHID_In.SurfaceDissolutionSum.sum(
-        dim='nspills', skipna=True)
+    SurfaceOut['SurfaceConcentration_SumSum']=(
+        MOHID_In.SurfaceConcentrationSum.sum(dim='nspills', skipna=True)
+    )
     return BeachingOut, SurfaceOut
 
 def main(yaml_file, oil_type, first, last, output_folder):
@@ -400,7 +467,11 @@ def main(yaml_file, oil_type, first, last, output_folder):
     # Aggregate beaching and surface model output 
     #------------------------------------------------------------
     beaching,surface = aggregate_SOILED(
-        run_paths[oil_type][first:last])
+        run_paths[oil_type][first:last]
+    )
+    # add information about yaml file version
+    beaching.attrs['yaml_file']=str(yaml_file)
+    surface.attrs['yaml_file']=str(yaml_file)
     #------------------------------------------------------------
     # Save output netcdf files
     #------------------------------------------------------------
