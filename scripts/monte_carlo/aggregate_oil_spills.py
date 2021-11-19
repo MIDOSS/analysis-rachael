@@ -105,15 +105,15 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
     # ~~~~~~~~~~~~~~ 
     BeachingOut=xarray.Dataset(
         data_vars=dict(
-            MinBeachTime=(dims, numpy.zeros((ny,nx)),
+            BeachTime_Min=(dims, numpy.zeros((ny,nx)),
                {"units":"hours",
                 "description":("Earliest beaching arrival time at "
                     "locations where beached oil is above "
                     "BeachVolume_threshold and beaching time is greater "
                     f"than {time_threshold} hr (~1 min for 0.02 default)")}), 
-            MeanBeachTime=(dims, numpy.zeros((ny,nx)),
+            BeachTime_Sum=(dims, numpy.zeros((ny,nx)),
                 {"units":"hours",
-                "description":("The mean across runs of the earliest beaching "
+                "description":("The sum across runs of the earliest beaching "
                     " arrival time at locations where beached oil is above "
                     "BeachVolume_threshold")}),
             TotalBeachVolume=(dims, numpy.zeros((ny,nx),dtype=float),
@@ -242,6 +242,7 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
     # loop through runs and aggregate beaching information
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     for run in range(nruns):
+        print(f'Run {run} of {nruns}')
         input_file=run_list[run]
         if os.path.isfile(input_file):
             files.append(input_file)
@@ -282,7 +283,8 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
             MOHID_In.BeachTime[run,:,:]=dt
             # Set time to NaT where volume is below threshold 
             MOHID_In['BeachTime']=MOHID_In.BeachTime.where(
-                ds.Beaching_Volume>beach_threshold)
+                ds.Beaching_Volume>beach_threshold
+            )
             # Save volume over threshold 
             MOHID_In.BeachVolume[run,:,:]=numpy.log(ds.Beaching_Volume.where(
                 ds.Beaching_Volume>beach_threshold
@@ -368,10 +370,10 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
     BeachingOut.attrs['project_website']=(
         'https://midoss-docs.readthedocs.io/en/latest/index.html'   
     )
-    BeachingOut['MinBeachTime']=MOHID_In['BeachTime'].where(
+    BeachingOut['BeachTime_Min']=MOHID_In['BeachTime'].where(
         MOHID_In.BeachTime>time_threshold).min(dim='nspills', skipna=True)
-    BeachingOut['MeanBeachTime']=(
-        MOHID_In['BeachTime'].mean(dim='nspills', skipna=True)
+    BeachingOut['BeachTime_Sum']=(
+        MOHID_In['BeachTime'].sum(dim='nspills', skipna=True)
     )
     BeachingOut['TotalBeachVolume']=MOHID_In['BeachVolume'].sum(
         dim='nspills', skipna=True)
