@@ -55,7 +55,7 @@ import time
 
 # Uncomment @profile if you want to use memory-profiler for stdout on 
 # memory usage
-@profile
+#@profile
 def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
     sfc_vol_threshold=3e-3, sfc_conc_threshold=0, sfc_diss_threshold=0):
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -247,11 +247,13 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
         if os.path.isfile(input_file):
             files.append(input_file)
             with xarray.open_dataset(input_file, engine='h5netcdf') as ds:
+                spill_start = ds.time[0]
+                spill_end = ds.time[-1]
                 # ~~~~~~~~~~~~~~
                 # Beaching 
                 # ~~~~~~~~~~~~~~
                 dt=(
-                    ds.Beaching_Time-ds.Beaching_Time.min()
+                    ds.Beaching_Time-spill_start
                 )*nanosecond_to_hour
                 # Beaching presence masks
                 dtmask=xarray.DataArray(
@@ -265,7 +267,7 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
                 dt_sfc=(
                     ds.Oil_Arrival_Time-ds.Oil_Arrival_Time.min()
                 )*nanosecond_to_hour
-                initial_spill_time = ds.Oil_Arrival_Time.min()
+                #initial_spill_time = ds.Oil_Arrival_Time.min()
                 # Select surface volume, concentration and dissolution
                 vol3d=ds.OilWaterColumnOilVol_3D.isel({'grid_z': 39})
                 conc3d=ds.OilConcentration_3D.isel({'grid_z': 39})
@@ -275,7 +277,7 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
                     coords=ds.Oil_Arrival_Time.coords,
                     dims=ds.Oil_Arrival_Time.dims,
                 )
-            
+                
             # ~~~~~~~~~~~~~~
             # Beaching 
             # ~~~~~~~~~~~~~~    
@@ -313,37 +315,42 @@ def aggregate_SOILED(run_list, beach_threshold=15e-3, time_threshold=0.2,
             # ~~~~~~~~~~~~~~
             MOHID_In.SurfacePresence[run,:,:]=sfcmask2d.where(
                 vol3d.max(dim='time',skipna=True)>sfc_vol_threshold,
+                0)
+            MOHID_In.SurfacePresence_24h[run,:,:]=sfcmask2d.where(
+                vol3d.loc[dict(
+                    time=slice(spill_start, spill_start+one_day))
+                ].max(dim='time',skipna=True)>sfc_vol_threshold,
                 0
             )
-            MOHID_In.SurfacePresence_24h[run,:,:]=(
-                MOHID_In.SurfacePresence[run,:,:].where(dt_sfc<one_day,0)
-            )
-            MOHID_In.SurfacePresence_24h_to_72h[run,:,:]=(
-                MOHID_In.SurfacePresence[run,:,:].where(
-                    numpy.logical_and(dt_sfc>=one_day, dt_sfc<three_days),
+            if spill_end>spill_start+one_day:
+                MOHID_In.SurfacePresence_24h_to_72h[run,:,:]=sfcmask2d.where(
+                    vol3d.loc[dict(
+                        time=slice(spill_start+one_day, spill_start+three_days))
+                    ].max(dim='time',skipna=True)>sfc_vol_threshold,
                     0
                 )
-            )
-            MOHID_In.SurfacePresence_72h_to_168h[run,:,:]=(
-                MOHID_In.SurfacePresence[run,:,:].where(
-                    numpy.logical_and(dt_sfc>=three_days, dt_sfc<seven_days),
-                    0)
-            )
+            if spill_end>spill_start+three_days:
+                MOHID_In.SurfacePresence_72h_to_168h[run,:,:]=sfcmask2d.where(
+                    vol3d.loc[dict(
+                        time=slice(spill_start+three_days, spill_start+seven_days))
+                    ].max(dim='time',skipna=True)>sfc_vol_threshold,
+                    0
+                )
             # Integrated surface volume over time where oiling>threshold
             MOHID_In.SurfaceVolumeSum[run,:,:]=numpy.log(
                 vol3d.where(vol3d>sfc_vol_threshold)).sum(
                 dim="time",skipna=True)
             MOHID_In.SurfaceVolumeSum_24h[run,:,:]=numpy.log(
                 vol3d.where(vol3d>sfc_vol_threshold)).loc[
-                dict(time=slice(initial_spill_time,initial_spill_time+one_day))
+                dict(time=slice(spill_start,spill_start+one_day))
                 ].sum(dim="time",skipna=True)
             MOHID_In.SurfaceVolumeSum_24h_to_72h[run,:,:]=numpy.log(
                 vol3d.where(vol3d>sfc_vol_threshold)).loc[dict(time=slice(
-                initial_spill_time+one_day,initial_spill_time+three_days))
+                spill_start+one_day,spill_start+three_days))
                 ].sum(dim="time",skipna=True)
             MOHID_In.SurfaceVolumeSum_72h_to_168h[run,:,:]=numpy.log(
                 vol3d.where(vol3d>sfc_vol_threshold)).loc[dict(time=slice(
-                initial_spill_time+three_days,initial_spill_time+seven_days))
+                spill_start+three_days,spill_start+seven_days))
                 ].sum(dim="time",skipna=True)
             MOHID_In.SurfaceVolumeMax[run,:,:]=numpy.log(
                 vol3d.where(vol3d>sfc_vol_threshold)).max(
