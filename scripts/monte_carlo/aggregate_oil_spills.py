@@ -421,6 +421,7 @@ def aggregate_SOILED(run_list, beach_threshold=5e-3, time_threshold=0.2,
     BeachingOut['BeachPresence_72h_to_168h']=(
         MOHID_In.BeachPresence_72h_to_168h.sum(dim='nspills', skipna=True)
     )
+    print('surface')
     # Surface oiling xarray for output netcdf
     SurfaceOut.attrs['Filenames']=files
     SurfaceOut.attrs['N_spills']=nspills
@@ -471,9 +472,10 @@ def aggregate_SOILED(run_list, beach_threshold=5e-3, time_threshold=0.2,
     SurfaceOut['SurfaceVolume_MaxSum_ln']=numpy.log(
         MOHID_In.SurfaceVolumeMax.where(
         MOHID_In.SurfaceVolumeMax>0)).sum(dim='nspills', skipna=True)
-    SurfaceOut['SurfaceConcentration_SumSum_ln']=(numpy.log(
-        MOHID_In.SurfaceConcentrationSum).sum(dim='nspills', skipna=True)
-    )
+    SurfaceOut['SurfaceConcentration_SumSum_ln']=numpy.log(
+        MOHID_In.SurfaceConcentrationSum.where(
+        MOHID_In.SurfaceConcentrationSum>0)).sum(
+            dim='nspills', skipna=True)
     return BeachingOut, SurfaceOut, MOHID_In
 
 def main(yaml_file, oil_type, first, last, output_folder):
