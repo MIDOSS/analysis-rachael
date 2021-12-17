@@ -72,6 +72,9 @@ def aggregate_SOILED(run_list, beach_threshold=5e-3, time_threshold=0.2,
     nanosecond_to_hour = 1e-9/3600
     # Dictionary for organizing run information
     files=[]
+    spill_volume=numpy.zeros(nruns)
+    latitude=numpy.zeros(nruns)
+    longitude=numpy.zeros(nruns)
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Create xarrays for aggregating beaching presence
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    
@@ -279,8 +282,13 @@ def aggregate_SOILED(run_list, beach_threshold=5e-3, time_threshold=0.2,
     for run in range(nruns):
         print(f'Run {run} of {nruns}')
         input_file=run_list[run]
+        input_dir=os.path.dirname(os.path.abspath(input_file))
+        # identify oil type and run number from .nc file to query Lagrangian.dat file
+        nrun = input_file.split('/')[-1].split('-')[-1][:-3]
+        oil_tag = input_file.split('/')[-1].split('_')[1].split('-')[0]
+        Lagrangian_file = input_dir+f'/Lagrangian_{oil_tag}-{nrun}.dat'
         if os.path.isfile(input_file):
-            files.append(input_file)
+            # Read in results from output netcdf
             try:
                 with xarray.open_dataset(input_file, engine='h5netcdf') as ds:
                     spill_start = ds.time[0]
@@ -292,7 +300,25 @@ def aggregate_SOILED(run_list, beach_threshold=5e-3, time_threshold=0.2,
             except:
                 print(f'missing {input_file}') 
                 continue 
+            #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # Grab spill information from Lagrangian file
+            with open(Lagrangian_file, 'r') as lagrangianFile:
+                print(Lagrangian_file)
+                for line in lagrangianFile:
+                    if 'POINT_VOLUME              :' in line: 
+                        # select spill volume quantity after ':'
+                        spillvolume = line.split(':')[-1].split('\n')[0]
+                    if 'POSITION_COORDINATES       :' in line:
+                        spill_location = line.split(':')[-1].split('\n')[0]
+                        print(spill_location)
+            #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            # Store basics: Filename, lat, lon, spill volume
+            files.append(input_file)
+            spill_volume[run]=float(spillvolume)
+            latitude[run]=(float(spill_location.split(' ')[2]))
+            longitude[run]=(float(spill_location.split(' ')[1]))
             # ~~~~~~~~~~~~~~
+
             # Beaching 
             # ~~~~~~~~~~~~~~    
             # Beaching time (converted from ns to hours)
@@ -394,6 +420,9 @@ def aggregate_SOILED(run_list, beach_threshold=5e-3, time_threshold=0.2,
     # keeping `skipna=True` in code for clarity purposes only
     BeachingOut.attrs['Filenames']=files
     BeachingOut.attrs['N_spills']=nspills
+    BeachingOut.attrs['spill_volume']=spill_volume
+    BeachingOut.attrs['latitude']=latitude
+    BeachingOut.attrs['longitude']=longitude
     BeachingOut.attrs['creation_date']=date.today().strftime("%B %d, %Y") 
     BeachingOut.attrs['created_by']='Rachael D. Mueller'
     SurfaceOut.attrs['created_with']=(
@@ -425,6 +454,9 @@ def aggregate_SOILED(run_list, beach_threshold=5e-3, time_threshold=0.2,
     # Surface oiling xarray for output netcdf
     SurfaceOut.attrs['Filenames']=files
     SurfaceOut.attrs['N_spills']=nspills
+    SurfaceOut.attrs['spill_volume']=spill_volume
+    SurfaceOut.attrs['latitude']=latitude
+    SurfaceOut.attrs['longitude']=longitude
     SurfaceOut.attrs['creation_date']=date.today().strftime("%B %d, %Y")  
     SurfaceOut.attrs['created_by']='Rachael D. Mueller'
     SurfaceOut.attrs['created_with']=(
@@ -478,27 +510,29 @@ def aggregate_SOILED(run_list, beach_threshold=5e-3, time_threshold=0.2,
             dim='nspills', skipna=True)
     return BeachingOut, SurfaceOut, MOHID_In
 
-def main(yaml_file, oil_type, first, last, output_folder):
+def main(yaml_file, sort_tag, first, last, output_folder):
     """Aggregate surface and beaching output from SOILED
     :param yaml_file: Directory path to yaml file the contains a dictionary 
          of output netcdf paths organized by oil types 
          (created with `get_SOILED_netcdf_filenames` in 
          `create_SOILED_runlist.ipynb`.)
     :type yaml_file: :py:class:`pathlib.Path`
-    :param oil_type: oil type label 
-         ('akns', 'bunker', 'dilbit', 'jet', 'diesel', 'gas', 'other')
-    :type oil_type: :py:class:`str`
-    :param first: array index of the first file in yaml_file[oil_type] 
+    :param sort_tag: either oil type label or months, i.e.: 
+         ('akns', 'bunker', 'dilbit', 'jet', 'diesel', 'gas', 'other'), or
+         ('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep',
+         'Oct','Nov','Dec')
+    :type sort_tags: :py:class:`str` or `int`
+    :param first: array index of the first file in yaml_file[sort_tag] 
        to process as part of this batch of runs of [first, last) files
     :type first: :py:class:`int`
-    :param last: array index of the last file in yaml_file[oil_type] 
+    :param last: array index of the last file in yaml_file[sort_tag] 
        to process as part of this batch of runs of [first, last) files
     :type last: :py:class:`int`
     :param output_folder: directory to place output netcdf
     :type output_folder: :py:class:`pathlib.Path`
     """
     startTime = time.time()
-    print(f'{oil_type}, files[{first}-{last})\n')
+    print(f'{sort_tag}, files[{first}-{last})\n')
     #------------------------------------------------------------
     # Global/fixed variables
     #------------------------------------------------------------
@@ -516,14 +550,14 @@ def main(yaml_file, oil_type, first, last, output_folder):
     #------------------------------------------------------------
     # Define output netcdf name
     #------------------------------------------------------------
-    aggregated_beaching_nc = output_netcdf_dir / f'beaching_{oil_type}_{first}-{last}.nc'
-    aggregated_surface_nc = output_netcdf_dir / f'surface_{oil_type}_{first}-{last}.nc'
-    mohid_output_nc = output_netcdf_dir / f'mohid_{oil_type}_{first}-{last}.nc'
+    aggregated_beaching_nc = output_netcdf_dir / f'beaching_{sort_tag}_{first}-{last}.nc'
+    aggregated_surface_nc = output_netcdf_dir / f'surface_{sort_tag}_{first}-{last}.nc'
+    mohid_output_nc = output_netcdf_dir / f'mohid_{sort_tag}_{first}-{last}.nc'
     #------------------------------------------------------------
     # Aggregate beaching and surface model output 
     #------------------------------------------------------------
     beaching,surface,mohid_output = aggregate_SOILED(
-        run_paths[oil_type][first:last]
+        run_paths[sort_tag][first:last]
     )
     # add information about yaml file version
     beaching.attrs['yaml_file']=str(yaml_file)
@@ -547,13 +581,13 @@ def main(yaml_file, oil_type, first, last, output_folder):
         mohid_output_nc, engine='h5netcdf'
     )
     executionTime = (time.time() - startTime)
-    print(f'Execution time in minutes for {oil_type}_{first}-{last}: {executionTime/60:.2f}')
+    print(f'Execution time in minutes for {sort_tag}_{first}-{last}: {executionTime/60:.2f}')
 
 if __name__ == "__main__":
     args = sys.argv[1:]
     yaml_file = pathlib.Path(args[0])
-    oil_type = args[1]
+    sort_tag = args[1]
     start = int(args[2])
     end = int(args[3])
     folder_name = args[4]
-    main(yaml_file, oil_type, start, end, folder_name)
+    main(yaml_file, sort_tag, start, end, folder_name)
