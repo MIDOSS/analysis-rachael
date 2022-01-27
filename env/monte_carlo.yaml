@@ -24,5 +24,6 @@ dependencies:
  - Cartopy
  - dask
  - haversine
+ - cmocean
 
 prefix: /Users/rmueller/Projects/MIDOSS/analysis-rachael/env/monte_carlo.yaml
