@@ -14,7 +14,32 @@
 # limitations under the License.
 """Functions for aggregating the model output of the 
 Monte Carlo output from the SOILED modeling suite, which combines SalishSeaCast, 
-WW3, HRDPS and MOHID models. """
+WW3, HRDPS and MOHID models. 
+
+The monte carlo runs were completed on Compute Canada's supercomputer, `Graham` and this code is intended to be used on that system.  It requires initialization of a Virtual Environment.  See `/home/rmueller/projects/def-allen/rmueller/graham-python-env.txt`.
+
+First initiate a compute node.  The following allocation is setup for light computing with 2 CPUs and 1 CPU core per CPU. 
+```
+salloc --time=1:00:00 --ntasks=1 --cpus-per-task=2 --mem-per-cpu=1024M --account=rrg-allen
+```
+Activate `VENV` with:
+```
+module load python/3.8.2
+source ~/venvs/python/bin/activate
+```
+Deactivate `VENV` with:
+```
+deactivate
+```
+If the `python` `VENV` is not yet setup, install it with:
+```
+module load python/3.8.2
+python3 -m virtualenv --no-download ~/venvs/python
+source ~/venvs/python/bin/activate
+python3 -m pip install --no-index --upgrade pip
+python3 -m pip install -r /home/rmueller/projects/def-allen/rmueller/graham-python-env.txt
+```
+"""
 import os
 import pathlib
 import yaml
@@ -26,7 +51,10 @@ from glob import glob
 import time
 
 
-def get_MOHID_netcdf_filenames(results_dir, output_dir):
+def get_SOILED_netcdf_filenames(
+    results_dir="/scratch/dlatorne/MIDOSS/runs/monte-carlo", 
+    runset_tag="*_near-BP_spill-hr*", 
+    output_dir ="/scratch/rmueller/MIDOSS/Results"):
     """Get lists of filepaths and filenames for netcdf files of model output, 
     grouped by oil types. NOTE: jet and gas are run as diesel; other is run 
     as bunker.  
@@ -52,12 +80,12 @@ def get_MOHID_netcdf_filenames(results_dir, output_dir):
         'other'
     ]
     # get list of runsets
-    runsets = sorted(glob(os.path.join(results_dir,"near-BP_*")))
+    runsets = sorted(glob(os.path.join(results_dir,runset_tag)))
     # get list of runs within each runset
     runs = []
     for runset in runsets:
         runs.extend(sorted(
-            glob(os.path.join(runset,'results','near-BP_*')))[:])        
+            glob(os.path.join(runset,'results',runset_tag)))[:])        
     # get complete list of netcdf files
     netcdf_files = []
     for run in runs:

@@ -311,6 +311,9 @@ def aggregate_SOILED(run_list, beach_threshold=5e-3, time_threshold=0.2,
                     if 'POSITION_COORDINATES       :' in line:
                         spill_location = line.split(':')[-1].split('\n')[0]
                         print(spill_location)
+                    if 'POSITION_COORDINATES      :' in line:
+                        spill_location = line.split(':')[-1].split('\n')[0]
+                        print(spill_location)
             #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             # Store basics: Filename, lat, lon, spill volume
             files.append(input_file)
@@ -413,6 +416,7 @@ def aggregate_SOILED(run_list, beach_threshold=5e-3, time_threshold=0.2,
     # Flatten MOHID output into 2D arrays by 
     # taking minimum of spill values or adding across spill values 
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    MOHID_In.fillna(0)
     nspills=len(files)
     # Beaching xarray for output netcdf
     # By default, .sum() only skips missing values for float dtypes 

@@ -1,5 +1,6 @@
 import pandas
 import numpy
+import datetime
 
 def load_sro(sro_file_wpath, variable_name=''):
     """ Load mass balance results from SOILED model .sro file
@@ -34,7 +35,7 @@ def load_sro(sro_file_wpath, variable_name=''):
     # make time header names more user-friendly for datetime conversion
     # How do I make these times either UTC or identified as PST?
     data["datetime"] = [
-        pandas.datetime(numpy.int(YY), numpy.int(MM), numpy.int(DD),
+        datetime.datetime(numpy.int(YY), numpy.int(MM), numpy.int(DD),
                     numpy.int(hh), numpy.int(mm), numpy.int(ss)
                    ) 
        for YY,MM,DD,hh,mm,ss in zip(
@@ -42,7 +43,6 @@ def load_sro(sro_file_wpath, variable_name=''):
            data["hh"], data["mm"], data["ss"]
        )
     ]
-    
     header = list(data.columns.values.tolist())    
     data["Seconds"] = [float(time) for time in data["Seconds"]]
     data["days_since_spill"] = [
@@ -62,7 +62,7 @@ def load_sro(sro_file_wpath, variable_name=''):
         variable_name.append("days_since_spill")
         data_subsample = data[variable_name].copy()
         data_subsample["datetime"] = [
-            pandas.datetime(numpy.int(YY), numpy.int(MM), numpy.int(DD),
+            datetime.datetime(numpy.int(YY), numpy.int(MM), numpy.int(DD),
                         numpy.int(hh), numpy.int(mm), numpy.int(ss)
                        ) 
                        for YY,MM,DD,hh,mm,ss in zip(

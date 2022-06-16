@@ -14,7 +14,32 @@
 # limitations under the License.
 """Functions for aggregating the model output of the 
 Monte Carlo output from the SOILED modeling suite, which combines SalishSeaCast, 
-WW3, HRDPS and MOHID models. """
+WW3, HRDPS and MOHID models. 
+
+The monte carlo runs were completed on Compute Canada's supercomputer, `Graham` and this code is intended to be used on that system.  It requires initialization of a Virtual Environment.  See `/home/rmueller/projects/def-allen/rmueller/graham-python-env.txt`.
+
+First initiate a compute node.  The following allocation is setup to support the use of dask parrallized computing. The design of Graham is to support multiple simultaneous parallel jobs of up to 1024 cores in a fully non-blocking manner.  Nodes range from having 16-64 cores (see [documentation](https://docs.computecanada.ca/wiki/Graham)). `ntasks` correspond to CPU cores, with `cpus-per-task` representing nodes.  The following setup is for 2 CPUs running 16 cores each for a total of 32 CPU cores. 
+```
+salloc --time=1:00:00 --ntasks=16 --cpus-per-task=2 --mem-per-cpu=1024M --account=rrg-allen
+```
+Activate `VENV` with:
+```
+module load python/3.8.2
+source ~/venvs/python/bin/activate
+```
+Deactivate `VENV` with:
+```
+deactivate
+```
+If the `python` `VENV` is not yet setup, install it with:
+```
+module load python/3.8.2
+python3 -m virtualenv --no-download ~/venvs/python
+source ~/venvs/python/bin/activate
+python3 -m pip install --no-index --upgrade pip
+python3 -m pip install -r /home/rmueller/projects/def-allen/rmueller/graham-python-env.txt
+```
+"""
 import os
 import pathlib
 import yaml
@@ -24,6 +49,7 @@ import h5netcdf
 from datetime import datetime
 from glob import glob
 import time
+import dask
 
 
 def get_MOHID_netcdf_filenames(results_dir, output_dir):

@@ -102,6 +102,7 @@ def aggregate_sro_mass_all(file_paths, output_dir):
     # load mass balance from .sro files for each oil type
     for fnum,file in enumerate(sro_files["all"]):               
         sro_file = sro_files["all"][fnum]
+        print(sro_file)
         # ~~~ Get oil type from Lagrangian file ~~~
         sro_directory = '/'.join(sro_file.split('/')[:-1])
         Lagrangian_fname = glob.glob(sro_directory + '/Lagrangian*')[0].split('/')[-1]
@@ -222,8 +223,9 @@ def aggregate_sro_mass_byoil(file_paths, output_dir):
             else:
                 print(sro_file)
                 continue
-    for oil in iter_list: 
-        print(f"{oil}: {len(output[oil_dict[oil]]['MBeached'])}")      
+    # print(oil_dict)
+    # for oil in iter_list: 
+    #     print(f"{oil}: {len(output[oil]['MBeached'])}")      
     # write filenames to .yaml with timestamp in filename
     now = datetime.datetime.now()
     dt_string = now.strftime("%d%m%Y_%H:%M:%S")
