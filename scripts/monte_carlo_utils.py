@@ -149,11 +149,11 @@ def concat_shp(ship_type, shapefile_path):
             )
     return allTracks
 
-def get_doe_tanker_byvessel(vessels,doe_xls_path,fac_xls_path):
+def get_doe_tanker_byvessel(vessels,ecy_xls_path,fac_xls_path):
     """
         Inputs:
             - vessels [list]: List of vessel names, e.g.["AMERICAN FREEDOM","PELICAN STATE"]
-            - doe_xls_path [path]: Location and name of DOE data spreadsheet
+            - ecy_xls_path [path]: Location and name of DOE data spreadsheet
             - fac_xls_path [path]: Location and name of facilities transfer spreadsheet
         Outputs:
             - cargo_transfers [dataframe]: 2018 cargo transfers to/from the vessels and 
@@ -163,7 +163,7 @@ def get_doe_tanker_byvessel(vessels,doe_xls_path,fac_xls_path):
     gal2liter = 3.78541
     # load dept. of ecology data
     DOEdf = get_DOE_df(
-        doe_xls_path, 
+        ecy_xls_path, 
         fac_xls_path,
         group = 'no'
     )
@@ -538,13 +538,13 @@ def get_voyage_transfers(voyage_xls, fac_xls):
     voyages=voyages.set_index('LOCATION')   
     return voyages
 
-def get_doe_transfers(doe_xls, fac_xls):
+def get_doe_transfers(ecy_xls, fac_xls):
     """
     PURPOSE: Tally transfers to/from marine terminals used in our study.
         Currently this just tallies cargo transfers but could easily be 
         modified to tally fuel or cargo + fuel
     INPUTS: 
-    - doe_xls: Path to Dept. of Ecology data file, 'MuellerTrans4-30-20.xlsx'
+    - ecy_xls: Path to Dept. of Ecology data file, 'MuellerTrans4-30-20.xlsx'
     - fac_xls: Path to facilities data (simply because it's used by 
         get_DOE_df()), Oil_Transfer_Facilities.xlsx
     OUTPUTS:
@@ -559,7 +559,7 @@ def get_doe_transfers(doe_xls, fac_xls):
     
     # Load DOE data
     DOEdf = get_DOE_df(
-        doe_xls, 
+        ecy_xls, 
         fac_xls,
         group = 'no'
     )
@@ -698,17 +698,17 @@ def get_montecarlo_df(MC_csv):
     
     return mc_df
 
-def get_DOE_atb(DOE_xls, fac_xls, transfer_type = 'cargo', facilities='selected'):
+def get_DOE_atb(ecy_xls, fac_xls, transfer_type = 'cargo', facilities='selected'):
     """
     Returns transfer data for ATBs.
-    DOE_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
+    ecy_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
     facilities_xls[Path obj. or string]: Path(to spreadsheet with facilities information)
     transfer_type [string]: 'fuel', 'cargo', 'cargo_fuel'
     facilities [string]: 'all' or 'selected', 
     """
     # load DOE data
     DOE_df = get_DOE_df(
-        DOE_xls, 
+        ecy_xls, 
         fac_xls,
         group = 'yes'
     )
@@ -810,8 +810,9 @@ def get_DOE_atb(DOE_xls, fac_xls, transfer_type = 'cargo', facilities='selected'
         
     return import_df, export_df
 
-def get_DOE_df(DOE_xls, fac_xls, group='no'):
+def get_ECY_df(ECY_xls, fac_xls, group='no'):
     """
+    NOTE: this was formerly named "get_DOE_df"
     group['yes','no']: Specificies whether or not terminals ought to be re-named to 
      the names used in our monte carlo grouping
     """
@@ -826,7 +827,7 @@ def get_DOE_df(DOE_xls, fac_xls, group='no'):
     
     # read in data
     df = pandas.read_excel(
-        DOE_xls,
+        ECY_xls,
         sheet_name='Vessel Oil Transfer', 
         usecols="A,E,G,H,P,Q,R,W,X"
     )
@@ -896,14 +897,14 @@ def get_DOE_df(DOE_xls, fac_xls, group='no'):
         )
     return df
 
-def rename_DOE_df_oils(DOE_df, DOE_xls):
+def rename_DOE_df_oils(DOE_df, ECY_xls):
     """
     Reads in DOE dataframe with original 'Product' names and converts
     them to the names we use in our monte-carlo
     
     DOE_df: Department of Ecolody data in DataFrame format, 
         as in output from get_DOE_df 
-    DOE_xls: The original DOE oil transfer spreadsheet, the same as is
+    ECY_xls: The original DOE oil transfer spreadsheet, the same as is
         read into get_DOE_df
     """
     # I'm sure there is a better way of allowing name flaxibilitye
@@ -912,7 +913,7 @@ def rename_DOE_df_oils(DOE_df, DOE_xls):
     df = DOE_df.copy()
     
     # read in monte-carlo oil classifications
-    oil_classification = get_DOE_oilclassification(DOE_xls)
+    oil_classification = get_DOE_oilclassification(ECY_xls)
 
     # Rename oil types to match our in-house naming convention
     for oil_mc in oil_classification.keys():
@@ -1009,14 +1010,14 @@ def get_oil_classification(DOE_transfer_xlsx):
 
     return oil_classification
 
-def get_DOE_barges(DOE_xls,fac_xls, direction='combined',facilities='selected',transfer_type = 'cargo_fuel'):
+def get_DOE_barges(ECY_xls,fac_xls, direction='combined',facilities='selected',transfer_type = 'cargo_fuel'):
     """
     THIS CODE HAS A LOT OF REDUNDANCY. I PLAN TO UPDATE BY USING 
     COMBINED INPUT/OUTPUT TO RETURN EITHER IMPORT OR OUTPUT, IF SELECTED
     
     ALSO CHANGE NAME TO GET_DOE_BARGES_TRANSFERS TO MATCH ATB FUNCTION
     Returns number of transfers to/from WA marine terminals used in our study
-    DOE_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
+    ECY_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
     marine_terminals [string list]: list of US marine terminals to include
     direction [string]: 'import','export','combined', where:
         'import' means from vessel to marine terminal
@@ -1029,7 +1030,7 @@ def get_DOE_barges(DOE_xls,fac_xls, direction='combined',facilities='selected',t
     
     # load DOE data
     DOE_df = get_DOE_df(
-        DOE_xls, 
+        ECY_xls, 
         fac_xls,
         group = 'yes'
     )
@@ -1330,10 +1331,10 @@ def get_DOE_barges(DOE_xls,fac_xls, direction='combined',facilities='selected',t
 
         
         
-def get_DOE_atb_transfers(DOE_xls,fac_xls,transfer_type = 'cargo',facilities='selected'):
+def get_DOE_atb_transfers(ECY_xls,fac_xls,transfer_type = 'cargo',facilities='selected'):
     """
     Returns number of transfers to/from WA marine terminals used in our study
-    DOE_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
+    ECY_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
     direction [string]: 'import','export','combined', where:
         'import' means from vessel to marine terminal
         'export' means from marine terminal to vessel
@@ -1345,7 +1346,7 @@ def get_DOE_atb_transfers(DOE_xls,fac_xls,transfer_type = 'cargo',facilities='se
     print('this code not yet tested with fac_xls as input')
     # load DOE data
     DOE_df = get_DOE_df(
-        DOE_xls, 
+        ECY_xls, 
         fac_xls,
         group = 'yes'
     )
@@ -1655,11 +1656,11 @@ def get_montecarlo_oil(vessel, monte_carlo_csv):
     
     return mc_capacity_byoil
             
-def get_DOE_oilclassification(DOE_xls):
+def get_DOE_oilclassification(ECY_xls):
     """
     PURPOSE: To identify all the names of oils in DOE database that we attribute 
         to our oil type classifications. 
-    DOE_xls: Path to DOE spreadsheet (MuellerTrans4-30-20.xlsx, for our study) 
+    ECY_xls: Path to DOE spreadsheet (MuellerTrans4-30-20.xlsx, for our study) 
     
     TO DO: 
         Replace for-loop with more pythonic dataframe query method
@@ -1676,7 +1677,7 @@ def get_DOE_oilclassification(DOE_xls):
         oil_classification[oil] = []
     # read in data
     df = pandas.read_excel(
-        DOE_xls,
+        ECY_xls,
         sheet_name='Vessel Oil Transfer', 
         usecols="G,H,P,Q,R,W,X"
     )
@@ -1709,11 +1710,11 @@ def get_DOE_oilclassification(DOE_xls):
             oil_classification['other'].append(df.Product[row])
     return oil_classification            
             
-def get_DOE_exports(DOE_xls, fac_xls, facilities='selected'):
+def get_DOE_exports(ECY_xls, fac_xls, facilities='selected'):
     """
     Returns total gallons exported by vessel type and oil classification 
     to/from WA marine terminals used in our study
-    DOE_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
+    ECY_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
     facilities [string]: 'all' or 'selected'
     """
     # convert inputs to lower-case
@@ -1722,14 +1723,14 @@ def get_DOE_exports(DOE_xls, fac_xls, facilities='selected'):
     
     print('get_DOE_exports: not yet tested with fac_xls as input')
     # Import Department of Ecology data: 
-    df = get_DOE_df(DOE_xls,fac_xls)
+    df = get_DOE_df(ECY_xls,fac_xls)
     
     # get list of oils grouped by our monte_carlo oil types
     oil_types = [
         'akns', 'bunker', 'dilbit', 
         'jet', 'diesel', 'gas', 'other'
     ]
-    oil_classification = get_DOE_oilclassification(DOE_xls)
+    oil_classification = get_DOE_oilclassification(ECY_xls)
     
     #  SELECTED FACILITIES
     export={}
@@ -1815,13 +1816,13 @@ def get_DOE_exports(DOE_xls, fac_xls, facilities='selected'):
 
     return export
 
-def get_DOE_quantity_byfac(DOE_xls, fac_xls, facilities='selected'):
+def get_DOE_quantity_byfac(ECY_xls, fac_xls, facilities='selected'):
     """
     Returns total gallons of combined imports and exports 
     by vessel type and oil classification to/from WA marine terminals 
     used in our study.
     
-    DOE_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
+    ECY_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
     facilities [string]: 'all' or 'selected'
     """
     
@@ -1831,7 +1832,7 @@ def get_DOE_quantity_byfac(DOE_xls, fac_xls, facilities='selected'):
       
     # Import Department of Ecology data: 
     print('get_DOE_quantity_byfac: not yet tested with fac_xls as input')
-    df = get_DOE_df(DOE_xls, fac_xls)
+    df = get_DOE_df(ECY_xls, fac_xls)
     
     # get list of oils grouped by our monte_carlo oil types
     oil_types = [
@@ -1844,7 +1845,7 @@ def get_DOE_quantity_byfac(DOE_xls, fac_xls, facilities='selected'):
         'Jet Fuel', 'Diesel', 'Gasoline',
         'Other'
     ]
-    oil_classification = get_DOE_oilclassification(DOE_xls)
+    oil_classification = get_DOE_oilclassification(ECY_xls)
     
     #  SELECTED FACILITIES
     exports={}
@@ -1989,16 +1990,16 @@ def get_DOE_quantity_byfac(DOE_xls, fac_xls, facilities='selected'):
                 
     return exports, imports, combined
 
-def get_DOE_quantity(DOE_xls, fac_xls):
+def get_DOE_quantity(ECY_xls, fac_xls):
     """
     Returns total gallons of all WA transfers by vessel type and oil classification .
     
-    DOE_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
+    ECY_xls[Path obj. or string]: Path(to Dept. of Ecology transfer dataset)
     facilities [string]: 'all' or 'selected'
     """
     
     # Import Department of Ecology data: 
-    df = get_DOE_df(DOE_xls, fac_xls)
+    df = get_DOE_df(ECY_xls, fac_xls)
     
     # get list of oils grouped by our monte_carlo oil types
     oil_types = [
@@ -2011,7 +2012,7 @@ def get_DOE_quantity(DOE_xls, fac_xls):
         'Jet Fuel', 'Diesel', 'Gasoline',
         'Other'
     ]
-    oil_classification = get_DOE_oilclassification(DOE_xls)
+    oil_classification = get_DOE_oilclassification(ECY_xls)
     
     #  SELECTED FACILITIES
     imports={}
