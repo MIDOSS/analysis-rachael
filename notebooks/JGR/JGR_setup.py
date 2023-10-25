@@ -44,6 +44,17 @@ colors = [
     'cornflowerblue',
     'teal'
 ]
+
+colors7 = [
+    'darkslategrey',
+    'teal',
+    'slategrey',
+    'darkgoldenrod',
+    'goldenrod',
+    'palegoldenrod',
+    'c'
+]
+
 fnames = [
     'Lagrangian_akns.dat',
     'Lagrangian_bunker.dat',

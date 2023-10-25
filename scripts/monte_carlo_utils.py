@@ -162,7 +162,7 @@ def get_doe_tanker_byvessel(vessels,ecy_xls_path,fac_xls_path):
     # conversion factor
     gal2liter = 3.78541
     # load dept. of ecology data
-    DOEdf = get_DOE_df(
+    DOEdf = get_ECY_df(
         ecy_xls_path, 
         fac_xls_path,
         group = 'no'
@@ -423,8 +423,8 @@ def assign_spill_region(mc_df):
     mc_df['SpillRegion'] = numpy.select(conditions, values)
 
     return mc_df
-        
-def assign_facility_region(facilities_xlsx):
+
+def assign_facility_region_all(facilities_xlsx):
     """
     Loads the facilities excel spreadsheet and returns a dataframe with 
     that identifies the region the facility is in
@@ -454,6 +454,43 @@ def assign_facility_region(facilities_xlsx):
     # create a new column and assign values to it using 
     # defined conditions on latitudes
     facdf['Region'] = numpy.select(conditions, values)
+
+    return facdf
+
+def assign_facility_region(facilities_xlsx):
+    """
+    Loads the facilities excel spreadsheet and returns a dataframe with 
+    that identifies the region the facility is in.  
+    Removes Port Angeles and Grey's Harbor terminals
+    """
+    # Facility information 
+    facdf = pandas.read_excel(
+        facilities_xlsx,
+        sheet_name = 'Washington',
+        usecols="B,D,J,K"
+    )
+
+    # define latitude bins
+    lat_partition = [46.9, 48.3, 48.7]
+
+    # define conditions used to bin facilities by latitude
+    conditions = [
+        (facdf.DockLatNumber < lat_partition[0]),
+        (facdf.DockLatNumber >= lat_partition[0]) & 
+        (facdf.DockLatNumber < lat_partition[1]),
+        (facdf.DockLatNumber >= lat_partition[1]) & 
+        (facdf.DockLatNumber < lat_partition[2]),
+        (facdf.DockLatNumber >= lat_partition[2])
+    ]
+
+    # regional tags
+    values = ['Columbia River','Puget Sound','Anacortes','Whatcom County']
+    # create a new column and assign values to it using 
+    # defined conditions on latitudes
+    facdf['Region'] = numpy.select(conditions, values)
+    
+    facdf = facdf.drop(11) # Tesoro Port Angeles Terminal
+    facdf = facdf.drop(19) # Greys Harbor
 
     return facdf
 
@@ -546,7 +583,7 @@ def get_doe_transfers(ecy_xls, fac_xls):
     INPUTS: 
     - ecy_xls: Path to Dept. of Ecology data file, 'MuellerTrans4-30-20.xlsx'
     - fac_xls: Path to facilities data (simply because it's used by 
-        get_DOE_df()), Oil_Transfer_Facilities.xlsx
+        get_ECY_df()), Oil_Transfer_Facilities.xlsx
     OUTPUTS:
     - Dataframe with total number of import, export and combined (import 
         + export) Cargo transfers for each marine terminal, sorted by vessel 
@@ -558,7 +595,7 @@ def get_doe_transfers(ecy_xls, fac_xls):
     facility_names = facdf['FacilityName']
     
     # Load DOE data
-    DOEdf = get_DOE_df(
+    DOEdf = get_ECY_df(
         ecy_xls, 
         fac_xls,
         group = 'no'
@@ -707,7 +744,7 @@ def get_DOE_atb(ecy_xls, fac_xls, transfer_type = 'cargo', facilities='selected'
     facilities [string]: 'all' or 'selected', 
     """
     # load DOE data
-    DOE_df = get_DOE_df(
+    DOE_df = get_ECY_df(
         ecy_xls, 
         fac_xls,
         group = 'yes'
@@ -812,7 +849,7 @@ def get_DOE_atb(ecy_xls, fac_xls, transfer_type = 'cargo', facilities='selected'
 
 def get_ECY_df(ECY_xls, fac_xls, group='no'):
     """
-    NOTE: this was formerly named "get_DOE_df"
+    NOTE: this was formerly named "get_ECY_df"
     group['yes','no']: Specificies whether or not terminals ought to be re-named to 
      the names used in our monte carlo grouping
     """
@@ -881,7 +918,7 @@ def get_ECY_df(ECY_xls, fac_xls, group='no'):
     df['ImportRegion'] = 'not attributed'
     df['ExportRegion'] = 'not attributed'
     # Load facility information
-    facdf = assign_facility_region(fac_xls)
+    facdf = assign_facility_region_all(fac_xls)
     # Find locations with transfers in our facility list and 
     # assign region tag.
     for idx,facility in enumerate(facdf['FacilityName']): 
@@ -903,9 +940,9 @@ def rename_DOE_df_oils(DOE_df, ECY_xls):
     them to the names we use in our monte-carlo
     
     DOE_df: Department of Ecolody data in DataFrame format, 
-        as in output from get_DOE_df 
+        as in output from get_ECY_df 
     ECY_xls: The original DOE oil transfer spreadsheet, the same as is
-        read into get_DOE_df
+        read into get_ECY_df
     """
     # I'm sure there is a better way of allowing name flaxibilitye
     # and preventing unnecessary memory hogging, but...I'm choosing
@@ -913,7 +950,7 @@ def rename_DOE_df_oils(DOE_df, ECY_xls):
     df = DOE_df.copy()
     
     # read in monte-carlo oil classifications
-    oil_classification = get_DOE_oilclassification(ECY_xls)
+    oil_classification = get_ECY_oilclassification(ECY_xls)
 
     # Rename oil types to match our in-house naming convention
     for oil_mc in oil_classification.keys():
@@ -1029,7 +1066,7 @@ def get_DOE_barges(ECY_xls,fac_xls, direction='combined',facilities='selected',t
     print('get_DOE_barges: not yet tested with fac_xls as input')
     
     # load DOE data
-    DOE_df = get_DOE_df(
+    DOE_df = get_ECY_df(
         ECY_xls, 
         fac_xls,
         group = 'yes'
@@ -1345,7 +1382,7 @@ def get_DOE_atb_transfers(ECY_xls,fac_xls,transfer_type = 'cargo',facilities='se
     """
     print('this code not yet tested with fac_xls as input')
     # load DOE data
-    DOE_df = get_DOE_df(
+    DOE_df = get_ECY_df(
         ECY_xls, 
         fac_xls,
         group = 'yes'
@@ -1656,7 +1693,7 @@ def get_montecarlo_oil(vessel, monte_carlo_csv):
     
     return mc_capacity_byoil
             
-def get_DOE_oilclassification(ECY_xls):
+def get_ECY_oilclassification(ECY_xls):
     """
     PURPOSE: To identify all the names of oils in DOE database that we attribute 
         to our oil type classifications. 
@@ -1723,14 +1760,14 @@ def get_DOE_exports(ECY_xls, fac_xls, facilities='selected'):
     
     print('get_DOE_exports: not yet tested with fac_xls as input')
     # Import Department of Ecology data: 
-    df = get_DOE_df(ECY_xls,fac_xls)
+    df = get_ECY_df(ECY_xls,fac_xls)
     
     # get list of oils grouped by our monte_carlo oil types
     oil_types = [
         'akns', 'bunker', 'dilbit', 
         'jet', 'diesel', 'gas', 'other'
     ]
-    oil_classification = get_DOE_oilclassification(ECY_xls)
+    oil_classification = get_ECY_oilclassification(ECY_xls)
     
     #  SELECTED FACILITIES
     export={}
@@ -1832,7 +1869,7 @@ def get_DOE_quantity_byfac(ECY_xls, fac_xls, facilities='selected'):
       
     # Import Department of Ecology data: 
     print('get_DOE_quantity_byfac: not yet tested with fac_xls as input')
-    df = get_DOE_df(ECY_xls, fac_xls)
+    df = get_ECY_df(ECY_xls, fac_xls)
     
     # get list of oils grouped by our monte_carlo oil types
     oil_types = [
@@ -1845,7 +1882,7 @@ def get_DOE_quantity_byfac(ECY_xls, fac_xls, facilities='selected'):
         'Jet Fuel', 'Diesel', 'Gasoline',
         'Other'
     ]
-    oil_classification = get_DOE_oilclassification(ECY_xls)
+    oil_classification = get_ECY_oilclassification(ECY_xls)
     
     #  SELECTED FACILITIES
     exports={}
@@ -1999,7 +2036,7 @@ def get_DOE_quantity(ECY_xls, fac_xls):
     """
     
     # Import Department of Ecology data: 
-    df = get_DOE_df(ECY_xls, fac_xls)
+    df = get_ECY_df(ECY_xls, fac_xls)
     
     # get list of oils grouped by our monte_carlo oil types
     oil_types = [
@@ -2012,7 +2049,7 @@ def get_DOE_quantity(ECY_xls, fac_xls):
         'Jet Fuel', 'Diesel', 'Gasoline',
         'Other'
     ]
-    oil_classification = get_DOE_oilclassification(ECY_xls)
+    oil_classification = get_ECY_oilclassification(ECY_xls)
     
     #  SELECTED FACILITIES
     imports={}
