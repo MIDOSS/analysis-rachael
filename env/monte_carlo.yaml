@@ -17,6 +17,7 @@ dependencies:
  - rasterio
  - scipy
  - xarray
+ - rioxarray
  - openpyxl
  - numpy
  - jupyterlab
